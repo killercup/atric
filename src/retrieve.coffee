@@ -19,12 +19,14 @@ fetchFromAmazon = (isbn) ->
     'SearchIndex': 'All'
     'ResponseGroup': 'ItemAttributes,Images'
   }, (err, res) ->
-    deferred.reject(new Error(err)) if err
+    return deferred.reject(err) if err
 
     item = res?.ItemLookupResponse?.Items?[0]?.Item?[0]
-    deferred.reject(new Error(Error: "No Item Data")) unless item?
+    return deferred.reject("No Item Data for #{isbn}") unless item?
 
     data = item?.ItemAttributes?[0]
+    return deferred.reject("No Item Data for #{isbn}") unless data?
+
     image = item?.LargeImage?[0]?.URL?[0]
 
     deferred.resolve
@@ -41,11 +43,13 @@ module.exports = (books) ->
   fetching = books.map fetchFromAmazon
 
   Q.allSettled(fetching).then (res) ->
-    all = {}
+    all = errors: [], books: {}
     res.forEach (promise) ->
       if promise.state is "fulfilled"
         val = promise.value
-        all[val.isbn] = val
+        all.books[val.isbn] = val
+      else
+        all.errors.push promise.reason
 
     deferred.resolve all
 
