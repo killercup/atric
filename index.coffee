@@ -1,3 +1,4 @@
+colors = require('colors')
 optimist = require('optimist')
   .usage('Amazon Trade In Price Check')
   .alias('o', 'out')
@@ -17,17 +18,26 @@ do ->
   if argv.h or argv.help
     return optimist.showHelp()
 
-  console.log "Using books.yml with #{books.books.length} ISBNs"
+  console.log "Using books.yml with #{books.books.length} ISBNs".grey
 
   if argv.t or argv.table
     output = require('./src/tableOutput')
     output retrieve(books.books)
 
   out = argv.o or argv.out
-  if typeof out is "string"
+  if out
+    if typeof out isnt "string"
+      console.log "You need to specify a filename.".red
+      return process.exit(1)
     fs = require('fs')
 
     retrieve(books.books).then (data) ->
       fs.writeFile out, JSON.stringify(data, null, 2), (err) ->
-        return console.log "Error writing file #{out}: #{err}" if err
-        console.log "Wrote data to #{out}"
+        if err
+          console.log "Error writing file #{out}: #{err}".red
+          return process.exit(1)
+
+        console.log "Wrote data to #{out}".green
+
+  if argv.s or argv.web
+    console.log "http server coming soon"
