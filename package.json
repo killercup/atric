@@ -2,9 +2,9 @@
   "name": "tic",
   "version": "0.1.0",
   "description": "Check Amazon.de TradeIn values",
-  "main": "app.coffee",
+  "main": "src/app.coffee",
   "scripts": {
-    "start": "coffee app.coffee"
+    "start": "coffee src/app.coffee"
   },
   "keywords": [
     "amazon"
@@ -14,6 +14,7 @@
   "dependencies": {
     "js-yaml": "2.1.x",
     "apac": "git+https://github.com/dmcquay/node-apac.git",
-    "q": "0.9.x"
+    "q": "0.9.x",
+    "cli-table": "0.2.x"
   }
 }
