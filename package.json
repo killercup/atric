@@ -2,20 +2,32 @@
   "name": "tic",
   "version": "0.1.0",
   "description": "Check Amazon.de TradeIn values",
-  "main": "src/app.coffee",
-  "scripts": {
-    "start": "coffee src/app.coffee"
+  "homepage": "https://github.com/killercup/tic",
+  "bugs": {
+    "url": "https://github.com/killercup/tic/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/killercup/tic.git"
   },
   "keywords": [
     "amazon"
   ],
-  "author": "Pascal Hertleif",
+  "author": {
+    "name": "Pascal Hertleif",
+    "url": "http://pascalhertleif.de/"
+  },
   "license": "BSD",
+  "scripts": {
+    "start": "coffee index.coffee --table"
+  },
+  "main": "index.coffee",
   "dependencies": {
     "js-yaml": "2.1.x",
     "apac": "git+https://github.com/dmcquay/node-apac.git",
     "q": "0.9.x",
     "colors": "0.6.x",
-    "cli-table": "0.2.x"
+    "cli-table": "0.2.x",
+    "optimist": "0.6.x"
   }
 }

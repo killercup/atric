@@ -30,7 +30,7 @@ fetchFromAmazon = (isbn) ->
     image = item?.LargeImage?[0]?.URL?[0]
 
     deferred.resolve
-      isbn: isbn
+      isbn: isbn.toString?()
       title: data.Title?[0]
       author: data.Author?[0]
       value: data.TradeInValue?[0]?.Amount?[0]
