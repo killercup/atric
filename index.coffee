@@ -4,7 +4,8 @@ optimist = require('optimist')
   .alias('o', 'out')
   .describe('o', 'Write data to JSON file. Usage: "-o data.json"')
   .alias('t', 'table')
-  .describe('t', 'Output results as CLI table')
+  .describe('t', "Output results as CLI table. Can take comma-separated list of options (currently just 'nonEmpty').")
+  .describe('skipBelow', "Don't show entries with a value below that number (in cents).")
   .alias('s', 'web')
   .describe('s', 'Start web server. Optional: --web=PORT (default port is 3000)')
 
@@ -24,8 +25,12 @@ do ->
 
   table = argv.t or argv.table
   if table
+    options = {}
+    options[i] = 1 for i in table.split?(',') if typeof table is "string"
+    options.skipBelow = argv.skipBelow
+
     output = require('./src/tableOutput')
-    output retrieve(books.books)
+    output retrieve(books.books), options
 
   out = argv.o or argv.out
   if out

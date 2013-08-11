@@ -14,6 +14,11 @@ To use it, edit the `*.sample.yml` files to your liking and remove the 'sample' 
 
 Running `npm start` or `coffee index.coffee --table` will output a nice table (and errors if there were any) to your terminal.
 
+### Table Output
+
+- `skipBelow=VALUE` hides entries with values (in cents) lower than `VALUE`. E.g., `skipBelow=11` will hide all entries with values of 10ct (and below, incl. ones without value).
+- `-t nonEmpty` hides entries without values.
+
 ### JSON Output
 
 If you want to further process the data yourself, you can use the `-o` or `--out` command line flag to write the results to a JSON file:
