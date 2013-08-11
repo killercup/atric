@@ -1,4 +1,5 @@
 yaml = require('js-yaml')
+colors = require('colors')
 Table = require('cli-table')
 
 books = require '../books.yml'
@@ -13,6 +14,8 @@ do ->
 
   retrieve(books.books).then (data) ->
     for isbn, {title, author, value} of data
-      table.push [isbn, title, value]
+      price = "EUR #{(value / 100).toFixed(2)}"
+      if value > 10 then price = price.underline.green
+      table.push [isbn, title, price]
 
     console.log table.toString()

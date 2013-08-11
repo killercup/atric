@@ -10,4 +10,4 @@ To use it, edit the `*.sample.yml` files to your liking and call them `*.yml`.
 
 `books.yml` needs to be a list called `books` containing the ISBN numbers of the books you want to look up.
 
-Running `coffee app.coffee` will return JSON data (or errors, I need to clean that up).
+Running `npm start` will output a nice table (and errors if there were any).
