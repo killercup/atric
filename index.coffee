@@ -1,23 +1,33 @@
-yaml = require('js-yaml')
-argv = require('optimist').argv
+optimist = require('optimist')
+  .usage('Amazon Trade In Price Check')
+  .alias('o', 'out')
+  .describe('o', 'Write data to JSON file. Usage: "-o data.json"')
+  .alias('t', 'table')
+  .describe('t', 'Output results as CLI table')
 
-books = require './books.yml'
+argv = optimist.argv
+
+yaml = require('js-yaml')
+
+books = require('./books.yml')
 
 retrieve = require('./src/retrieve')
 
 do ->
-  console.log "Using books.yml with #{books.books.length} ISBNs"
-  r = retrieve(books.books)
+  if argv.h or argv.help
+    return optimist.showHelp()
 
-  if argv.table
+  console.log "Using books.yml with #{books.books.length} ISBNs"
+
+  if argv.t or argv.table
     output = require('./src/tableOutput')
-    output r
+    output retrieve(books.books)
 
   out = argv.o or argv.out
   if typeof out is "string"
     fs = require('fs')
 
-    r.then (data) ->
+    retrieve(books.books).then (data) ->
       fs.writeFile out, JSON.stringify(data, null, 2), (err) ->
         return console.log "Error writing file #{out}: #{err}" if err
         console.log "Wrote data to #{out}"
