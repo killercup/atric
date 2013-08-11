@@ -5,6 +5,8 @@ optimist = require('optimist')
   .describe('o', 'Write data to JSON file. Usage: "-o data.json"')
   .alias('t', 'table')
   .describe('t', 'Output results as CLI table')
+  .alias('s', 'web')
+  .describe('s', 'Start web server. Optional: --web=PORT (default port is 3000)')
 
 argv = optimist.argv
 
@@ -20,7 +22,8 @@ do ->
 
   console.log "Using books.yml with #{books.books.length} ISBNs".grey
 
-  if argv.t or argv.table
+  table = argv.t or argv.table
+  if table
     output = require('./src/tableOutput')
     output retrieve(books.books)
 
@@ -39,7 +42,8 @@ do ->
 
         console.log "Wrote data to #{out}".green
 
-  if argv.s or argv.web
+  web = argv.s or argv.web
+  if web
     express = require('express')
     app = express()
 
@@ -50,6 +54,6 @@ do ->
         res.send data
       .fail (err) -> res.send(500, err: err)
 
-    port = 3000
+    port = parseInt(web, 10) or 3000
     console.log "Starting web server on port #{port}...".green
     app.listen(port)
