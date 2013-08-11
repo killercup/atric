@@ -1,14 +1,14 @@
 {
-  "name": "tic",
+  "name": "atric",
   "version": "0.1.0",
   "description": "Check Amazon.de TradeIn values",
-  "homepage": "https://github.com/killercup/tic",
+  "homepage": "https://github.com/killercup/atric",
   "bugs": {
-    "url": "https://github.com/killercup/tic/issues"
+    "url": "https://github.com/killercup/atric/issues"
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/killercup/tic.git"
+    "url": "http://github.com/killercup/atric.git"
   },
   "keywords": [
     "amazon"

@@ -1,4 +1,4 @@
-# tic - Amazon Trade In Price Check
+# atric - Amazon Trade In Price Check
 
 This small script queries Amazon(.com|.de|...) for the trade in value of the books you specify.
 
