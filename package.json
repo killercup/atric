@@ -19,7 +19,8 @@
   },
   "license": "BSD",
   "scripts": {
-    "start": "coffee index.coffee --table"
+    "start": "coffee index.coffee --table",
+    "server": "coffee index.coffee --web"
   },
   "main": "index.coffee",
   "dependencies": {
@@ -28,6 +29,12 @@
     "q": "0.9.x",
     "colors": "0.6.x",
     "cli-table": "0.2.x",
-    "optimist": "0.6.x"
+    "optimist": "0.6.x",
+    "express": "3.3.x"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.1",
+    "grunt-contrib-coffee": "~0.7.0"
   }
 }

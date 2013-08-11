@@ -21,3 +21,13 @@ If you want to further process the data yourself, you can use the `-o` or `--out
 ```sh
 $ coffee index.coffee -o log.json
 ```
+
+### Web Server
+
+You can also start a simple web server which shows the data as one simple html page.
+
+```sh
+$ coffee index.coffee --web
+```
+
+In the future, I might extend this.

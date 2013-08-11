@@ -40,4 +40,16 @@ do ->
         console.log "Wrote data to #{out}".green
 
   if argv.s or argv.web
-    console.log "http server coming soon"
+    express = require('express')
+    app = express()
+
+    app.use express.static(__dirname + '/public')
+
+    app.get '/data.json', (req, res) ->
+      retrieve(books.books).then (data) ->
+        res.send data
+      .fail (err) -> res.send(500, err: err)
+
+    port = 3000
+    console.log "Starting web server on port #{port}...".green
+    app.listen(port)
