@@ -35,6 +35,7 @@ fetchFromAmazon = (isbn) ->
       author: data.Author?[0]
       value: data.TradeInValue?[0]?.Amount?[0]
       image: image
+      url: item.DetailPageURL?[0]
 
   return deferred.promise
 
