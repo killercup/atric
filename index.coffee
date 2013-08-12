@@ -49,16 +49,6 @@ do ->
 
   web = argv.s or argv.web
   if web
-    express = require('express')
-    app = express()
-
-    app.use express.static(__dirname + '/public')
-
-    app.get '/data.json', (req, res) ->
-      retrieve(books.books).then (data) ->
-        res.send data
-      .fail (err) -> res.send(500, err: err)
-
     port = parseInt(web, 10) or 3000
-    console.log "Starting web server on port #{port}...".green
-    app.listen(port)
+    server = require('./src/web.coffee')
+    server(port, books.books)
