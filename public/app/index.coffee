@@ -1,14 +1,18 @@
 bind = rx.bind
 rxt.importTags()
 
-DATA_URL = '/data.json'
+DATA_URL = '/books.json'
 
 class Book
-  constructor: ({isbn, title, author, value, image, url}) ->
+  constructor: ({isbn, title, author, prices, image, url}) ->
+    currentPrice = do ->
+      return unless prices.length
+      prices[prices.length-1].value
+
     @isbn = rx.cell(isbn)
     @title = rx.cell(title)
     @author = rx.cell(author)
-    @value = rx.cell(value)
+    @value = rx.cell(currentPrice)
     @image = rx.cell(image)
     @url = rx.cell(url)
 

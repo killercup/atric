@@ -3,6 +3,8 @@ Q = require('q')
 
 OperationHelper = require('apac').OperationHelper
 
+log = require('./log')
+
 CONFIG = require('../_config.yml')
 
 doOp = new OperationHelper
@@ -13,13 +15,16 @@ doOp = new OperationHelper
 
 fetchFromAmazon = (isbn) ->
   deferred = Q.defer()
+  # log.verbose "getting #{isbn}"
   doOp.execute 'ItemLookup', {
     'ItemId': isbn
     'IdType': 'ISBN'
     'SearchIndex': 'All'
     'ResponseGroup': 'ItemAttributes,Images'
   }, (err, res) ->
-    return deferred.reject(err) if err
+    if err
+      # log.verbose "error #{isbn}"
+      return deferred.reject(err)
 
     item = res?.ItemLookupResponse?.Items?[0]?.Item?[0]
     return deferred.reject("No Item Data for #{isbn}") unless item?
@@ -29,6 +34,7 @@ fetchFromAmazon = (isbn) ->
 
     image = item?.LargeImage?[0]?.URL?[0]
 
+    # log.verbose "got #{isbn}"
     deferred.resolve
       isbn: isbn.toString?()
       title: data.Title?[0]
@@ -39,7 +45,7 @@ fetchFromAmazon = (isbn) ->
 
   return deferred.promise
 
-module.exports = (books) ->
+getAll = (books) ->
   deferred = Q.defer()
   fetching = books.map fetchFromAmazon
 
@@ -56,3 +62,5 @@ module.exports = (books) ->
 
   return deferred.promise
 
+module.exports = getAll
+module.exports.fetchFromAmazon = fetchFromAmazon

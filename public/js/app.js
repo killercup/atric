@@ -5,16 +5,22 @@
 
   rxt.importTags();
 
-  DATA_URL = '/data.json';
+  DATA_URL = '/books.json';
 
   Book = (function() {
     function Book(_arg) {
-      var author, image, isbn, title, url, value;
-      isbn = _arg.isbn, title = _arg.title, author = _arg.author, value = _arg.value, image = _arg.image, url = _arg.url;
+      var author, currentPrice, image, isbn, prices, title, url;
+      isbn = _arg.isbn, title = _arg.title, author = _arg.author, prices = _arg.prices, image = _arg.image, url = _arg.url;
+      currentPrice = (function() {
+        if (!prices.length) {
+          return;
+        }
+        return prices[prices.length - 1].value;
+      })();
       this.isbn = rx.cell(isbn);
       this.title = rx.cell(title);
       this.author = rx.cell(author);
-      this.value = rx.cell(value);
+      this.value = rx.cell(currentPrice);
       this.image = rx.cell(image);
       this.url = rx.cell(url);
     }

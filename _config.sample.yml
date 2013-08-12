@@ -4,3 +4,5 @@ amazon:
   secret: TE9SRU1JUFNVTVNET0xPUg==
   associate: yomama-21
   endPoint: "ecs.amazonaws.de"
+mongo:
+  uri: 'mongodb://localhost/atric'

@@ -8,14 +8,17 @@ optimist = require('optimist')
   .describe('skipBelow', "Don't show entries with a value below that number (in cents).")
   .alias('s', 'web')
   .describe('s', 'Start web server. Optional: --web=PORT (default port is 3000)')
+  .alias('i', 'import')
+  .describe('i', 'Import ISBNs from books.yml into MongoDB')
+  .describe('verbose', 'Show a bunch more log statements')
 
 argv = optimist.argv
 
 yaml = require('js-yaml')
 
-books = require('./books.yml')
+books = require("#{__dirname}/books.yml")
 
-retrieve = require('./src/retrieve')
+retrieve = require("#{__dirname}/src/retrieve")
 
 do ->
   if argv.h or argv.help
@@ -29,7 +32,7 @@ do ->
     options[i] = 1 for i in table.split?(',') if typeof table is "string"
     options.skipBelow = argv.skipBelow
 
-    output = require('./src/tableOutput')
+    output = require("#{__dirname}/src/tableOutput")
     output retrieve(books.books), options
 
   out = argv.o or argv.out
@@ -50,5 +53,15 @@ do ->
   web = argv.s or argv.web
   if web
     port = parseInt(web, 10) or 3000
-    server = require('./src/web.coffee')
-    server(port, books.books)
+    server = require("#{__dirname}/src/web.coffee")
+    server(port)
+
+  doImport = argv.i or argv.import
+  if doImport
+    console.log "Running import".green
+    importer = require("#{__dirname}/src/import")
+    importer.import(books.books).then (books) ->
+      console.log "All done.".green
+      process.exit(0)
+
+  return
