@@ -5,16 +5,22 @@ DATA_URL = '/books.json'
 
 class Book
   constructor: ({isbn, title, author, prices, image, url}) ->
-    currentPrice = do ->
-      return unless prices.length
-      prices[prices.length-1].value
-
     @isbn = rx.cell(isbn)
     @title = rx.cell(title)
     @author = rx.cell(author)
-    @value = rx.cell(currentPrice)
+    @prices = rx.cell(prices)
     @image = rx.cell(image)
     @url = rx.cell(url)
+
+  currentPrice: ->
+    len = @prices.get().length
+    return unless len
+    @prices.get()[len-1].value
+
+  pricesList: ->
+    p = @prices.get()
+    return unless p.length
+    _(p).pluck 'value'
 
 books = rx.array()
 
@@ -24,6 +30,22 @@ $ ->
     $alerts.append div {class: 'alert alert-#{type}'}, [
       button {type: 'button', class: 'close'}, ['&times;']
       msg
+    ]
+
+  $('#actions').append do ->
+    div [
+      button {
+        class: 'btn btn-primary'
+        click: ->
+          btn = $(@)
+          btn.attr disabled: true
+          $.ajax
+            url: '/refresh'
+            method: 'POST'
+          .then ->
+            refresh().then ->
+              btn.attr disabled: false
+      }, 'Refresh'
     ]
 
   $('#main').append do ->
@@ -53,21 +75,30 @@ $ ->
         ]
       ]
       tbody books.map (book) ->
-        tr [
+        res = tr [
           td book.isbn.get()
           td book.title.get()
-          td [toEUR book.value.get()]
+          td [
+            span [toEUR book.currentPrice()]
+            span {class: 'line'}, book.pricesList().join(',')
+          ]
         ]
+
+        res.find('.line').peity("line")
+
+        res
     ]
 
-  $.getJSON(DATA_URL)
-  .success (data) ->
-    $('#loading-init').remove()
+  refresh = ->
+    $.getJSON(DATA_URL)
+    .success (data) ->
+      _.each data.errors, (err) ->
+        addAlert msg: err, type: 'warning'
 
-    _.each data.errors, (err) ->
+      arr = data.books.map (book) -> new Book(book)
+      books.replace arr
+    .error (err) ->
       addAlert msg: err, type: 'warning'
 
-    _.each data.books, (book) ->
-      books.push new Book(book)
-  .error (err) ->
-    addAlert msg: err, type: 'warning'
+  refresh()
+  .success -> $('#loading-init').remove()
