@@ -4,8 +4,6 @@ Q = require('q')
 passport = require('passport')
 
 mongoose = require('mongoose')
-# mongoStore = require('connect-mongo')(express)
-# expressMongoose = require('express-mongoose')
 
 CONFIG = require("#{__dirname}/../_config.yml")
 
@@ -24,15 +22,24 @@ RefreshController = require('./web/controller/refresh')
 
 module.exports = (port=3000) ->
   express = require('express')
+  MongoStore = require('connect-mongo')(express)
+  expressMongoose = require('express-mongoose')
+
   app = express()
 
   app.configure ->
     app.use express.static(__dirname + '/../public')
     app.use express.cookieParser()
     app.use express.bodyParser()
-    app.use express.session(secret: 'asdasdhjasdsad162312dasnjds')
+
+    app.use express.session
+      secret: 'asdasdhjasdsad162312dasnjds'
+      store: new MongoStore
+        db: "atric"
+
     app.use passport.initialize()
     app.use passport.session()
+
     app.use app.router
 
   app.get '/auth/twitter', UserController.authenticateViaTwitter

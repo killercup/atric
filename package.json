@@ -33,6 +33,7 @@
     "optimist": "0.6.x",
     "express": "3.3.x",
     "mongoose": "3.6.x",
+    "connect-mongo": "0.3.x",
     "express-mongoose": "0.1.x",
     "passport": "0.1.x",
     "passport-twitter": "0.1.x"
