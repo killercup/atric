@@ -1,11 +1,14 @@
 (function() {
-  var Book, DATA_URL, bind, books;
+  var API_URLs, Book, bind, books;
 
   bind = rx.bind;
 
   rxt.importTags();
 
-  DATA_URL = '/books.json';
+  API_URLs = {
+    getBooks: '/books.json',
+    authWithTwitter: '/auth/twitter'
+  };
 
   Book = (function() {
     function Book(_arg) {
@@ -79,7 +82,10 @@
               });
             });
           }
-        }, 'Refresh')
+        }, 'Refresh'), a({
+          "class": 'btn btn-success',
+          href: API_URLs.authWithTwitter
+        }, 'Sign In')
       ]);
     })());
     $('#main').append((function() {
@@ -119,7 +125,7 @@
       ]);
     })());
     refresh = function() {
-      return $.getJSON(DATA_URL).success(function(data) {
+      return $.getJSON(API_URLs.getBooks).success(function(data) {
         var arr;
         _.each(data.errors, function(err) {
           return addAlert({

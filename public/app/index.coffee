@@ -1,7 +1,9 @@
 bind = rx.bind
 rxt.importTags()
 
-DATA_URL = '/books.json'
+API_URLs =
+  getBooks: '/books.json'
+  authWithTwitter: '/auth/twitter'
 
 class Book
   constructor: ({isbn, title, author, prices, image, url}) ->
@@ -46,6 +48,10 @@ $ ->
             refresh().then ->
               btn.attr disabled: false
       }, 'Refresh'
+      a {
+        class: 'btn btn-success'
+        href: API_URLs.authWithTwitter
+      }, 'Sign In'
     ]
 
   $('#main').append do ->
@@ -90,7 +96,7 @@ $ ->
     ]
 
   refresh = ->
-    $.getJSON(DATA_URL)
+    $.getJSON(API_URLs.getBooks)
     .success (data) ->
       _.each data.errors, (err) ->
         addAlert msg: err, type: 'warning'
