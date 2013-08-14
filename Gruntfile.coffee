@@ -13,7 +13,7 @@ module.exports = (grunt) ->
     watch:
       options:
         atBegin: true
-        livereload: false
+        livereload: true
       app:
         files: ['src/app/**/*.coffee']
         tasks: 'coffee:compile'
