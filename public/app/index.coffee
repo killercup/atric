@@ -100,32 +100,22 @@ $ ->
           th 'Value'
         ]
       ]
-      tbody books.map (book) ->
-        res = tr [
+      tbody books.map (book, index) ->
+        res = tr {
+          class: 'book'
+        }, [
           td book.isbn.get()
           td book.title.get()
           td [
             span [toEUR book.currentPrice()]
             span {class: 'line'}, book.pricesList().join(',')
           ]
-          td {
-            click: (event) ->
-              # TODO: Use global click handler and bubbling for this
-              btn = $(@)
-              btn.attr disabled: true
-              $.ajax
-                url: API_URLs.removeBook
-                method: 'POST'
-                data:
-                  book_id: book._id.get()
-              .then ->
-                btn.attr disabled: false
-                books.remove book
-              .fail ->
-                btn.attr disabled: false
-                addAlert type: 'danger', msg: 'Error removing book'
-          }, [
-            button {class: 'btn btn-danger'}, '×'
+          td [
+            button {
+              class: 'btn btn-danger remove'
+              'data-book_id': book._id.get()
+              'data-index': index
+            }, '×'
           ]
         ]
 
@@ -146,3 +136,19 @@ $ ->
 
   refresh()
   .success -> $('#loading-init').remove()
+
+  $(document).on 'click', '.book .remove', (event) ->
+    btn = $(@)
+    btn.attr disabled: true
+    $.ajax
+      url: API_URLs.removeBook
+      method: 'POST'
+      data:
+        book_id: btn.data('book_id')
+    .then ->
+      btn.attr disabled: false
+      books.removeAt btn.data('index')
+    .fail ->
+      btn.attr disabled: false
+      addAlert type: 'danger', msg: 'Error removing book'
+

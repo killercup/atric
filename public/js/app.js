@@ -148,44 +148,20 @@
       return table({
         "class": 'table'
       }, [
-        thead([tr([th('ISBN'), th('Title'), th('Value')])]), tbody(books.map(function(book) {
+        thead([tr([th('ISBN'), th('Title'), th('Value')])]), tbody(books.map(function(book, index) {
           var res;
-          res = tr([
+          res = tr({
+            "class": 'book'
+          }, [
             td(book.isbn.get()), td(book.title.get()), td([
               span([toEUR(book.currentPrice())]), span({
                 "class": 'line'
               }, book.pricesList().join(','))
-            ]), td({
-              click: function(event) {
-                var btn;
-                btn = $(this);
-                btn.attr({
-                  disabled: true
-                });
-                return $.ajax({
-                  url: API_URLs.removeBook,
-                  method: 'POST',
-                  data: {
-                    book_id: book._id.get()
-                  }
-                }).then(function() {
-                  btn.attr({
-                    disabled: false
-                  });
-                  return books.remove(book);
-                }).fail(function() {
-                  btn.attr({
-                    disabled: false
-                  });
-                  return addAlert({
-                    type: 'danger',
-                    msg: 'Error removing book'
-                  });
-                });
-              }
-            }, [
+            ]), td([
               button({
-                "class": 'btn btn-danger'
+                "class": 'btn btn-danger remove',
+                'data-book_id': book._id.get(),
+                'data-index': index
               }, '×')
             ])
           ]);
@@ -209,8 +185,35 @@
         });
       });
     };
-    return refresh().success(function() {
+    refresh().success(function() {
       return $('#loading-init').remove();
+    });
+    return $(document).on('click', '.book .remove', function(event) {
+      var btn;
+      btn = $(this);
+      btn.attr({
+        disabled: true
+      });
+      return $.ajax({
+        url: API_URLs.removeBook,
+        method: 'POST',
+        data: {
+          book_id: btn.data('book_id')
+        }
+      }).then(function() {
+        btn.attr({
+          disabled: false
+        });
+        return books.removeAt(btn.data('index'));
+      }).fail(function() {
+        btn.attr({
+          disabled: false
+        });
+        return addAlert({
+          type: 'danger',
+          msg: 'Error removing book'
+        });
+      });
     });
   });
 
