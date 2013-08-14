@@ -23,7 +23,7 @@ class Book
 
   pricesList: ->
     p = @prices.get()
-    return unless p.length
+    return [] unless p.length
     _(p).pluck 'value'
 
 books = rx.array()
@@ -34,7 +34,7 @@ $ ->
     $alerts.append div {class: "alert alert-#{type}"}, [
       # rawHtml('&times;')
       button {type: 'button', class: 'close', 'data-dismiss': 'alert'}, 'x'
-      msg
+      msg or 'Error'
     ]
 
   $('#actions').append do ->
@@ -67,7 +67,7 @@ $ ->
             data: $(@).serialize()
           .success (data) ->
             # response: {book: <Book>, user: <User>}
-            addAlert type: 'success', msg: "Added #{data.book.title}"
+            addAlert type: 'success', msg: "Added #{data.book.title or data.book.isbn}"
             books.push new Book(data.book)
           .error (err) ->
             # response: {err: <String>}

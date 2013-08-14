@@ -37,7 +37,7 @@
       var p;
       p = this.prices.get();
       if (!p.length) {
-        return;
+        return [];
       }
       return _(p).pluck('value');
     };
@@ -61,7 +61,7 @@
           type: 'button',
           "class": 'close',
           'data-dismiss': 'alert'
-        }, 'x'), msg
+        }, 'x'), msg || 'Error'
       ]));
     };
     $('#actions').append((function() {
@@ -101,7 +101,7 @@
             }).success(function(data) {
               addAlert({
                 type: 'success',
-                msg: "Added " + data.book.title
+                msg: "Added " + (data.book.title || data.book.isbn)
               });
               return books.push(new Book(data.book));
             }).error(function(err) {
