@@ -9,13 +9,15 @@
     authWithTwitter: '/auth/twitter',
     getMe: '/users/me',
     addBook: '/users/addBook',
+    removeBook: '/users/removeBook',
     getBooks: '/books'
   };
 
   Book = (function() {
     function Book(_arg) {
-      var author, image, isbn, prices, title, url;
-      isbn = _arg.isbn, title = _arg.title, author = _arg.author, prices = _arg.prices, image = _arg.image, url = _arg.url;
+      var author, image, isbn, prices, title, url, _id;
+      _id = _arg._id, isbn = _arg.isbn, title = _arg.title, author = _arg.author, prices = _arg.prices, image = _arg.image, url = _arg.url;
+      this._id = rx.cell(_id);
       this.isbn = rx.cell(isbn);
       this.title = rx.cell(title);
       this.author = rx.cell(author);
@@ -61,7 +63,7 @@
           type: 'button',
           "class": 'close',
           'data-dismiss': 'alert'
-        }, 'x'), msg || 'Error'
+        }, '×'), msg || 'Error'
       ]));
     };
     $('#actions').append((function() {
@@ -153,6 +155,38 @@
               span([toEUR(book.currentPrice())]), span({
                 "class": 'line'
               }, book.pricesList().join(','))
+            ]), td({
+              click: function(event) {
+                var btn;
+                btn = $(this);
+                btn.attr({
+                  disabled: true
+                });
+                return $.ajax({
+                  url: API_URLs.removeBook,
+                  method: 'POST',
+                  data: {
+                    book_id: book._id.get()
+                  }
+                }).then(function() {
+                  btn.attr({
+                    disabled: false
+                  });
+                  return books.remove(book);
+                }).fail(function() {
+                  btn.attr({
+                    disabled: false
+                  });
+                  return addAlert({
+                    type: 'danger',
+                    msg: 'Error removing book'
+                  });
+                });
+              }
+            }, [
+              button({
+                "class": 'btn btn-danger'
+              }, '×')
             ])
           ]);
           res.find('.line').peity("line");

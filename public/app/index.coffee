@@ -5,10 +5,12 @@ API_URLs =
   authWithTwitter: '/auth/twitter'
   getMe: '/users/me'
   addBook: '/users/addBook'
+  removeBook: '/users/removeBook'
   getBooks: '/books'
 
 class Book
-  constructor: ({isbn, title, author, prices, image, url}) ->
+  constructor: ({_id, isbn, title, author, prices, image, url}) ->
+    @_id = rx.cell(_id)
     @isbn = rx.cell(isbn)
     @title = rx.cell(title)
     @author = rx.cell(author)
@@ -33,7 +35,7 @@ $ ->
   addAlert = ({msg, type}) ->
     $alerts.append div {class: "alert alert-#{type}"}, [
       # rawHtml('&times;')
-      button {type: 'button', class: 'close', 'data-dismiss': 'alert'}, 'x'
+      button {type: 'button', class: 'close', 'data-dismiss': 'alert'}, '×'
       msg or 'Error'
     ]
 
@@ -105,6 +107,25 @@ $ ->
           td [
             span [toEUR book.currentPrice()]
             span {class: 'line'}, book.pricesList().join(',')
+          ]
+          td {
+            click: (event) ->
+              # TODO: Use global click handler and bubbling for this
+              btn = $(@)
+              btn.attr disabled: true
+              $.ajax
+                url: API_URLs.removeBook
+                method: 'POST'
+                data:
+                  book_id: book._id.get()
+              .then ->
+                btn.attr disabled: false
+                books.remove book
+              .fail ->
+                btn.attr disabled: false
+                addAlert type: 'danger', msg: 'Error removing book'
+          }, [
+            button {class: 'btn btn-danger'}, '×'
           ]
         ]
 

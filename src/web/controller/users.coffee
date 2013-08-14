@@ -42,17 +42,17 @@ module.exports.TwitterAuth = passport.authenticate('twitter', failureRedirect: '
 
 module.exports.authenticateViaTwitterSuccess = (req, res) ->
   log.verbose "Successful authentication, redirect home."
-  return res.send msg: "Authentication successful" if res.accepts('json')
+  return res.send msg: "Authentication successful" if req.accepts('json')
   res.redirect '/'
 
 module.exports.ensureAuthenticated = (req, res, next) ->
   return next() if req.isAuthenticated()
-  return res.send 401, err: "Not signed in" if res.accepts('json')
+  return res.send 401, err: "Not signed in" if req.accepts('json')
   res.redirect '/'
 
 module.exports.logout = (req, res) ->
   req.logout()
-  return res.send msg: "Logged Out" if res.accepts('json')
+  return res.send msg: "Logged Out" if req.accepts('json')
   res.redirect '/'
 
 module.exports.me = (req, res) ->
@@ -84,5 +84,18 @@ module.exports.addBook = (req, res) ->
   # .then null, (err) -> throw new Error "Error adding your book"
   .then (user) ->
     res.send 201, book: addedBook, user: req.user
+  .then null, (err) ->
+    res.send 500, err: err
+
+module.exports.removeBook = (req, res) ->
+  book_id = req.param 'book_id'
+  return res.send 400, err: "Missing Book ID" unless book_id?.length
+
+  User.findOneAndUpdate {_id: req.user.id},
+    $pull:
+      books: book_id
+  .exec()
+  .then (user) ->
+    res.send 201, user: user
   .then null, (err) ->
     res.send 500, err: err

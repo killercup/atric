@@ -47,6 +47,7 @@ module.exports = (port=3000) ->
 
   app.get '/users/me', UserController.ensureAuthenticated, UserController.me
   app.post '/users/addBook', UserController.ensureAuthenticated, UserController.addBook
+  app.post '/users/removeBook', UserController.ensureAuthenticated, UserController.removeBook
 
   app.get '/books', BookController.books
   app.post '/refresh', RefreshController.postRefresh
