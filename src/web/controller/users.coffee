@@ -26,7 +26,10 @@ passport.serializeUser (user, done) ->
 
 passport.deserializeUser (id, done) ->
   log.verbose "deserializeUser"
-  User.findOne(_id: id).select('-twitter').exec (err, user) ->
+
+  User.findOne(_id: id).select('-twitter')
+  .populate('books')
+  .exec (err, user) ->
     log.verbose "deserializeUser done", user
     done err, user
 
@@ -39,48 +42,47 @@ module.exports.TwitterAuth = passport.authenticate('twitter', failureRedirect: '
 
 module.exports.authenticateViaTwitterSuccess = (req, res) ->
   log.verbose "Successful authentication, redirect home."
+  return res.send msg: "Authentication successful" if res.accepts('json')
   res.redirect '/'
 
 module.exports.ensureAuthenticated = (req, res, next) ->
   return next() if req.isAuthenticated()
+  return res.send 401, err: "Not signed in" if res.accepts('json')
   res.redirect '/'
 
 module.exports.logout = (req, res) ->
   req.logout()
+  return res.send msg: "Logged Out" if res.accepts('json')
   res.redirect '/'
 
 module.exports.me = (req, res) ->
   res.send user: req.user
 
 module.exports.addBook = (req, res) ->
+  return res.send 401, err: "Not signed in" unless req.user
+
   isbn = req.param 'isbn'
   return res.send 400, err: "Missing ISBN number" unless isbn?.length
 
-  return res.send 400, err: "Not signed in" unless req.user
-
-  newBook = {}
+  addedBook = {}
 
   Book.findOneAndUpdate({isbn: isbn}, {isbn: isbn}, {upsert: true})
   .exec()
-  # .then null, (err) -> throw "Error creating your book"
+  # .then null, (err) -> throw new Error "Error creating your book"
   .then (book) ->
-    console.log "book exec"
+    addedBook = book
 
-    b = Book.fetchFromAmazon(book)
-    console.log "fetched", b, b.then
-    b.then -> console.log arguments
-
-  # .then null, (err) -> throw "Error loading book from Amazon"
+    Book.fetchFromAmazon(addedBook)
+  # .then null, (err) -> throw new Error "Error loading book from Amazon"
   .then (book) ->
-    # console.log "book fetch", arguments
-    newBook = book
-    # console.log 'new book', book, book._id
+    addedBook = book
     User.findOneAndUpdate {_id: req.user.id},
       $push:
         books:
-          id: book._id
+          _id: addedBook._id
     .exec()
-  # .then null, (err) -> throw "Error adding your book"
+  # .then null, (err) -> throw new Error "Error adding your book"
   .then (user) ->
-    res.send 200, book: newBook, user: user
-  .then null, (err) -> return res.send 500, err: err
+    res.send 201, book: addedBook, user: req.user
+  .then null, (err) ->
+    res.send 500, err: err
