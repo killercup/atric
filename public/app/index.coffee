@@ -2,8 +2,10 @@ bind = rx.bind
 rxt.importTags()
 
 API_URLs =
-  getBooks: '/books.json'
   authWithTwitter: '/auth/twitter'
+  getMe: '/users/me'
+  addBook: '/users/addBook'
+  getBooks: '/books'
 
 class Book
   constructor: ({isbn, title, author, prices, image, url}) ->
@@ -29,8 +31,9 @@ books = rx.array()
 $ ->
   $alerts = $ '#alerts'
   addAlert = ({msg, type}) ->
-    $alerts.append div {class: 'alert alert-#{type}'}, [
-      button {type: 'button', class: 'close'}, ['&times;']
+    $alerts.append div {class: "alert alert-#{type}"}, [
+      # rawHtml('&times;')
+      button {type: 'button', class: 'close', 'data-dismiss': 'alert'}, 'x'
       msg
     ]
 
@@ -50,17 +53,32 @@ $ ->
       }, 'Refresh'
       a {
         class: 'btn btn-success'
+        id: 'signin'
         href: API_URLs.authWithTwitter
       }, 'Sign In'
+      form {
+        action: API_URLs.addBook
+        method: 'POST'
+        submit: (event) ->
+          event.preventDefault()
+          $.ajax
+            url: $(@).attr 'action'
+            method: $(@).attr 'method'
+            data: $(@).serialize()
+          .success (data) ->
+            # response: {book: <Book>, user: <User>}
+            addAlert type: 'success', msg: "Added #{data.book.title}"
+            books.push new Book(data.book)
+          .error (err) ->
+            # response: {err: <String>}
+            addAlert type: 'danger', msg: err.responseText
+      }, [
+        input type: 'text', name: 'isbn', placeholder: 'ISBN'
+        input type: 'submit', class: 'btn', value: 'Add'
+      ]
     ]
 
   $('#main').append do ->
-    # table = rxt.mktag('table')
-    # thead = rxt.mktag('thead')
-    # th = rxt.mktag('th')
-    # tbody = rxt.mktag('tbody')
-    # tr = rxt.mktag('tr')
-    # td = rxt.mktag('td')
 
     toEUR = (value=0) ->
       text = "#{(value / 100).toFixed(2)}€"
@@ -96,15 +114,14 @@ $ ->
     ]
 
   refresh = ->
-    $.getJSON(API_URLs.getBooks)
+    $.getJSON(API_URLs.getMe)
     .success (data) ->
-      _.each data.errors, (err) ->
-        addAlert msg: err, type: 'warning'
+      $('#signin').hide()
 
-      arr = data.books.map (book) -> new Book(book)
+      arr = data.user.books.map (book) -> new Book(book)
       books.replace arr
     .error (err) ->
-      addAlert msg: err, type: 'warning'
+      addAlert msg: err.responseText, type: 'warning'
 
   refresh()
   .success -> $('#loading-init').remove()

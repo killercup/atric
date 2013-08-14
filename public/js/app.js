@@ -6,8 +6,10 @@
   rxt.importTags();
 
   API_URLs = {
-    getBooks: '/books.json',
-    authWithTwitter: '/auth/twitter'
+    authWithTwitter: '/auth/twitter',
+    getMe: '/users/me',
+    addBook: '/users/addBook',
+    getBooks: '/books'
   };
 
   Book = (function() {
@@ -53,12 +55,13 @@
       var msg, type;
       msg = _arg.msg, type = _arg.type;
       return $alerts.append(div({
-        "class": 'alert alert-#{type}'
+        "class": "alert alert-" + type
       }, [
         button({
           type: 'button',
-          "class": 'close'
-        }, ['&times;']), msg
+          "class": 'close',
+          'data-dismiss': 'alert'
+        }, 'x'), msg
       ]));
     };
     $('#actions').append((function() {
@@ -84,8 +87,41 @@
           }
         }, 'Refresh'), a({
           "class": 'btn btn-success',
+          id: 'signin',
           href: API_URLs.authWithTwitter
-        }, 'Sign In')
+        }, 'Sign In'), form({
+          action: API_URLs.addBook,
+          method: 'POST',
+          submit: function(event) {
+            event.preventDefault();
+            return $.ajax({
+              url: $(this).attr('action'),
+              method: $(this).attr('method'),
+              data: $(this).serialize()
+            }).success(function(data) {
+              addAlert({
+                type: 'success',
+                msg: "Added " + data.book.title
+              });
+              return books.push(new Book(data.book));
+            }).error(function(err) {
+              return addAlert({
+                type: 'danger',
+                msg: err.responseText
+              });
+            });
+          }
+        }, [
+          input({
+            type: 'text',
+            name: 'isbn',
+            placeholder: 'ISBN'
+          }), input({
+            type: 'submit',
+            "class": 'btn',
+            value: 'Add'
+          })
+        ])
       ]);
     })());
     $('#main').append((function() {
@@ -125,21 +161,16 @@
       ]);
     })());
     refresh = function() {
-      return $.getJSON(API_URLs.getBooks).success(function(data) {
+      return $.getJSON(API_URLs.getMe).success(function(data) {
         var arr;
-        _.each(data.errors, function(err) {
-          return addAlert({
-            msg: err,
-            type: 'warning'
-          });
-        });
-        arr = data.books.map(function(book) {
+        $('#signin').hide();
+        arr = data.user.books.map(function(book) {
           return new Book(book);
         });
         return books.replace(arr);
       }).error(function(err) {
         return addAlert({
-          msg: err,
+          msg: err.responseText,
           type: 'warning'
         });
       });

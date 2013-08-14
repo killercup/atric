@@ -20,7 +20,7 @@ UserSchema = new Schema
     token: String
     tokenSecret: String
   books: [{
-    value: ObjectId
+    id: ObjectId
   }]
 
 User = mongoose.model('User', UserSchema)

@@ -4,6 +4,7 @@ TwitterStrategy = require('passport-twitter').Strategy
 log = require("#{__dirname}/../../log")
 
 User = require("#{__dirname}/../model/user")
+Book = require("#{__dirname}/../model/book")
 
 passport.use new TwitterStrategy {
     consumerKey: "SxEejPESBoFmLZJtVzk9wQ"
@@ -49,7 +50,37 @@ module.exports.logout = (req, res) ->
   res.redirect '/'
 
 module.exports.me = (req, res) ->
-  if req.user
-    res.send user: req.user
-  else
-    res.send 204
+  res.send user: req.user
+
+module.exports.addBook = (req, res) ->
+  isbn = req.param 'isbn'
+  return res.send 400, err: "Missing ISBN number" unless isbn?.length
+
+  return res.send 400, err: "Not signed in" unless req.user
+
+  newBook = {}
+
+  Book.findOneAndUpdate({isbn: isbn}, {isbn: isbn}, {upsert: true})
+  .exec()
+  # .then null, (err) -> throw "Error creating your book"
+  .then (book) ->
+    console.log "book exec"
+
+    b = Book.fetchFromAmazon(book)
+    console.log "fetched", b, b.then
+    b.then -> console.log arguments
+
+  # .then null, (err) -> throw "Error loading book from Amazon"
+  .then (book) ->
+    # console.log "book fetch", arguments
+    newBook = book
+    # console.log 'new book', book, book._id
+    User.findOneAndUpdate {_id: req.user.id},
+      $push:
+        books:
+          id: book._id
+    .exec()
+  # .then null, (err) -> throw "Error adding your book"
+  .then (user) ->
+    res.send 200, book: newBook, user: user
+  .then null, (err) -> return res.send 500, err: err

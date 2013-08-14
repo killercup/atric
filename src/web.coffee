@@ -44,9 +44,11 @@ module.exports = (port=3000) ->
 
   app.get '/auth/twitter', UserController.authenticateViaTwitter
   app.get '/auth/twitter/callback', UserController.TwitterAuth, UserController.authenticateViaTwitterSuccess
-  app.get '/users/me', UserController.ensureAuthenticated, UserController.me
 
-  app.get '/books.json', BookController.books
+  app.get '/users/me', UserController.ensureAuthenticated, UserController.me
+  app.post '/users/addBook', UserController.ensureAuthenticated, UserController.addBook
+
+  app.get '/books', BookController.books
   app.post '/refresh', RefreshController.postRefresh
 
   console.log "Starting web server on port #{port}...".green
