@@ -44,6 +44,7 @@ module.exports = (port=3000) ->
 
   app.get '/auth/twitter', UserController.authenticateViaTwitter
   app.get '/auth/twitter/callback', UserController.TwitterAuth, UserController.authenticateViaTwitterSuccess
+  app.delete '/auth', UserController.ensureAuthenticated, UserController.logout
 
   app.get '/users/me', UserController.ensureAuthenticated, UserController.me
   app.post '/users/addBook', UserController.ensureAuthenticated, UserController.addBook
