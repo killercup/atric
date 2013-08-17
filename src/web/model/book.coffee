@@ -38,7 +38,7 @@ BookSchema.statics.fetchFromAmazon = (book) ->
     log.verbose "received #{book.isbn}, now updating as #{title}"
     @findOneAndUpdate {isbn: book.isbn},
       title: title
-      author: author
+      author: author or ''
       amazon:
         url: url
         image: image
