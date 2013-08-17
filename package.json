@@ -39,8 +39,8 @@
     "passport-twitter": "0.1.x"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-watch": "~0.5.1",
-    "grunt-contrib-coffee": "~0.7.0"
+    "grunt": "~0.4.x",
+    "grunt-contrib-watch": "~0.5.x",
+    "grunt-contrib-coffee": "~0.7.x"
   }
 }

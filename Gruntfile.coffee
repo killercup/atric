@@ -9,13 +9,15 @@ module.exports = (grunt) ->
           sourceMap: true
           join: true
         files:
-          'public/js/app.js': ['public/app/**/*.coffee']
+          'public/js/app.js': ['public/**/*.coffee']
+
     watch:
-      options:
-        atBegin: true
-        livereload: true
       app:
-        files: ['src/app/**/*.coffee']
+        files: 'src/**/*.coffee'
         tasks: 'coffee:compile'
+        options:
+          atBegin: true
+          # spawn: false
+          # interrupt: true
 
   grunt.registerTask('default', ['coffee:compile'])
