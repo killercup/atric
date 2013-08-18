@@ -139,6 +139,12 @@ function program2(depth0,data) {
   return buffer;
   }
 
+function program4(depth0,data) {
+  
+  
+  data.buffer.push("\n      <div class=\"list-group-item loading\">\n        Loading&hellip;\n      </div>\n    ");
+  }
+
   data.buffer.push("<div class=\"row\">\n  <div class=\"col-md-4 books\">\n    <div class=\"panel\">\n      <div class=\"panel-heading\">\n        <h3 class=\"panel-title\">Add a Book</h3>\n      </div>\n      <div class=\"panel-body\">\n        <p>\n          ");
   hashContexts = {'valueBinding': depth0};
   hashTypes = {'valueBinding': "STRING"};
@@ -158,7 +164,7 @@ function program2(depth0,data) {
   data.buffer.push("\n        </label>\n      </li>\n    </ul>\n\n    <div class=\"list-group\">\n    ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "book", "in", "filtered", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers.each.call(depth0, "book", "in", "filtered", {hash:{},inverse:self.program(4, program4, data),fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n    </div>\n  </div>\n  <div class=\"col-md-8\">\n    ");
   hashTypes = {};
