@@ -78,7 +78,11 @@ function program3(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "author", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("</h2>\n    </div>\n    <div class=\"col-md-4\">\n      ");
+  data.buffer.push("</h2>\n\n      <p>\n        <button class=\"btn btn-danger\"");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "deleteBook", {hash:{},contexts:[depth0],types:["STRING"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(">\n          Remove Book\n        </button>\n      </p>\n    </div>\n    <div class=\"col-md-4\">\n      ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "amazon", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
@@ -135,7 +139,17 @@ function program2(depth0,data) {
   return buffer;
   }
 
-  data.buffer.push("<div class=\"row\">\n  <div class=\"col-md-4 books\">\n    <ul class=\"list-group\">\n      <li class=\"list-group-item\">\n        <label>\n          Min. Value\n          ");
+  data.buffer.push("<div class=\"row\">\n  <div class=\"col-md-4 books\">\n    <div class=\"panel\">\n      <div class=\"panel-heading\">\n        <h3 class=\"panel-title\">Add a Book</h3>\n      </div>\n      <div class=\"panel-body\">\n        <p>\n          ");
+  hashContexts = {'valueBinding': depth0};
+  hashTypes = {'valueBinding': "STRING"};
+  data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.TextField", {hash:{
+    'valueBinding': ("newISBN")
+  },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n        </p>\n        <p>\n          <button class=\"btn btn-success\" ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "addBook", "newISBN", {hash:{},contexts:[depth0,depth0],types:["ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(">\n            Add Book\n          </button>\n        </p>\n      </div>\n    </div>\n\n    <ul class=\"list-group\">\n      <li class=\"list-group-item\">\n        <label>\n          Min. Value\n          ");
   hashContexts = {'valueBinding': depth0};
   hashTypes = {'valueBinding': "STRING"};
   data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.TextField", {hash:{

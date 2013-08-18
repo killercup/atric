@@ -5,16 +5,6 @@ App.BooksRoute = Ember.Route.extend
   model: ->
     App.Book.find()
 
-  # setupController: (controller, )
-
-App.BooksController = Ember.ArrayController.extend
-  minPrice: 42
-  filtered: (->
-    minPrice = @get('minPrice')
-    @get('model').filter (item) ->
-      item.get('currentPrice') >= minPrice
-  ).property('minPrice', 'content.@each.prices.@each.value')
-
 App.Book = DS.Model.extend
   isbn: attr 'string'
   title: attr 'string'
@@ -41,5 +31,26 @@ App.RESTAdapter.map 'App.Book',
     embedded: 'always'
   prices:
     embedded: 'always'
+
+App.BooksController = Ember.ArrayController.extend
+  minPrice: 42
+  newISBN: ''
+
+  filtered: (->
+    minPrice = @get('minPrice')
+    @get('model').filter (item) ->
+      item.get('currentPrice') >= minPrice
+  ).property('minPrice', 'content.@each.prices.@each.value')
+
+  addBook: (isbn) ->
+    newBook = App.Store.createRecord App.Book, isbn: isbn
+    @get('store').commit()
+    @newISBN.set('')
+
+App.BookController = Ember.ObjectController.extend
+  deleteBook: ->
+    @get('model').deleteRecord()
+    @get('store').commit()
+    alert('fuck yeah')
 
 module.export = App.Book

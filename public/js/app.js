@@ -95,17 +95,6 @@ App.BooksRoute = Ember.Route.extend({
   }
 });
 
-App.BooksController = Ember.ArrayController.extend({
-  minPrice: 42,
-  filtered: (function() {
-    var minPrice;
-    minPrice = this.get('minPrice');
-    return this.get('model').filter(function(item) {
-      return item.get('currentPrice') >= minPrice;
-    });
-  }).property('minPrice', 'content.@each.prices.@each.value')
-});
-
 App.Book = DS.Model.extend({
   isbn: attr('string'),
   title: attr('string'),
@@ -140,6 +129,34 @@ App.RESTAdapter.map('App.Book', {
   },
   prices: {
     embedded: 'always'
+  }
+});
+
+App.BooksController = Ember.ArrayController.extend({
+  minPrice: 42,
+  newISBN: '',
+  filtered: (function() {
+    var minPrice;
+    minPrice = this.get('minPrice');
+    return this.get('model').filter(function(item) {
+      return item.get('currentPrice') >= minPrice;
+    });
+  }).property('minPrice', 'content.@each.prices.@each.value'),
+  addBook: function(isbn) {
+    var newBook;
+    newBook = App.Store.createRecord(App.Book, {
+      isbn: isbn
+    });
+    this.get('store').commit();
+    return this.newISBN.set('');
+  }
+});
+
+App.BookController = Ember.ObjectController.extend({
+  deleteBook: function() {
+    this.get('model').deleteRecord();
+    this.get('store').commit();
+    return alert('fuck yeah');
   }
 });
 

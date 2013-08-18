@@ -57,6 +57,9 @@ module.exports = (port=3000) ->
 
   app.get '/api/books', BookController.books
   app.get '/api/books/:id', BookController.book
+  app.post '/api/books', UserController.ensureAuthenticated, UserController.addBook
+  app.delete '/api/books/:book_id', UserController.ensureAuthenticated, UserController.removeBook
+
   app.post '/api/refresh', RefreshController.postRefresh
 
   console.log "Starting web server on port #{port}...".green

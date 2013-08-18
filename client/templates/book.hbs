@@ -3,6 +3,12 @@
     <div class="col-md-8">
       <h1>{{title}}</h1>
       <h2>{{author}}</h2>
+
+      <p>
+        <button class="btn btn-danger"{{action 'deleteBook'}}>
+          Remove Book
+        </button>
+      </p>
     </div>
     <div class="col-md-4">
       {{#if amazon}}

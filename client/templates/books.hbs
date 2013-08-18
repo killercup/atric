@@ -1,5 +1,21 @@
 <div class="row">
   <div class="col-md-4 books">
+    <div class="panel">
+      <div class="panel-heading">
+        <h3 class="panel-title">Add a Book</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          {{view Ember.TextField valueBinding="newISBN"}}
+        </p>
+        <p>
+          <button class="btn btn-success" {{action addBook newISBN}}>
+            Add Book
+          </button>
+        </p>
+      </div>
+    </div>
+
     <ul class="list-group">
       <li class="list-group-item">
         <label>
