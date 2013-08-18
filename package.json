@@ -32,15 +32,21 @@
     "cli-table": "0.2.x",
     "optimist": "0.6.x",
     "express": "3.3.x",
+    "ejs": "0.8.x",
     "mongoose": "3.6.x",
     "connect-mongo": "0.3.x",
     "express-mongoose": "0.1.x",
     "passport": "0.1.x",
-    "passport-twitter": "0.1.x"
+    "passport-twitter": "1.0.x"
   },
   "devDependencies": {
     "grunt": "~0.4.x",
-    "grunt-contrib-watch": "~0.5.x",
-    "grunt-contrib-coffee": "~0.7.x"
+    "grunt-contrib-watch": "0.5.x",
+    "grunt-contrib-coffee": "0.7.x",
+    "grunt-contrib-clean": "0.5.x",
+    "grunt-contrib-concat": "0.3.x",
+    "grunt-contrib-uglify": "0.2.x",
+    "grunt-ember-templates": "0.4.x",
+    "grunt-commonjs": "~0.2.0-rc7"
   }
 }

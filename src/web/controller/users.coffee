@@ -3,13 +3,15 @@ TwitterStrategy = require('passport-twitter').Strategy
 
 log = require("#{__dirname}/../../log")
 
+CONFIG = require("#{__dirname}/../../../_config.yml")
+
 User = require("#{__dirname}/../model/user")
 Book = require("#{__dirname}/../model/book")
 
 passport.use new TwitterStrategy {
-    consumerKey: "SxEejPESBoFmLZJtVzk9wQ"
-    consumerSecret: "MRPY7Qv7vNI6VCvZcANdO4nFIpRPNDeFPYT25d3pA"
-    callbackURL: "http://127.0.0.1:3000/auth/twitter/callback"
+    consumerKey: CONFIG.twitter.consumerKey
+    consumerSecret: CONFIG.twitter.consumerSecret
+    callbackURL: "http://127.0.0.1:3000/api/auth/twitter/callback"
   }, (token, tokenSecret, profile, done) ->
     User.findOneAndUpdate { 'twitter.id': profile.id }, {
       name: profile.username
@@ -28,7 +30,7 @@ passport.deserializeUser (id, done) ->
   log.verbose "deserializeUser"
 
   User.findOne(_id: id).select('-twitter')
-  .populate('books')
+  # .populate('books')
   .exec (err, user) ->
     log.verbose "deserializeUser done", user
     done err, user
@@ -42,17 +44,17 @@ module.exports.TwitterAuth = passport.authenticate('twitter', failureRedirect: '
 
 module.exports.authenticateViaTwitterSuccess = (req, res) ->
   log.verbose "Successful authentication, redirect home."
-  return res.send msg: "Authentication successful" if req.accepts('json')
+  return res.send msg: "Authentication successful" if req.is('json')
   res.redirect '/'
 
 module.exports.ensureAuthenticated = (req, res, next) ->
   return next() if req.isAuthenticated()
-  return res.send 401, err: "Not signed in" if req.accepts('json')
+  return res.send 401, err: "Not signed in" if req.is('json')
   res.redirect '/'
 
 module.exports.logout = (req, res) ->
   req.logout()
-  return res.send msg: "Logged Out" if req.accepts('json')
+  return res.send msg: "Logged Out" if req.is('json')
   res.redirect '/'
 
 module.exports.me = (req, res) ->
