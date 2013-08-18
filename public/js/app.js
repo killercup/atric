@@ -95,6 +95,17 @@ App.BooksRoute = Ember.Route.extend({
   }
 });
 
+App.BooksController = Ember.ArrayController.extend({
+  minPrice: 42,
+  filtered: (function() {
+    var minPrice;
+    minPrice = this.get('minPrice');
+    return this.get('model').filter(function(item) {
+      return item.get('currentPrice') >= minPrice;
+    });
+  }).property('minPrice', 'content.@each.prices.@each.value')
+});
+
 App.Book = DS.Model.extend({
   isbn: attr('string'),
   title: attr('string'),
@@ -108,7 +119,7 @@ App.Book = DS.Model.extend({
   currentPrice: (function() {
     var _ref, _ref1, _ref2;
     return ((_ref = this.get('prices')) != null ? typeof _ref.objectAt === "function" ? (_ref1 = _ref.objectAt(((_ref2 = this.get('prices')) != null ? typeof _ref2.get === "function" ? _ref2.get('length') : void 0 : void 0) - 1)) != null ? typeof _ref1.get === "function" ? _ref1.get('value') : void 0 : void 0 : void 0 : void 0) || 0;
-  }).property('prices.@each')
+  }).property('prices.@each.value')
 });
 
 App.BookPrice = DS.Model.extend({

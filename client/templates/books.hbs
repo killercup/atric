@@ -1,11 +1,20 @@
 <div class="row">
   <div class="col-md-4 books">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <label>
+          Min. Value
+          {{view Ember.TextField valueBinding="minPrice"}}
+        </label>
+      </li>
+    </ul>
+
     <div class="list-group">
-    {{#each model}}
-      {{#linkTo 'book' id class=list-group-item}}
-        <span class="badge">{{money currentPrice}}</span>
-        <h4 class="list-group-item-heading">{{truncate title length=42}}</h4>
-        <p class="list-group-item-text">{{author}}</p>
+    {{#each book in filtered}}
+      {{#linkTo 'book' book.id class=list-group-item}}
+        <span class="badge">{{money book.currentPrice}}</span>
+        <h4 class="list-group-item-heading">{{truncate book.title length=42}}</h4>
+        <p class="list-group-item-text">{{book.author}}</p>
       {{/linkTo}}
     {{/each}}
     </div>

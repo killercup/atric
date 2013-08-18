@@ -5,6 +5,16 @@ App.BooksRoute = Ember.Route.extend
   model: ->
     App.Book.find()
 
+  # setupController: (controller, )
+
+App.BooksController = Ember.ArrayController.extend
+  minPrice: 42
+  filtered: (->
+    minPrice = @get('minPrice')
+    @get('model').filter (item) ->
+      item.get('currentPrice') >= minPrice
+  ).property('minPrice', 'content.@each.prices.@each.value')
+
 App.Book = DS.Model.extend
   isbn: attr 'string'
   title: attr 'string'
@@ -14,7 +24,7 @@ App.Book = DS.Model.extend
 
   currentPrice: (->
     @get('prices')?.objectAt?(@get('prices')?.get?('length')-1)?.get?('value') or 0
-  ).property('prices.@each')
+  ).property('prices.@each.value')
 
 App.BookPrice = DS.Model.extend
   value: attr 'number'
