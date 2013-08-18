@@ -56,6 +56,7 @@ module.exports = (grunt) ->
       precompile:
         files:
           'public/js/app.js': ['public/js/app.js']
+          'public/js/templates.js': ['public/js/templates.js']
 
     watch:
       options:
