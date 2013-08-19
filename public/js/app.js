@@ -144,11 +144,11 @@ App.BooksController = Ember.ArrayController.extend({
   }).property('minPrice', 'content.@each.prices.@each.value'),
   addBook: function(isbn) {
     var newBook;
-    newBook = App.Store.createRecord(App.Book, {
+    newBook = this.get('store').createRecord(App.Book, {
       isbn: isbn
     });
     this.get('store').commit();
-    return this.newISBN.set('');
+    return this.set('newISBN', '');
   }
 });
 

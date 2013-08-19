@@ -43,9 +43,10 @@ App.BooksController = Ember.ArrayController.extend
   ).property('minPrice', 'content.@each.prices.@each.value')
 
   addBook: (isbn) ->
-    newBook = App.Store.createRecord App.Book, isbn: isbn
+    newBook = @get('store').createRecord App.Book, isbn: isbn
+
     @get('store').commit()
-    @newISBN.set('')
+    @set('newISBN', '')
 
 App.BookController = Ember.ObjectController.extend
   deleteBook: ->

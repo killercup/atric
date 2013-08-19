@@ -63,7 +63,7 @@ module.exports.me = (req, res) ->
 module.exports.addBook = (req, res) ->
   return res.send 401, err: "Not signed in" unless req.user
 
-  isbn = req.param 'isbn'
+  isbn = req.param('isbn') || req.body?.book?.isbn
   return res.send 400, err: "Missing ISBN number" unless isbn?.length
 
   addedBook = {}
@@ -85,7 +85,7 @@ module.exports.addBook = (req, res) ->
     .exec()
   # .then null, (err) -> throw new Error "Error adding your book"
   .then (user) ->
-    res.send 201, book: addedBook, user: req.user
+    res.send 201, book: addedBook#, user: req.user
   .then null, (err) ->
     res.send 500, err: err
 
