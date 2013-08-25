@@ -51,21 +51,6 @@ function program1(depth0,data) {
 
 function program3(depth0,data) {
   
-  var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n            <tr>\n              <td>");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "date", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("</td>\n              <td>");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "value", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("</td>\n            </tr>\n          ");
-  return buffer;
-  }
-
-function program5(depth0,data) {
-  
   var buffer = '', hashContexts, hashTypes;
   data.buffer.push("\n        <a ");
   hashContexts = {'href': depth0};
@@ -92,15 +77,16 @@ function program5(depth0,data) {
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "author", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n    </h1>\n  </header>\n  <div class=\"row panel-body\">\n    <div class=\"col-md-8\">\n      <table>\n        <thead>\n          <tr>\n            <th>Date</th>\n            <th>Value</th>\n          </tr>\n        </thead>\n        <tbody>\n          ");
+  data.buffer.push("\n    </h1>\n  </header>\n  <div class=\"row panel-body\">\n    <div class=\"col-md-8\">\n      ");
+  hashContexts = {'contentBinding': depth0};
+  hashTypes = {'contentBinding': "STRING"};
+  data.buffer.push(escapeExpression(helpers.view.call(depth0, "App.PriceChartView", {hash:{
+    'contentBinding': ("prices")
+  },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n    </div>\n    <div class=\"col-md-4\">\n      ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers.each.call(depth0, "prices", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n        </tbody>\n      </table>\n    </div>\n    <div class=\"col-md-4\">\n      ");
-  hashTypes = {};
-  hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "amazon", {hash:{},inverse:self.noop,fn:self.program(5, program5, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  stack1 = helpers['if'].call(depth0, "amazon", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\n    </div>\n  </div>\n\n  <footer class=\"panel-footer clearfix\">\n    <button class=\"pull-right btn btn-danger\"");
   hashTypes = {};

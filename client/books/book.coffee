@@ -2,6 +2,8 @@ App = require '../app'
 
 Book = require './model'
 
+App.PriceChartView = require './price-chart'
+
 App.BookRoute = Ember.Route.extend
   serialize: (model) ->
     book_id: model._id

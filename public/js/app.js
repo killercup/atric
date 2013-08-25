@@ -89,6 +89,8 @@ App = require('../app');
 
 Book = require('./model');
 
+App.PriceChartView = require('./price-chart');
+
 App.BookRoute = Ember.Route.extend({
   serialize: function(model) {
     return {
@@ -110,6 +112,8 @@ App.BookController = Ember.ObjectController.extend({
     });
   }
 });
+
+module.exports = App.BookController;
 }});
 
 
@@ -157,7 +161,7 @@ App.BooksController = Ember.ArrayController.extend({
   }
 });
 
-module["export"] = App.BooksController;
+module.exports = App.BooksController;
 }});
 
 
@@ -218,6 +222,72 @@ module.exports = App.Book;
 }});
 
 
+window.require.define({"books/price-chart": function(exports, require, module) {
+var PriceChartView;
+
+PriceChartView = Ember.View.extend({
+  chart: {},
+  line: {},
+  area: {},
+  content: [],
+  updateChart: (function() {
+    this.render();
+    return chart;
+  }).observes('content.@each.value'),
+  didInsertElement: function() {
+    return this.render();
+  },
+  render: (function() {
+    var area, chart, content, elementId, h, line, margin, w, x, xAxis, y, yAxis;
+    content = this.get("content").toArray();
+    if (!(content.length > 0)) {
+      return;
+    }
+    elementId = this.get("elementId");
+    margin = {
+      top: 35,
+      right: 35,
+      bottom: 35,
+      left: 35
+    };
+    w = 500 - margin.right - margin.left;
+    h = 300 - margin.top - margin.top;
+    x = d3.scale.linear().range([0, w]).domain([1, content.length - 1]);
+    y = d3.scale.linear().range([h, 0]).domain([
+      0, d3.max(content.map(function(i) {
+        return i.get('value');
+      })) + 10
+    ]);
+    xAxis = d3.svg.axis().scale(x).ticks(10).tickSize(-h).tickSubdivide(true);
+    yAxis = d3.svg.axis().scale(y).ticks(4).tickSize(-w).orient("left");
+    line = d3.svg.line().interpolate("linear").x(function(d, i) {
+      return x(i);
+    }).y(function(d) {
+      return y(d.get("value"));
+    });
+    this.set("line", line);
+    area = d3.svg.area().interpolate("monotone").x(function(d) {
+      return x(d.get("date"));
+    }).y0(h).y1(function(d) {
+      return y(d.get("value"));
+    });
+    this.set("area", area);
+    $("#" + elementId).empty();
+    chart = d3.select("#" + elementId).append("svg:svg").attr("id", "chart").attr("width", w + margin.left + margin.right).attr("height", w + margin.top + margin.bottom).append("svg:g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    chart.append("svg:g").attr("class", "x axis").attr("transform", "translate(0," + h + ")").call(xAxis);
+    chart.append("svg:g").attr("class", "y axis").call(yAxis);
+    chart.append("svg:clipPath").attr("id", "clip").append("svg:rect").attr("width", w).attr("height", h);
+    chart.append("svg:path").attr("class", "area").attr("clip-path", "url(#clip)").attr("d", area(content));
+    chart.append("svg:path").attr("class", "line").attr("clip-path", "url(#clip)").attr("d", line(content));
+    this.set("chart", chart);
+    return chart;
+  })
+});
+
+module.exports = PriceChartView;
+}});
+
+
 window.require.define({"common/swag": function(exports, require, module) {
 Ember.Handlebars.registerBoundHelper('truncate', function(str, params) {
   var length, omission, options;
@@ -261,15 +331,13 @@ Ember.Handlebars.registerBoundHelper('money', function(value, params) {
 
 
 window.require.define({"index": function(exports, require, module) {
-var Books;
+require('./common/swag');
 
 window.App = require('./app');
 
-require('./common/swag');
-
 require('./store');
 
-Books = require('./books/index');
+require('./books/index');
 
 require('./routes');
 }});
