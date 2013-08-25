@@ -7,3 +7,4 @@ node_modules/
 _config.yml
 books.yml
 log*
+!log.coffee
