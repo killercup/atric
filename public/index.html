@@ -8,6 +8,10 @@
 
   <link rel="stylesheet" href="css/bootstrap.min.css" media="all">
   <style>
+    .ember-application .no-ember {
+      display: none;
+    }
+
     path.line {
         fill: none;
         stroke: red;
@@ -36,6 +40,21 @@
   </style>
 </head>
 <body>
+
+  <div class="no-ember">
+    <div class="jumbotron">
+      <h1>Loading&hellip;</h1>
+      <p>
+        Please stand by while awesomeness is being initialized.
+      </p>
+    </div>
+
+    <footer class="container">
+      <p class="text-center">
+        ATRIC is an <a href="https://github.com/killercup/atric">open source</a> project by <a href="http://pascalhertleif.de/">Pascal Hertleif</a>.
+      </p>
+    </footer>
+  </div>
 
   <% if (req.user) { %>
   <script>
