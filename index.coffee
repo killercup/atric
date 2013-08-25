@@ -10,6 +10,8 @@ optimist = require('optimist')
   .describe('s', 'Start web server. Optional: --web=PORT (default port is 3000)')
   .alias('i', 'import')
   .describe('i', 'Import ISBNs from books.yml into MongoDB')
+  .alias('r', 'refresh')
+  .describe('r', 'Refresh pricing data in MongoDB')
   .describe('verbose', 'Show a bunch more log statements')
 
 argv = optimist.argv
@@ -19,12 +21,13 @@ yaml = require('js-yaml')
 books = require("#{__dirname}/books.yml")
 
 retrieve = require("#{__dirname}/src/retrieve")
+log = require("#{__dirname}/src/log")
 
 do ->
   if argv.h or argv.help
     return optimist.showHelp()
 
-  console.log "Using books.yml with #{books.books.length} ISBNs".grey
+  log.verbose "Using books.yml with #{books.books.length} ISBNs".grey
 
   table = argv.t or argv.table
   if table
@@ -63,5 +66,25 @@ do ->
     importer.import(books.books).then (books) ->
       console.log "All done.".green
       process.exit(0)
+
+  refresh = argv.r or argv.refresh
+  if refresh
+    console.log "Running refresh".green
+    CONFIG = require("./_config.yml")
+
+    mongoose = require('mongoose')
+    RefreshController = require('./src/web/controller/refresh')
+
+    mongoose.connect CONFIG.mongo.uri, ->
+      log.verbose 'Connected to Mongo'.grey
+
+    RefreshController.doRefresh()
+    .then (data) ->
+      log.verbose data
+      console.log "#{data.length} Books updated".green
+      process.exit(0)
+    .then null, (err) ->
+      console.log "Error updating books:".red, err
+      process.exit(1)
 
   return

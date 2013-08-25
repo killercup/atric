@@ -1,0 +1,51 @@
+<div class="form-inline panel panel-default">
+  <div class="form-group pull-right">
+    <button class="btn btn-primary" {{action refreshBooks}}>
+      Refresh
+    </button>
+  </div>
+  <div class="form-group">
+    {{view Ember.TextField valueBinding="newISBN" class='form-control col-md-1' placeholder=ISBN}}
+  </div>
+  <button class="btn btn-success" {{action addBook newISBN}}>
+    Add Book
+  </button>
+</div>
+
+<div class="row">
+  <div class="col-md-4 books">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          Filter
+        </h3>
+      </div>
+      <div class="panel-body">
+        <p class="input-group">
+          <span class="input-group-addon">Min. Value</span>
+          {{view Ember.TextField valueBinding="minPrice" class='form-control'}}
+        </p>
+      </div>
+    </div>
+
+    <div class="list-group">
+    {{#each book in filtered}}
+      {{#linkTo 'book' book.id class=list-group-item}}
+        <span class="badge">
+          {{money book.currentPrice}}
+          <span {{bindAttr class=":glyphicon book.trend2glyph"}}></span>
+        </span>
+        <h4 class="list-group-item-heading">{{truncate book.title length=42}}</h4>
+        <p class="list-group-item-text">{{book.author}}</p>
+      {{/linkTo}}
+    {{else}}
+      <div class="list-group-item loading">
+        Loading&hellip;
+      </div>
+    {{/each}}
+    </div>
+  </div>
+  <div class="col-md-8">
+    {{outlet}}
+  </div>
+</div>

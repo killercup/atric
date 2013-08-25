@@ -2,32 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>TIC</title>
+  <title>ATRIC</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/1.3.1/lodash.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/reactive-coffee/0.0.3/reactive-coffee.js"></script>
-  <script src="http://benpickles.github.io/peity/jquery.peity.min.js"></script>
-  <script src="js/app.js"></script>
-
   <link rel="stylesheet" href="css/bootstrap.min.css" media="all">
+  <style>
+    path.line {
+        fill: none;
+        stroke: red;
+        stroke-width: 1.5px;
+        opacity: .5;
+    }
+
+    path.area {
+        fill: red;
+        opacity: .2;
+    }
+
+    .axis {
+        shape-rendering: crispEdges;
+        font-size: 8pt;
+    }
+
+    .axis path {
+        fill: none;
+        stroke: #000;
+    }
+
+    .axis line {
+        stroke: #eee;
+    }
+  </style>
 </head>
 <body>
 
-  <div class="container">
-    <header>
-      <h1>Amazon Trade In Price Checker</h1>
-    </header>
+  <% if (req.user) { %>
+  <script>
+    window.User = {
+      "_id": "<%= req.user._id %>",
+      "name": "<%= req.user.name %>"
+    };
+  </script>
+  <% } %>
 
-    <div id="alerts"></div>
+  <script src="vendor/jquery.js"></script>
+  <script src="vendor/handlebars.js"></script>
+  <script src="vendor/d3.v3.js"></script>
+  <script src="vendor/ember.js"></script>
+  <script src="vendor/ember-restless.js"></script>
+  <script src="js/templates.js"></script>
+  <script src="js/app.js"></script>
+  <script>require('index')</script>
 
-    <div id="actions"></div>
-
-    <div id="main">
-      <p class="well loading" id="loading-init">Loading&hellip;</p>
-    </div>
-  </div>
+  <script src="http://localhost:35729/livereload.js"></script>
 </body>
 </html>

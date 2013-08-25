@@ -1,0 +1,33 @@
+<article class="book panel panel-default">
+  <header class="panel-heading">
+    <h1>
+      {{title}}
+      {{#if author}}
+      <small>by {{author}}</small>
+      {{/if}}
+    </h1>
+  </header>
+  <div class="row panel-body">
+    <div class="col-md-8">
+      <p class="text-info">
+        <strong>Current value:</strong>
+        {{money currentPrice}}
+      </p>
+
+      {{view App.PriceChartView contentBinding="prices"}}
+    </div>
+    <div class="col-md-4">
+      {{#if amazon}}
+        <a {{bindAttr href=amazon.url}} class="thumbnail" title="View on Amazon">
+          <img {{bindAttr src="amazon.image"}} alt="cover"/>
+        </a>
+      {{/if}}
+    </div>
+  </div>
+
+  <footer class="panel-footer clearfix">
+    <button class="pull-right btn btn-danger"{{action 'deleteBook'}}>
+      Remove Book
+    </button>
+  </div>
+</article>
