@@ -51,19 +51,23 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = '', hashContexts, hashTypes;
-  data.buffer.push("\n        <a ");
+  data.buffer.push("\n      <a ");
   hashContexts = {'href': depth0};
   hashTypes = {'href': "ID"};
   data.buffer.push(escapeExpression(helpers.bindAttr.call(depth0, {hash:{
     'href': ("amazon.url")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" class=\"thumbnail\" title=\"View on Amazon\">\n          <img ");
+  data.buffer.push(" title=\"View on Amazon\">\n        <p>\n          <img ");
   hashContexts = {'src': depth0};
   hashTypes = {'src': "STRING"};
   data.buffer.push(escapeExpression(helpers.bindAttr.call(depth0, {hash:{
     'src': ("amazon.image")
   },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(" alt=\"cover\"/>\n        </a>\n      ");
+  data.buffer.push(" alt=\"Cover\" class=\"thumbnail\" />\n        </p>\n        <p>\n          View on Amazon\n        </p>\n      </a>\n      <p><small class=\"text-muted\">\n        ISBN: ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "isbn", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n      </small></p>\n    ");
   return buffer;
   }
 
@@ -87,7 +91,7 @@ function program3(depth0,data) {
   data.buffer.push(escapeExpression(helpers.view.call(depth0, "App.PriceChartView", {hash:{
     'contentBinding': ("prices")
   },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n    </div>\n    <div class=\"col-md-4\">\n      ");
+  data.buffer.push("\n    </div>\n    <div class=\"col-md-4\">\n    ");
   hashTypes = {};
   hashContexts = {};
   stack2 = helpers['if'].call(depth0, "amazon", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});

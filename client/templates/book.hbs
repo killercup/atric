@@ -17,11 +17,19 @@
       {{view App.PriceChartView contentBinding="prices"}}
     </div>
     <div class="col-md-4">
-      {{#if amazon}}
-        <a {{bindAttr href=amazon.url}} class="thumbnail" title="View on Amazon">
-          <img {{bindAttr src="amazon.image"}} alt="cover"/>
-        </a>
-      {{/if}}
+    {{#if amazon}}
+      <a {{bindAttr href=amazon.url}} title="View on Amazon">
+        <p>
+          <img {{bindAttr src="amazon.image"}} alt="Cover" class="thumbnail" />
+        </p>
+        <p>
+          View on Amazon
+        </p>
+      </a>
+      <p><small class="text-muted">
+        ISBN: {{isbn}}
+      </small></p>
+    {{/if}}
     </div>
   </div>
 
