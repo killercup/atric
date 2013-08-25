@@ -11,7 +11,7 @@ Book = require("#{__dirname}/../model/book")
 passport.use new TwitterStrategy {
     consumerKey: CONFIG.twitter.consumerKey
     consumerSecret: CONFIG.twitter.consumerSecret
-    callbackURL: "http://127.0.0.1:3000/api/auth/twitter/callback"
+    callbackURL: "#{CONFIG.baseURL}/api/auth/twitter/callback"
   }, (token, tokenSecret, profile, done) ->
     User.findOneAndUpdate { 'twitter.id': profile.id }, {
       name: profile.username

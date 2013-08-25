@@ -4,5 +4,9 @@ amazon:
   secret: TE9SRU1JUFNVTVNET0xPUg==
   associate: yomama-21
   endPoint: "ecs.amazonaws.de"
+twitter:
+  consumerKey: "LOREMIPSUMS"
+  consumerSecret: "LOREMIPSUMSDOLOR"
 mongo:
   uri: 'mongodb://localhost/atric'
+baseURL: 'http://127.0.0.1:3000'
