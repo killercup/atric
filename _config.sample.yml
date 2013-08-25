@@ -10,3 +10,4 @@ twitter:
 mongo:
   uri: 'mongodb://localhost/atric'
 baseURL: 'http://127.0.0.1:3000'
+environment: 'development'
