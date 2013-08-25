@@ -93,7 +93,7 @@ PriceChartView = Ember.View.extend
       .append("svg:svg")
         .attr("id", "chart")
         .attr("width", w + margin.left + margin.right)
-        .attr("height", w + margin.top + margin.bottom)
+        .attr("height", h + margin.top + margin.bottom)
       .append("svg:g")
         .attr("transform", "translate(#{margin.left},#{margin.top})")
 

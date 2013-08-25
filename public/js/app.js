@@ -297,7 +297,7 @@ PriceChartView = Ember.View.extend({
     });
     this.set("area", area);
     $("#" + elementId).empty();
-    chart = d3.select("#" + elementId).append("svg:svg").attr("id", "chart").attr("width", w + margin.left + margin.right).attr("height", w + margin.top + margin.bottom).append("svg:g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    chart = d3.select("#" + elementId).append("svg:svg").attr("id", "chart").attr("width", w + margin.left + margin.right).attr("height", h + margin.top + margin.bottom).append("svg:g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     chart.append("svg:g").attr("class", "x axis").attr("transform", "translate(0," + h + ")").call(xAxis);
     chart.append("svg:g").attr("class", "y axis").call(yAxis);
     chart.append("svg:clipPath").attr("id", "clip").append("svg:rect").attr("width", w).attr("height", h);

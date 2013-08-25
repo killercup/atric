@@ -36,7 +36,7 @@ function program3(depth0,data) {
 Ember.TEMPLATES["book"] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
+  var buffer = '', stack1, stack2, hashTypes, hashContexts, options, escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
 
 function program1(depth0,data) {
   
@@ -77,7 +77,12 @@ function program3(depth0,data) {
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "author", {hash:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n    </h1>\n  </header>\n  <div class=\"row panel-body\">\n    <div class=\"col-md-8\">\n      ");
+  data.buffer.push("\n    </h1>\n  </header>\n  <div class=\"row panel-body\">\n    <div class=\"col-md-8\">\n      <p class=\"text-info\">\n        <strong>Current value:</strong>\n        ");
+  hashTypes = {};
+  hashContexts = {};
+  options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.money || depth0.money),stack1 ? stack1.call(depth0, "currentPrice", options) : helperMissing.call(depth0, "money", "currentPrice", options))));
+  data.buffer.push("\n      </p>\n\n      ");
   hashContexts = {'contentBinding': depth0};
   hashTypes = {'contentBinding': "STRING"};
   data.buffer.push(escapeExpression(helpers.view.call(depth0, "App.PriceChartView", {hash:{
@@ -86,8 +91,8 @@ function program3(depth0,data) {
   data.buffer.push("\n    </div>\n    <div class=\"col-md-4\">\n      ");
   hashTypes = {};
   hashContexts = {};
-  stack1 = helpers['if'].call(depth0, "amazon", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  stack2 = helpers['if'].call(depth0, "amazon", {hash:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
+  if(stack2 || stack2 === 0) { data.buffer.push(stack2); }
   data.buffer.push("\n    </div>\n  </div>\n\n  <footer class=\"panel-footer clearfix\">\n    <button class=\"pull-right btn btn-danger\"");
   hashTypes = {};
   hashContexts = {};
@@ -167,13 +172,14 @@ function program4(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "addBook", "newISBN", {hash:{},contexts:[depth0,depth0],types:["ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(">\n    Add Book\n  </button>\n</div>\n\n<div class=\"row\">\n  <div class=\"col-md-4 books\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-heading\">\n        <h3 class=\"panel-title\">\n          Filter\n        </h3>\n      </div>\n      <div class=\"panel-body\">\n        <p>\n          <label>\n            Min. Value\n            ");
-  hashContexts = {'valueBinding': depth0};
-  hashTypes = {'valueBinding': "STRING"};
+  data.buffer.push(">\n    Add Book\n  </button>\n</div>\n\n<div class=\"row\">\n  <div class=\"col-md-4 books\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-heading\">\n        <h3 class=\"panel-title\">\n          Filter\n        </h3>\n      </div>\n      <div class=\"panel-body\">\n        <p class=\"input-group\">\n          <span class=\"input-group-addon\">Min. Value</span>\n          ");
+  hashContexts = {'valueBinding': depth0,'class': depth0};
+  hashTypes = {'valueBinding': "STRING",'class': "STRING"};
   data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.TextField", {hash:{
-    'valueBinding': ("minPrice")
+    'valueBinding': ("minPrice"),
+    'class': ("form-control")
   },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n          </label>\n        </p>\n      </div>\n    </div>\n\n    <div class=\"list-group\">\n    ");
+  data.buffer.push("\n        </p>\n      </div>\n    </div>\n\n    <div class=\"list-group\">\n    ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers.each.call(depth0, "book", "in", "filtered", {hash:{},inverse:self.program(4, program4, data),fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});

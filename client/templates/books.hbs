@@ -21,11 +21,9 @@
         </h3>
       </div>
       <div class="panel-body">
-        <p>
-          <label>
-            Min. Value
-            {{view Ember.TextField valueBinding="minPrice"}}
-          </label>
+        <p class="input-group">
+          <span class="input-group-addon">Min. Value</span>
+          {{view Ember.TextField valueBinding="minPrice" class='form-control'}}
         </p>
       </div>
     </div>
