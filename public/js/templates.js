@@ -119,12 +119,18 @@ function program1(depth0,data) {
 function program2(depth0,data) {
   
   var buffer = '', stack1, hashTypes, hashContexts, options;
-  data.buffer.push("\n        <span class=\"badge\">");
+  data.buffer.push("\n        <span class=\"badge\">\n          ");
   hashTypes = {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers.money || depth0.money),stack1 ? stack1.call(depth0, "book.currentPrice", options) : helperMissing.call(depth0, "money", "book.currentPrice", options))));
-  data.buffer.push("</span>\n        <h4 class=\"list-group-item-heading\">");
+  data.buffer.push("\n          <span ");
+  hashContexts = {'class': depth0};
+  hashTypes = {'class': "STRING"};
+  data.buffer.push(escapeExpression(helpers.bindAttr.call(depth0, {hash:{
+    'class': (":glyphicon book.trend2glyph")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("></span>\n        </span>\n        <h4 class=\"list-group-item-heading\">");
   hashContexts = {'length': depth0};
   hashTypes = {'length': "INTEGER"};
   options = {hash:{

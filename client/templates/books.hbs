@@ -33,7 +33,10 @@
     <div class="list-group">
     {{#each book in filtered}}
       {{#linkTo 'book' book.id class=list-group-item}}
-        <span class="badge">{{money book.currentPrice}}</span>
+        <span class="badge">
+          {{money book.currentPrice}}
+          <span {{bindAttr class=":glyphicon book.trend2glyph"}}></span>
+        </span>
         <h4 class="list-group-item-heading">{{truncate book.title length=42}}</h4>
         <p class="list-group-item-text">{{book.author}}</p>
       {{/linkTo}}

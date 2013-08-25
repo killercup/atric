@@ -193,7 +193,31 @@ App.Book = RL.Model.extend({
   currentPrice: (function() {
     var _ref, _ref1, _ref2;
     return ((_ref = this.get('prices')) != null ? typeof _ref.objectAt === "function" ? (_ref1 = _ref.objectAt(((_ref2 = this.get('prices')) != null ? typeof _ref2.get === "function" ? _ref2.get('length') : void 0 : void 0) - 1)) != null ? typeof _ref1.get === "function" ? _ref1.get('value') : void 0 : void 0 : void 0 : void 0) || 0;
-  }).property('prices.@each.value')
+  }).property('prices.@each.value'),
+  trend: (function() {
+    var earlier, now, _ref, _ref1, _ref2;
+    now = this.get('currentPrice');
+    earlier = ((_ref = this.get('prices')) != null ? typeof _ref.objectAt === "function" ? (_ref1 = _ref.objectAt(((_ref2 = this.get('prices')) != null ? typeof _ref2.get === "function" ? _ref2.get('length') : void 0 : void 0) - 2)) != null ? typeof _ref1.get === "function" ? _ref1.get('value') : void 0 : void 0 : void 0 : void 0) || 0;
+    if (now > earlier) {
+      return 'up';
+    } else if (now = earlier) {
+      return 'unchanged';
+    } else {
+      return 'down';
+    }
+  }).property('currentPrice'),
+  trend2glyph: (function() {
+    var trend;
+    trend = this.get('trend');
+    if (trend === 'up') {
+      "glyphicon-circle-arrow-up";
+    }
+    if (trend === 'down') {
+      return "glyphicon-circle-arrow-down";
+    } else {
+      return "glyphicon-circle-arrow-right";
+    }
+  }).property('trend')
 });
 
 App.BookPrice = RL.Model.extend({
