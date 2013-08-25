@@ -44,7 +44,11 @@ module.exports = (port=3000) ->
     app.use app.router
     app.use express.static(__dirname + '/../public')
 
-  app.get '/', (req, res) -> res.render '../public/index.html', req: req, config: CONFIG
+  app.get '/', (req, res) ->
+    res.render '../public/index.html',
+      req: req
+      config: CONFIG
+      minify: if CONFIG.environment isnt 'development' then '.min' else ''
 
   app.get '/api/auth/twitter', UserController.authenticateViaTwitter
   app.get '/api/auth/twitter/callback', UserController.TwitterAuth, UserController.authenticateViaTwitterSuccess
