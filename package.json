@@ -47,6 +47,7 @@
     "grunt-contrib-concat": "0.3.x",
     "grunt-contrib-uglify": "0.2.x",
     "grunt-ember-templates": "0.4.x",
-    "grunt-commonjs": "~0.2.0-rc7"
+    "grunt-commonjs": "~0.2.0-rc7",
+    "grunt-contrib-copy": "~0.4.1"
   }
 }
