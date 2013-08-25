@@ -167,6 +167,11 @@ App.BooksController = Ember.ArrayController.extend({
         return _this.transitionToRoute('book', newBook.get('id'));
       }
     });
+  },
+  refreshBooks: function() {
+    return $.post('/api/refresh').then(function() {
+      return window.location.reload();
+    });
   }
 });
 

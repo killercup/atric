@@ -61,6 +61,11 @@ App.BooksController = Ember.ArrayController.extend
       console.log window.newBook = newBook
       @transitionToRoute 'book', newBook.get('id') if newBook.get('id')
 
+  refreshBooks: ->
+    $.post('/api/refresh')
+    .then ->
+      window.location.reload()
+
 App.BookController = Ember.ObjectController.extend
   deleteBook: ->
     title = @get('model').get('title')
