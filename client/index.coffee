@@ -7,6 +7,6 @@ require('./common/swag')
 
 require('./store')
 
-Books = require('./books/books')
+Books = require('./books/index')
 
 require('./routes')

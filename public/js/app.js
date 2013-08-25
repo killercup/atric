@@ -82,12 +82,96 @@ module.exports = App;
 }});
 
 
-window.require.define({"books/books": function(exports, require, module) {
-var App, Store, attr;
+window.require.define({"books/book": function(exports, require, module) {
+var App, Book;
 
 App = require('../app');
 
-Store = require('../store');
+Book = require('./model');
+
+App.BookRoute = Ember.Route.extend({
+  serialize: function(model) {
+    return {
+      book_id: model._id
+    };
+  }
+});
+
+App.BookController = Ember.ObjectController.extend({
+  deleteBook: function() {
+    var title,
+      _this = this;
+    title = this.get('model').get('title');
+    return this.get('model').deleteRecord().then(function() {
+      alert("" + title + " deleted.");
+      return _this.transitionToRoute('books');
+    }).then(null, function() {
+      return alert("Couldn't delete " + title);
+    });
+  }
+});
+}});
+
+
+window.require.define({"books/books": function(exports, require, module) {
+var App, Book;
+
+App = require('../app');
+
+Book = require('./model');
+
+App.BooksRoute = Ember.Route.extend({
+  model: function() {
+    return App.Book.find();
+  }
+});
+
+App.BooksController = Ember.ArrayController.extend({
+  minPrice: 42,
+  newISBN: '',
+  filtered: (function() {
+    var minPrice;
+    minPrice = this.get('minPrice');
+    return this.get('model').filter(function(item) {
+      return item.get('currentPrice') >= minPrice;
+    });
+  }).property('minPrice', 'content.@each.prices.@each.value'),
+  addBook: function(isbn) {
+    var newBook,
+      _this = this;
+    newBook = App.Book.create({
+      isbn: isbn
+    });
+    return newBook.saveRecord().then(function() {
+      _this.set('newISBN', '');
+      console.log(window.newBook = newBook);
+      if (newBook.get('id')) {
+        return _this.transitionToRoute('book', newBook.get('id'));
+      }
+    });
+  },
+  refreshBooks: function() {
+    return $.post('/api/refresh').then(function() {
+      return window.location.reload();
+    });
+  }
+});
+
+module["export"] = App.BooksController;
+}});
+
+
+window.require.define({"books/index": function(exports, require, module) {
+require('./books');
+
+require('./book');
+}});
+
+
+window.require.define({"books/model": function(exports, require, module) {
+var App, attr;
+
+App = require('../app');
 
 attr = RL.attr;
 
@@ -130,66 +214,7 @@ App.RESTAdapter.map('App.Book', {
   }
 });
 
-App.BooksRoute = Ember.Route.extend({
-  model: function() {
-    return App.Book.find();
-  }
-});
-
-App.BookRoute = Ember.Route.extend({
-  serialize: function(model) {
-    return {
-      book_id: model._id
-    };
-  }
-});
-
-App.BooksController = Ember.ArrayController.extend({
-  minPrice: 42,
-  newISBN: '',
-  filtered: (function() {
-    var minPrice;
-    minPrice = this.get('minPrice');
-    return this.get('model').filter(function(item) {
-      return item.get('currentPrice') >= minPrice;
-    });
-  }).property('minPrice', 'content.@each.prices.@each.value'),
-  addBook: function(isbn) {
-    var newBook,
-      _this = this;
-    newBook = App.Book.create({
-      isbn: isbn
-    });
-    return newBook.saveRecord().then(function() {
-      _this.set('newISBN', '');
-      console.log(window.newBook = newBook);
-      if (newBook.get('id')) {
-        return _this.transitionToRoute('book', newBook.get('id'));
-      }
-    });
-  },
-  refreshBooks: function() {
-    return $.post('/api/refresh').then(function() {
-      return window.location.reload();
-    });
-  }
-});
-
-App.BookController = Ember.ObjectController.extend({
-  deleteBook: function() {
-    var title,
-      _this = this;
-    title = this.get('model').get('title');
-    return this.get('model').deleteRecord().then(function() {
-      alert("" + title + " deleted.");
-      return _this.transitionToRoute('books');
-    }).then(null, function() {
-      return alert("Couldn't delete " + title);
-    });
-  }
-});
-
-module["export"] = App.Book;
+module.exports = App.Book;
 }});
 
 
@@ -244,7 +269,7 @@ require('./common/swag');
 
 require('./store');
 
-Books = require('./books/books');
+Books = require('./books/index');
 
 require('./routes');
 }});
