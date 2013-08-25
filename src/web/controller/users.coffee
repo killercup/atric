@@ -90,7 +90,7 @@ module.exports.addBook = (req, res) ->
     res.send 500, err: err
 
 module.exports.removeBook = (req, res) ->
-  book_id = req.param 'book_id'
+  book_id = req.param('book_id') || req.body?.book?.id
   return res.send 400, err: "Missing Book ID" unless book_id?.length
 
   User.findOneAndUpdate {_id: req.user.id},

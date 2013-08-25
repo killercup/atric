@@ -1,13 +1,12 @@
-serializer = DS.RESTSerializer.extend
-  primaryKey: (type) -> '_id'
+# serializer = DS.RESTSerializer.extend
+#   primaryKey: (type) -> '_id'
 
-App.RESTAdapter = DS.RESTAdapter.extend
+App.RESTAdapter = RL.RESTAdapter.create
   namespace: 'api'
-  serializer: serializer
-  serializeId: (id) -> id.toString()
+  # serializer: serializer
+  # serializeId: (id) -> id.toString()
 
-App.Store = DS.Store.extend
-  adapter: App.RESTAdapter,
-  revision: 13
+App.Client = RL.Client.create
+  adapter: App.RESTAdapter
 
-module.exports = App.Store
+module.exports = App.Client

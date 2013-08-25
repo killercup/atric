@@ -83,26 +83,23 @@ module.exports = App;
 
 
 window.require.define({"books/books": function(exports, require, module) {
-var App, attr;
+var App, Store, attr;
 
 App = require('../app');
 
-attr = DS.attr;
+Store = require('../store');
 
-App.BooksRoute = Ember.Route.extend({
-  model: function() {
-    return App.Book.find();
-  }
-});
+attr = RL.attr;
 
-App.Book = DS.Model.extend({
+App.Book = RL.Model.extend({
+  id: attr('string'),
   isbn: attr('string'),
   title: attr('string'),
   author: attr('string'),
-  prices: DS.hasMany('App.BookPrice', {
+  prices: RL.hasMany('App.BookPrice', {
     embedded: 'load'
   }),
-  amazon: DS.belongsTo('App.BookAmazon', {
+  amazon: RL.belongsTo('App.BookAmazon', {
     embedded: 'load'
   }),
   currentPrice: (function() {
@@ -111,24 +108,39 @@ App.Book = DS.Model.extend({
   }).property('prices.@each.value')
 });
 
-App.BookPrice = DS.Model.extend({
+App.BookPrice = RL.Model.extend({
   value: attr('number'),
   date: attr('date'),
-  book: DS.belongsTo('App.Book')
+  book: RL.belongsTo('App.Book')
 });
 
-App.BookAmazon = DS.Model.extend({
+App.BookAmazon = RL.Model.extend({
   url: attr('string'),
   image: attr('string'),
-  book: DS.belongsTo('App.Book')
+  book: RL.belongsTo('App.Book')
 });
 
 App.RESTAdapter.map('App.Book', {
+  primaryKey: '_id',
   amazon: {
     embedded: 'always'
   },
   prices: {
     embedded: 'always'
+  }
+});
+
+App.BooksRoute = Ember.Route.extend({
+  model: function() {
+    return App.Book.find();
+  }
+});
+
+App.BookRoute = Ember.Route.extend({
+  serialize: function(model) {
+    return {
+      book_id: model._id
+    };
   }
 });
 
@@ -143,20 +155,32 @@ App.BooksController = Ember.ArrayController.extend({
     });
   }).property('minPrice', 'content.@each.prices.@each.value'),
   addBook: function(isbn) {
-    var newBook;
-    newBook = this.get('store').createRecord(App.Book, {
+    var newBook,
+      _this = this;
+    newBook = App.Book.create({
       isbn: isbn
     });
-    this.get('store').commit();
-    return this.set('newISBN', '');
+    return newBook.saveRecord().then(function() {
+      _this.set('newISBN', '');
+      console.log(window.newBook = newBook);
+      if (newBook.get('id')) {
+        return _this.transitionToRoute('book', newBook.get('id'));
+      }
+    });
   }
 });
 
 App.BookController = Ember.ObjectController.extend({
   deleteBook: function() {
-    this.get('model').deleteRecord();
-    this.get('store').commit();
-    return alert('fuck yeah');
+    var title,
+      _this = this;
+    title = this.get('model').get('title');
+    return this.get('model').deleteRecord().then(function() {
+      alert("" + title + " deleted.");
+      return _this.transitionToRoute('books');
+    }).then(null, function() {
+      return alert("Couldn't delete " + title);
+    });
   }
 });
 
@@ -246,27 +270,14 @@ App.IndexRoute = Ember.Route.extend({
 
 
 window.require.define({"store": function(exports, require, module) {
-var serializer;
-
-serializer = DS.RESTSerializer.extend({
-  primaryKey: function(type) {
-    return '_id';
-  }
+App.RESTAdapter = RL.RESTAdapter.create({
+  namespace: 'api'
 });
 
-App.RESTAdapter = DS.RESTAdapter.extend({
-  namespace: 'api',
-  serializer: serializer,
-  serializeId: function(id) {
-    return id.toString();
-  }
+App.Client = RL.Client.create({
+  adapter: App.RESTAdapter
 });
 
-App.Store = DS.Store.extend({
-  adapter: App.RESTAdapter,
-  revision: 13
-});
-
-module.exports = App.Store;
+module.exports = App.Client;
 }});
 
