@@ -12,7 +12,7 @@
     </div>
     <div class="col-md-4">
       {{#if amazon}}
-        <a href="{{amazon.url}}" class="thumbnail" title="View on Amazon">
+        <a {{bindAttr href=amazon.url}} class="thumbnail" title="View on Amazon">
           <img {{bindAttr src="amazon.image"}} alt="cover"/>
         </a>
       {{/if}}
