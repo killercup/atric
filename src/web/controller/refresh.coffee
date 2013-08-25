@@ -3,30 +3,15 @@ Q = require('q')
 log = require("#{__dirname}/../../log")
 Book = require("#{__dirname}/../model/book")
 
-getBooks = ->
-  deferred = Q.defer()
-
-  # doesn't use Q, so...
-  Book.find().select('isbn').exec (err, data) ->
-    return deferred.reject(err) if err?
-    deferred.resolve(data)
-
-  return deferred.promise
-
 module.exports = {}
-module.exports.postRefresh = (req, res) ->
-  getBooks()
+
+module.exports.doRefresh = doRefresh = ->
+  Book.find().select('isbn').exec()
   .then (books) ->
-    deferred = Q.defer()
+    Q.allSettled books.map (book) -> Book.fetchFromAmazon.call(Book, book)
 
-    Q.allSettled(books.map(Book.fetchFromAmazon))
-    .then (data) ->
-      deferred.resolve books
-    .fail (err) ->
-      deferred.reject err
-
-    return deferred.promise
-
+module.exports.postRefresh = (req, res) ->
+  doRefresh()
   .then (data) ->
     log.verbose "Books updated".green
     res.send data

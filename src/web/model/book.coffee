@@ -1,6 +1,8 @@
 Q = require('q')
 mongoose = require('mongoose')
 
+log = require("#{__dirname}/../../log")
+
 retrieve = require("#{__dirname}/../../retrieve")
 
 Schema = mongoose.Schema
@@ -16,19 +18,30 @@ BookSchema = new Schema
   title:
     type: String
     trim: true
+  author:
+    type: String
+    trim: true
   prices: [{
     value: Number
     date: Date
   }]
+  amazon:
+    url: String
+    image: String
 
-BookSchema.statics.getUserByIsbn = (isbn) ->
+BookSchema.statics.findByIsbn = (isbn) ->
   @findOne(isbn: isbn).exec()
 
 BookSchema.statics.fetchFromAmazon = (book) ->
   retrieve.fetchFromAmazon(book.isbn)
-  .then ({title, value}) =>
-    @update {isbn: book.isbn},
+  .then ({title, value, author, url, image}) =>
+    log.verbose "received #{book.isbn}, now updating as #{title}"
+    @findOneAndUpdate {isbn: book.isbn},
       title: title
+      author: author or ''
+      amazon:
+        url: url
+        image: image
       $push:
         prices:
           value: value
