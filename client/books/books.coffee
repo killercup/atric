@@ -29,4 +29,4 @@ App.BooksController = Ember.ArrayController.extend
     .then ->
       window.location.reload()
 
-module.export = App.BooksController
+module.exports = App.BooksController

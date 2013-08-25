@@ -1,12 +1,14 @@
 ## This file is your main application file
-## You will require all parts of your application here
 
-window.App = require('./app')
-
+# Common modules
 require('./common/swag')
 
+# Initilize App
+window.App = require('./app')
 require('./store')
 
-Books = require('./books/index')
+# Initialize App Modules
+require('./books/index')
 
+# Initialize Routes
 require('./routes')

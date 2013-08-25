@@ -15,3 +15,5 @@ App.BookController = Ember.ObjectController.extend
       @transitionToRoute 'books'
     .then null, ->
       alert "Couldn't delete #{title}"
+
+module.exports = App.BookController
