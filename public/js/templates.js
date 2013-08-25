@@ -1,7 +1,7 @@
 Ember.TEMPLATES["application"] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
+  var stack1, hashTypes, hashContexts, escapeExpression=this.escapeExpression, self=this;
 
 function program1(depth0,data) {
   
@@ -10,7 +10,11 @@ function program1(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "User.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(".\n      </li>\n      <li>\n        <a href=\"/api/logout\">Logout</a>\n      </li>\n    </ul>\n  </div>\n</nav>\n");
+  data.buffer.push(".\n      </li>\n      <li>\n        <a href=\"/api/logout\">Logout</a>\n      </li>\n    </ul>\n  </div>\n</nav>\n\n<div class=\"container\">\n  ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n</div>\n");
   return buffer;
   }
 
@@ -24,12 +28,7 @@ function program3(depth0,data) {
   hashContexts = {};
   stack1 = helpers['if'].call(depth0, "User", {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n\n<div class=\"container\">\n  ");
-  hashTypes = {};
-  hashContexts = {};
-  data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n</div>");
-  return buffer;
+  else { data.buffer.push(''); }
   
 });
 
