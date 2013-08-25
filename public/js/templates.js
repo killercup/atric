@@ -6,7 +6,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n<nav class=\"navbar\" role=\"navigation\">\n  <div class=\"container\">\n    <a class=\"navbar-brand\" href=\"#\">\n      <abbr title=\"Amazon Trade In Price Checker\">ATRIC</abbr>\n    </a>\n\n    <ul class=\"nav navbar-nav navbar-right\">\n      <li class=\"navbar-text\">\n        Hi, ");
+  data.buffer.push("\n<nav class=\"navbar navbar-default\" role=\"navigation\">\n  <div class=\"container\">\n    <a class=\"navbar-brand\" href=\"#\">\n      <abbr title=\"Amazon Trade In Price Checker\">ATRIC</abbr>\n    </a>\n\n    <ul class=\"nav navbar-nav navbar-right\">\n      <li class=\"navbar-text\">\n        Hi, ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "User.name", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
@@ -72,7 +72,7 @@ function program3(depth0,data) {
   return buffer;
   }
 
-  data.buffer.push("<article class=\"book\">\n  <div class=\"row\">\n    <div class=\"col-md-8\">\n      <h1>");
+  data.buffer.push("<article class=\"book panel panel-default\">\n  <div class=\"row\">\n    <div class=\"col-md-8\">\n      <h1>");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "title", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
@@ -102,7 +102,7 @@ function program3(depth0,data) {
 Ember.TEMPLATES["books"] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, hashContexts, hashTypes, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, self=this;
+  var buffer = '', stack1, hashTypes, hashContexts, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, self=this;
 
 function program1(depth0,data) {
   
@@ -147,23 +147,29 @@ function program4(depth0,data) {
   data.buffer.push("\n      <div class=\"list-group-item loading\">\n        Loading&hellip;\n      </div>\n    ");
   }
 
-  data.buffer.push("<div class=\"row\">\n  <div class=\"col-md-4 books\">\n    <div class=\"panel\">\n      <div class=\"panel-heading\">\n        <h3 class=\"panel-title\">Add a Book</h3>\n      </div>\n      <div class=\"panel-body\">\n        <p>\n          ");
-  hashContexts = {'valueBinding': depth0};
-  hashTypes = {'valueBinding': "STRING"};
+  data.buffer.push("<div class=\"form-inline panel panel-default\">\n  <div class=\"form-group pull-right\">\n    <button class=\"btn btn-primary\" ");
+  hashTypes = {};
+  hashContexts = {};
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "refreshBooks", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(">\n      Refresh\n    </button>\n  </div>\n  <div class=\"form-group\">\n    ");
+  hashContexts = {'valueBinding': depth0,'class': depth0,'placeholder': depth0};
+  hashTypes = {'valueBinding': "STRING",'class': "STRING",'placeholder': "ID"};
   data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.TextField", {hash:{
-    'valueBinding': ("newISBN")
+    'valueBinding': ("newISBN"),
+    'class': ("form-control col-md-1"),
+    'placeholder': ("ISBN")
   },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n        </p>\n        <p>\n          <button class=\"btn btn-success\" ");
+  data.buffer.push("\n  </div>\n  <button class=\"btn btn-success\" ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "addBook", "newISBN", {hash:{},contexts:[depth0,depth0],types:["ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(">\n            Add Book\n          </button>\n        </p>\n      </div>\n    </div>\n\n    <ul class=\"list-group\">\n      <li class=\"list-group-item\">\n        <label>\n          Min. Value\n          ");
+  data.buffer.push(">\n    Add Book\n  </button>\n</div>\n\n<div class=\"row\">\n  <div class=\"col-md-4 books\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-heading\">\n        <h3 class=\"panel-title\">\n          Filter\n        </h3>\n      </div>\n      <div class=\"panel-body\">\n        <p>\n          <label>\n            Min. Value\n            ");
   hashContexts = {'valueBinding': depth0};
   hashTypes = {'valueBinding': "STRING"};
   data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.TextField", {hash:{
     'valueBinding': ("minPrice")
   },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n        </label>\n      </li>\n    </ul>\n\n    <div class=\"list-group\">\n    ");
+  data.buffer.push("\n          </label>\n        </p>\n      </div>\n    </div>\n\n    <div class=\"list-group\">\n    ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers.each.call(depth0, "book", "in", "filtered", {hash:{},inverse:self.program(4, program4, data),fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
