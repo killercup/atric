@@ -20,9 +20,7 @@ App.BooksController = Ember.ArrayController.extend
     newBook = App.Book.createRecord isbn: isbn
     newBook.one 'didCreate', =>
       @set('newISBN', '')
-      console.log window.newBook = newBook
       @transitionToRoute 'book', newBook
-      console.log 'no id for', newBook unless newBook.get('id')
 
     @get('store').commit()
 

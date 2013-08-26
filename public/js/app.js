@@ -140,11 +140,7 @@ App.BooksController = Ember.ArrayController.extend({
     });
     newBook.one('didCreate', function() {
       _this.set('newISBN', '');
-      console.log(window.newBook = newBook);
-      _this.transitionToRoute('book', newBook);
-      if (!newBook.get('id')) {
-        return console.log('no id for', newBook);
-      }
+      return _this.transitionToRoute('book', newBook);
     });
     return this.get('store').commit();
   },
