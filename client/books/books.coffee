@@ -14,7 +14,7 @@ App.BooksController = Ember.ArrayController.extend
     minPrice = @get('minPrice')
     @get('model').filter (item) ->
       item.get('currentPrice') >= minPrice
-  ).property('minPrice', 'content.@each.prices.@each.value')
+  ).property('minPrice', 'model.@each')
 
   addBook: (isbn) ->
     newBook = App.Book.create isbn: isbn

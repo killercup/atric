@@ -4,9 +4,9 @@ Book = require './model'
 
 App.PriceChartView = require './price-chart'
 
-App.BookRoute = Ember.Route.extend
-  serialize: (model) ->
-    book_id: model._id
+# App.BookRoute = Ember.Route.extend
+#   serialize: (model) ->
+#     book_id: model._id
 
 App.BookController = Ember.ObjectController.extend
   deleteBook: ->

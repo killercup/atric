@@ -91,14 +91,6 @@ Book = require('./model');
 
 App.PriceChartView = require('./price-chart');
 
-App.BookRoute = Ember.Route.extend({
-  serialize: function(model) {
-    return {
-      book_id: model._id
-    };
-  }
-});
-
 App.BookController = Ember.ObjectController.extend({
   deleteBook: function() {
     var title,
@@ -139,7 +131,7 @@ App.BooksController = Ember.ArrayController.extend({
     return this.get('model').filter(function(item) {
       return item.get('currentPrice') >= minPrice;
     });
-  }).property('minPrice', 'content.@each.prices.@each.value'),
+  }).property('minPrice', 'model.@each'),
   addBook: function(isbn) {
     var newBook,
       _this = this;
