@@ -11,11 +11,12 @@ App.PriceChartView = require './price-chart'
 App.BookController = Ember.ObjectController.extend
   deleteBook: ->
     title = @get('model').get('title')
-    @get('model').deleteRecord()
-    .then =>
+
+    @get('model').one 'didDelete', =>
       alert "#{title} deleted."
       @transitionToRoute 'books'
-    .then null, ->
-      alert "Couldn't delete #{title}"
+
+    @get('model').deleteRecord()
+    @get('store').commit()
 
 module.exports = App.BookController

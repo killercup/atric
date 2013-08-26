@@ -1,14 +1,14 @@
 App = require '../app'
 
-attr = RL.attr
+attr = DS.attr
 
-App.Book = RL.Model.extend
-  id: attr 'string'
+App.Book = DS.Model.extend
+  # id: attr 'string'
   isbn: attr 'string'
   title: attr 'string'
   author: attr 'string'
-  prices: RL.hasMany 'App.BookPrice', embedded: 'load'
-  amazon: RL.belongsTo 'App.BookAmazon', embedded: 'load'
+  prices: DS.hasMany 'App.BookPrice', embedded: 'load'
+  amazon: DS.belongsTo 'App.BookAmazon', embedded: 'load'
 
   currentPrice: (->
     @get('prices')?.objectAt?(@get('prices')?.get?('length')-1)?.get?('value') or 0
@@ -32,15 +32,15 @@ App.Book = RL.Model.extend
     else "glyphicon-circle-arrow-right"
   ).property('trend')
 
-App.BookPrice = RL.Model.extend
+App.BookPrice = DS.Model.extend
   value: attr 'number'
   date: attr 'date'
-  book: RL.belongsTo 'App.Book'
+  book: DS.belongsTo 'App.Book'
 
-App.BookAmazon = RL.Model.extend
+App.BookAmazon = DS.Model.extend
   url: attr 'string'
   image: attr 'string'
-  book: RL.belongsTo 'App.Book'
+  book: DS.belongsTo 'App.Book'
 
 App.RESTAdapter.map 'App.Book',
   primaryKey: '_id'

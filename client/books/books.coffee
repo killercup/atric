@@ -17,12 +17,14 @@ App.BooksController = Ember.ArrayController.extend
   ).property('minPrice', 'model.@each')
 
   addBook: (isbn) ->
-    newBook = App.Book.create isbn: isbn
-    newBook.saveRecord()
-    .then =>
+    newBook = App.Book.createRecord isbn: isbn
+    newBook.one 'didCreate', =>
       @set('newISBN', '')
       console.log window.newBook = newBook
-      @transitionToRoute 'book', newBook.get('id') if newBook.get('id')
+      @transitionToRoute 'book', newBook
+      console.log 'no id for', newBook unless newBook.get('id')
+
+    @get('store').commit()
 
   refreshBooks: ->
     $.post('/api/refresh')

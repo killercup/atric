@@ -96,12 +96,12 @@ App.BookController = Ember.ObjectController.extend({
     var title,
       _this = this;
     title = this.get('model').get('title');
-    return this.get('model').deleteRecord().then(function() {
+    this.get('model').one('didDelete', function() {
       alert("" + title + " deleted.");
       return _this.transitionToRoute('books');
-    }).then(null, function() {
-      return alert("Couldn't delete " + title);
     });
+    this.get('model').deleteRecord();
+    return this.get('store').commit();
   }
 });
 
@@ -135,16 +135,18 @@ App.BooksController = Ember.ArrayController.extend({
   addBook: function(isbn) {
     var newBook,
       _this = this;
-    newBook = App.Book.create({
+    newBook = App.Book.createRecord({
       isbn: isbn
     });
-    return newBook.saveRecord().then(function() {
+    newBook.one('didCreate', function() {
       _this.set('newISBN', '');
       console.log(window.newBook = newBook);
-      if (newBook.get('id')) {
-        return _this.transitionToRoute('book', newBook.get('id'));
+      _this.transitionToRoute('book', newBook);
+      if (!newBook.get('id')) {
+        return console.log('no id for', newBook);
       }
     });
+    return this.get('store').commit();
   },
   refreshBooks: function() {
     return $.post('/api/refresh').then(function() {
@@ -169,17 +171,16 @@ var App, attr;
 
 App = require('../app');
 
-attr = RL.attr;
+attr = DS.attr;
 
-App.Book = RL.Model.extend({
-  id: attr('string'),
+App.Book = DS.Model.extend({
   isbn: attr('string'),
   title: attr('string'),
   author: attr('string'),
-  prices: RL.hasMany('App.BookPrice', {
+  prices: DS.hasMany('App.BookPrice', {
     embedded: 'load'
   }),
-  amazon: RL.belongsTo('App.BookAmazon', {
+  amazon: DS.belongsTo('App.BookAmazon', {
     embedded: 'load'
   }),
   currentPrice: (function() {
@@ -212,16 +213,16 @@ App.Book = RL.Model.extend({
   }).property('trend')
 });
 
-App.BookPrice = RL.Model.extend({
+App.BookPrice = DS.Model.extend({
   value: attr('number'),
   date: attr('date'),
-  book: RL.belongsTo('App.Book')
+  book: DS.belongsTo('App.Book')
 });
 
-App.BookAmazon = RL.Model.extend({
+App.BookAmazon = DS.Model.extend({
   url: attr('string'),
   image: attr('string'),
-  book: RL.belongsTo('App.Book')
+  book: DS.belongsTo('App.Book')
 });
 
 App.RESTAdapter.map('App.Book', {
@@ -384,14 +385,27 @@ App.IndexRoute = Ember.Route.extend({
 
 
 window.require.define({"store": function(exports, require, module) {
-App.RESTAdapter = RL.RESTAdapter.create({
-  namespace: 'api'
+var serializer;
+
+serializer = DS.RESTSerializer.extend({
+  primaryKey: function(type) {
+    return '_id';
+  }
 });
 
-App.Client = RL.Client.create({
-  adapter: App.RESTAdapter
+App.RESTAdapter = DS.RESTAdapter.extend({
+  namespace: 'api',
+  serializer: serializer,
+  serializeId: function(id) {
+    return id.toString();
+  }
 });
 
-module.exports = App.Client;
+App.Store = DS.Store.extend({
+  adapter: App.RESTAdapter,
+  revision: 13
+});
+
+module.exports = App.Store;
 }});
 
