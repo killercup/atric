@@ -258,7 +258,8 @@ PriceChartView = Ember.View.extend({
     return this.render();
   },
   render: (function() {
-    var chart, container, data, elementId, height, line, make_marker, margin, markers, width, x, xAxis, y, yAxis;
+    var aspect_ratio, chart, container, data, elementId, height, line, make_marker, margin, markers, svg, width, x, xAxis, y, yAxis,
+      _this = this;
     window.chartData = data = [];
     this.get("content").forEach(function(item) {
       var date, value;
@@ -283,8 +284,8 @@ PriceChartView = Ember.View.extend({
       return;
     }
     margin = {
-      top: 10,
-      right: 10,
+      top: 20,
+      right: 20,
       bottom: 50,
       left: 50
     };
@@ -314,7 +315,19 @@ PriceChartView = Ember.View.extend({
     });
     container = d3.select("#" + elementId);
     container.select('svg').remove();
-    chart = container.append("svg:svg").attr("id", "chart").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    $(window).off("resize", this.get("onResize"));
+    aspect_ratio = (width + margin.left + margin.right) / (height + margin.top + margin.bottom);
+    this.set("onResize", function() {
+      var $chart, targetWidth;
+      $chart = $("#chart");
+      targetWidth = $chart.parent().width();
+      $chart.attr("width", targetWidth);
+      return $chart.attr("height", Math.floor(targetWidth / aspect_ratio));
+    });
+    $(window).on("resize", this.get("onResize"));
+    svg = container.append("svg").attr("id", "chart").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.top + margin.bottom)).attr("preserveAspectRatio", "xMidYMid");
+    this.get("onResize")();
+    chart = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     chart.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis);
     chart.append("g").attr("class", "y axis").call(yAxis);
     chart.append("svg:path").datum(data).attr("class", "line").attr("d", line);

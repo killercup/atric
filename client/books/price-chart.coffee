@@ -30,8 +30,8 @@ PriceChartView = Ember.View.extend
     return unless data.length > 0
 
     margin =
-      top: 10
-      right: 10
+      top: 20
+      right: 20
       bottom: 50
       left: 50
 
@@ -74,15 +74,33 @@ PriceChartView = Ember.View.extend
 
     container = d3.select("##{elementId}")
 
+    # clear old charts
     container.select('svg').remove()
+    $(window).off "resize", @get("onResize")
 
-    chart = container
-      .append("svg:svg")
+    aspect_ratio = (width + margin.left + margin.right) / (height + margin.top + margin.bottom)
+
+    @set "onResize", =>
+      $chart = $("#chart")
+      targetWidth = $chart.parent().width()
+      $chart.attr "width", targetWidth
+      $chart.attr "height", Math.floor(targetWidth / aspect_ratio)
+
+    $(window).on "resize", @get("onResize")
+
+    svg = container
+      .append("svg")
         .attr("id", "chart")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", "translate(#{margin.left},#{margin.top})")
+        .attr("viewBox", "0 0 #{width + margin.left + margin.right} #{height + margin.top + margin.bottom}")
+        .attr("preserveAspectRatio", "xMidYMid")
+
+    @get("onResize")()
+
+    chart = svg.append("g")
+      .attr("transform", "translate(#{margin.left},#{margin.top})")
+
 
     chart.append("g")
       .attr("class", "x axis")
