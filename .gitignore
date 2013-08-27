@@ -4,6 +4,7 @@
 
 .tmp
 node_modules/
+bower_components/
 _config.yml
 books.yml
 log*
