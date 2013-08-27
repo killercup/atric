@@ -6956,13 +6956,13 @@ td.visible-print {
 path.line {
   opacity: .5;
   fill: none;
-  stroke: red;
+  stroke: #3498db;
   stroke-width: 1.5px;
 }
 
 path.area {
   opacity: .2;
-  fill: red;
+  fill: rgba(52, 152, 219, 0.8);
 }
 
 .axis {
@@ -6972,11 +6972,20 @@ path.area {
 
 .axis path {
   fill: none;
-  stroke: #000;
+  stroke: #222222;
 }
 
 .axis line {
-  stroke: #eee;
+  stroke: #222222;
+}
+
+.data-point {
+  fill: #3498db;
+}
+
+.chart-tooltip {
+  fill: #2c3e50;
+  text-anchor: middle;
 }
 
 .ember-application .no-ember {

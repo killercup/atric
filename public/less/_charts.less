@@ -1,25 +1,34 @@
 path.line {
-    fill: none;
-    stroke: red;
-    stroke-width: 1.5px;
-    opacity: .5;
+  fill: none;
+  stroke: @brand-info;
+  stroke-width: 1.5px;
+  opacity: .5;
 }
 
 path.area {
-    fill: red;
-    opacity: .2;
+  fill: fade(@brand-info, 80%);
+  opacity: .2;
 }
 
 .axis {
-    shape-rendering: crispEdges;
-    font-size: 8pt;
+  shape-rendering: crispEdges;
+  font-size: 8pt;
 }
 
 .axis path {
-    fill: none;
-    stroke: #000;
+  fill: none;
+  stroke: @gray-darker;
 }
 
 .axis line {
-    stroke: #eee;
+  stroke: @gray-darker;
+}
+
+.data-point {
+  fill: @brand-info;
+}
+
+.chart-tooltip {
+  fill: @text-color;
+  text-anchor: middle;
 }

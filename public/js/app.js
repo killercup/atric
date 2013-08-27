@@ -242,7 +242,9 @@ module.exports = App.Book;
 
 
 window.require.define({"books/price-chart": function(exports, require, module) {
-var PriceChartView;
+var PriceChartView, money;
+
+money = require('common/swag').money;
 
 PriceChartView = Ember.View.extend({
   chart: {},
@@ -250,55 +252,90 @@ PriceChartView = Ember.View.extend({
   area: {},
   content: [],
   updateChart: (function() {
-    this.render();
-    return chart;
+    return this.render();
   }).observes('content.@each.value'),
   didInsertElement: function() {
     return this.render();
   },
   render: (function() {
-    var area, chart, content, elementId, h, line, margin, w, x, xAxis, y, yAxis;
-    content = this.get("content").toArray();
-    if (!(content.length > 0)) {
+    var chart, container, data, elementId, height, line, make_marker, margin, markers, width, x, xAxis, y, yAxis;
+    window.chartData = data = [];
+    this.get("content").forEach(function(item) {
+      var date, value;
+      date = item.get('date');
+      if (date) {
+        date = new Date(date);
+      } else {
+        if (!date) {
+          return;
+        }
+      }
+      value = item.get('value');
+      if (!value) {
+        return;
+      }
+      return data.push({
+        value: value,
+        date: date
+      });
+    });
+    if (!(data.length > 0)) {
       return;
     }
-    elementId = this.get("elementId");
     margin = {
-      top: 35,
-      right: 35,
-      bottom: 35,
-      left: 35
+      top: 10,
+      right: 10,
+      bottom: 50,
+      left: 50
     };
-    w = 500 - margin.right - margin.left;
-    h = 300 - margin.top - margin.top;
-    x = d3.scale.linear().range([0, w]).domain([1, content.length - 1]);
-    y = d3.scale.linear().range([h, 0]).domain([
-      0, d3.max(content.map(function(i) {
-        return i.get('value');
-      })) + 10
-    ]);
-    xAxis = d3.svg.axis().scale(x).ticks(10).tickSize(-h).tickSubdivide(true);
-    yAxis = d3.svg.axis().scale(y).ticks(4).tickSize(-w).orient("left");
-    line = d3.svg.line().interpolate("linear").x(function(d, i) {
-      return x(i);
-    }).y(function(d) {
-      return y(d.get("value"));
+    width = 420 - margin.right - margin.left;
+    height = 250 - margin.top - margin.top;
+    elementId = this.get("elementId");
+    x = d3.time.scale().range([0, width]).domain(d3.extent(data, function(item) {
+      return new Date(item.date);
+    }));
+    y = d3.scale.linear().rangeRound([height, 0]).domain((function() {
+      return d3.extent(data, function(item) {
+        return item.value;
+      }).map(function(value, index) {
+        if (index === 0) {
+          return Math.max(value - 10, 0);
+        } else {
+          return value + 10;
+        }
+      });
+    })());
+    xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(Math.floor(width / 75));
+    yAxis = d3.svg.axis().scale(y).orient("left").ticks(Math.floor(height / 45)).tickFormat(money);
+    line = d3.svg.line().interpolate("linear").x(function(item, index) {
+      return x(new Date(item.date));
+    }).y(function(item, index) {
+      return y(item.value);
     });
-    this.set("line", line);
-    area = d3.svg.area().interpolate("monotone").x(function(d) {
-      return x(d.get("date"));
-    }).y0(h).y1(function(d) {
-      return y(d.get("value"));
+    container = d3.select("#" + elementId);
+    container.select('svg').remove();
+    chart = container.append("svg:svg").attr("id", "chart").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    chart.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis);
+    chart.append("g").attr("class", "y axis").call(yAxis);
+    chart.append("svg:path").datum(data).attr("class", "line").attr("d", line);
+    make_marker = function(group, x, y, title) {
+      if (title == null) {
+        title = '';
+      }
+      return group.append('svg:circle').attr('class', 'data-point').attr('cx', x).attr('cy', y).attr('r', 3).attr('title', title).on("mouseover", function(date, index) {
+        var marker;
+        marker = d3.select(this);
+        marker.attr("r", 6);
+        return group.append("text").attr("class", "chart-tooltip").attr("transform", "translate(" + x + "," + (y - 8) + ")").text(title);
+      }).on("mouseout", function(date, index) {
+        d3.select(this).attr("r", 3);
+        return group.select("text").remove();
+      });
+    };
+    markers = chart.append("svg:g").attr("class", "markers");
+    data.forEach(function(item) {
+      return make_marker(markers, x(new Date(item.date)), y(item.value), money(item.value));
     });
-    this.set("area", area);
-    $("#" + elementId).empty();
-    chart = d3.select("#" + elementId).append("svg:svg").attr("id", "chart").attr("width", w + margin.left + margin.right).attr("height", h + margin.top + margin.bottom).append("svg:g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    chart.append("svg:g").attr("class", "x axis").attr("transform", "translate(0," + h + ")").call(xAxis);
-    chart.append("svg:g").attr("class", "y axis").call(yAxis);
-    chart.append("svg:clipPath").attr("id", "clip").append("svg:rect").attr("width", w).attr("height", h);
-    chart.append("svg:path").attr("class", "area").attr("clip-path", "url(#clip)").attr("d", area(content));
-    chart.append("svg:path").attr("class", "line").attr("clip-path", "url(#clip)").attr("d", line(content));
-    this.set("chart", chart);
     return chart;
   })
 });
@@ -308,7 +345,7 @@ module.exports = PriceChartView;
 
 
 window.require.define({"common/swag": function(exports, require, module) {
-Ember.Handlebars.registerBoundHelper('truncate', function(str, params) {
+module.exports.truncate = function(str, params) {
   var length, omission, options;
   if (str == null) {
     str = '';
@@ -325,9 +362,9 @@ Ember.Handlebars.registerBoundHelper('truncate', function(str, params) {
   } else {
     return str;
   }
-});
+};
 
-Ember.Handlebars.registerBoundHelper('money', function(value, params) {
+module.exports.money = function(value, params) {
   var currency, formatted_value, options, prefix;
   if (value == null) {
     value = 0;
@@ -345,7 +382,11 @@ Ember.Handlebars.registerBoundHelper('money', function(value, params) {
   } else {
     return "" + formatted_value + currency;
   }
-});
+};
+
+Ember.Handlebars.registerBoundHelper('truncate', module.exports.truncate);
+
+Ember.Handlebars.registerBoundHelper('money', module.exports.money);
 }});
 
 

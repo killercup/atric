@@ -1,3 +1,5 @@
+money = require('common/swag').money
+
 PriceChartView = Ember.View.extend
   chart: {}
   line: {}
@@ -5,125 +7,122 @@ PriceChartView = Ember.View.extend
   content: []
 
   updateChart: (->
-    # content = @get('content').toArray()
-    # chart = @get('chart')
-    # line = @get('line')
-    # area = @get('area')
-
-    # chart.selectAll('path.line')
-    #   .data(content)
-    #   .transition()
-    #   .duration(500)
-    #   .ease('sin')
-    #   .attr('d', line(content))
-
-    # chart.selectAll('path.area')
-    #   .data(content)
-    #   .transition()
-    #   .duration(500)
-    #   .ease('sin')
-    #   .attr('d', area(content))
-
     @render()
-    chart
   ).observes('content.@each.value')
 
   didInsertElement: ->
     @render()
 
   render: (->
-    content = @get("content").toArray()
-    return unless content.length > 0
+    window.chartData = data = []
+    @get("content").forEach (item) ->
+      date = item.get('date')
+      if date
+        date = new Date(date)
+      else
+        return unless date
+
+      value = item.get('value')
+      return unless value
+
+      data.push value: value, date: date
+
+    return unless data.length > 0
+
+    margin =
+      top: 10
+      right: 10
+      bottom: 50
+      left: 50
+
+    width = 420 - margin.right - margin.left
+    height = 250 - margin.top - margin.top
 
     elementId = @get("elementId")
-    margin =
-      top: 35
-      right: 35
-      bottom: 35
-      left: 35
-
-    w = 500 - margin.right - margin.left
-    h = 300 - margin.top - margin.top
-
-    x = d3.scale.linear()
-      .range([0, w])
-      .domain([1, content.length-1])
+    x = d3.time.scale()
+      .range([0, width])
+      .domain d3.extent data, (item) -> new Date(item.date)
 
     y = d3.scale.linear()
-      .range([h, 0])
-      .domain [0, d3.max(content.map((i) -> i.get('value')))+10]
+      .rangeRound([height, 0])
+      .domain do ->
+        d3.extent(data, (item) -> item.value)
+        .map (value, index) ->
+          if index is 0
+            Math.max (value - 10), 0
+          else
+            value + 10
 
     xAxis = d3.svg.axis()
       .scale(x)
-      .ticks(10)
-      .tickSize(-h)
-      .tickSubdivide(true)
-      # .tickFormat (d) -> d3.time.format('%x')(new Date(d))
+      .orient("bottom")
+      .ticks(Math.floor(width/75))
 
     yAxis = d3.svg.axis()
       .scale(y)
-      .ticks(4)
-      .tickSize(-w)
       .orient("left")
+      .ticks(Math.floor(height/45))
+      .tickFormat money
 
-    # Prepeare Chart Elements:
     line = d3.svg.line()
       .interpolate("linear")
-      .x (d, i) ->
-        x i #d3.time.format('%x') new Date(d.get("date"))
-      .y (d) ->
-        y d.get("value")
+      .x (item, index) ->
+        x new Date(item.date)
+      .y (item, index) ->
+        y item.value
 
-    @set "line", line
 
-    area = d3.svg.area()
-      .interpolate("monotone")
-      .x (d) ->
-        x d.get("date")
-      .y0(h)
-      .y1 (d) ->
-        y d.get("value")
+    container = d3.select("##{elementId}")
 
-    @set "area", area
+    container.select('svg').remove()
 
-    $("#" + elementId).empty()
-
-    chart = d3.select("#" + elementId)
-      # .clear()
+    chart = container
       .append("svg:svg")
         .attr("id", "chart")
-        .attr("width", w + margin.left + margin.right)
-        .attr("height", h + margin.top + margin.bottom)
-      .append("svg:g")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
         .attr("transform", "translate(#{margin.left},#{margin.top})")
 
-    # Add Chart Elements to Chart:
-    chart.append("svg:g")
+    chart.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(0,#{h})")
+      .attr("transform", "translate(0,#{height})")
       .call(xAxis)
 
-    chart.append("svg:g")
+    chart.append("g")
       .attr("class", "y axis")
       .call(yAxis)
 
-    chart.append("svg:clipPath")
-      .attr("id", "clip")
-      .append("svg:rect")
-        .attr("width", w)
-        .attr("height", h)
-
     chart.append("svg:path")
-      .attr("class", "area")
-      .attr("clip-path", "url(#clip)")
-      .attr("d", area(content))
-
-    chart.append("svg:path")
+      .datum(data)
       .attr("class", "line")
-      .attr("clip-path", "url(#clip)")
-      .attr("d", line(content))
+      .attr("d", line)
 
-    @set "chart", chart
+    # add markers
+    make_marker = (group, x, y, title='') ->
+      group.append('svg:circle')
+        .attr('class', 'data-point')
+        .attr('cx', x)
+        .attr('cy', y)
+        .attr('r', 3)
+        .attr('title', title)
+        .on "mouseover", (date, index) ->
+          marker = d3.select(this)
+          marker.attr("r", 6)
+
+          group.append("text")
+            .attr("class", "chart-tooltip")
+            .attr("transform", "translate(#{x},#{y-8})")
+            .text(title);
+        .on "mouseout", (date, index) ->
+          d3.select(this).attr("r", 3)
+          group.select("text").remove()
+
+
+    markers = chart.append("svg:g").attr("class", "markers")
+
+    data.forEach (item) ->
+      make_marker markers, x(new Date(item.date)), y(item.value), money(item.value)
 
     chart
   )
