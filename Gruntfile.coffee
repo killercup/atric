@@ -7,6 +7,9 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-clean')
   grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.loadNpmTasks('grunt-ember-templates')
+  grunt.loadNpmTasks('grunt-recess')
+
+  # userConfig = require './build.config'
 
   grunt.initConfig
     clean:
@@ -69,6 +72,26 @@ module.exports = (grunt) ->
           'public/js/app.js': ['public/js/app.js']
           'public/js/templates.js': ['public/js/templates.js']
 
+    recess:
+      build:
+        src: 'public/less/main.less'
+        dest: 'public/css/style.css'
+        options:
+          compile: true
+          compress: false
+          noUnderscores: false
+          noIDs: false
+          zeroUnits: false
+      compile:
+        src: 'public/less/main.less'
+        dest: 'public/css/style.css'
+        options:
+          compile: true
+          compress: true
+          noUnderscores: false
+          noIDs: false
+          zeroUnits: false
+
     watch:
       options:
         atBegin: true
@@ -82,6 +105,9 @@ module.exports = (grunt) ->
       handlebars:
         files: 'client/**/*.hbs'
         tasks: ['emberTemplates']
+      less:
+        files: 'public/**/*.less'
+        tasks: ['recess:build']
 
 
   grunt.registerTask 'default', [
@@ -91,6 +117,7 @@ module.exports = (grunt) ->
     'commonjs:modules'
     'emberTemplates'
     'concat:precompile'
+    'recess:build'
   ]
 
   grunt.registerTask 'precompile', [
@@ -101,4 +128,5 @@ module.exports = (grunt) ->
     'emberTemplates'
     'concat:precompile'
     'uglify'
+    'recess:compile'
   ]
