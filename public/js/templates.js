@@ -109,7 +109,7 @@ function program3(depth0,data) {
 Ember.TEMPLATES["books"] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {
 this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
-  var buffer = '', stack1, hashTypes, hashContexts, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, self=this;
+  var buffer = '', stack1, hashTypes, hashContexts, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, self=this;
 
 function program1(depth0,data) {
   
@@ -183,12 +183,24 @@ function program4(depth0,data) {
     'valueBinding': ("minPrice"),
     'class': ("form-control")
   },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push("\n        </p>\n        <p class=\"input-group\">\n          <span class=\"input-group-addon\">Titel/Author</span>\n          ");
+  hashContexts = {'valueBinding': depth0,'class': depth0};
+  hashTypes = {'valueBinding': "STRING",'class': "STRING"};
+  data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.TextField", {hash:{
+    'valueBinding': ("searchText"),
+    'class': ("form-control")
+  },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
   data.buffer.push("\n        </p>\n      </div>\n    </div>\n\n    <div class=\"list-group\">\n    ");
   hashTypes = {};
   hashContexts = {};
   stack1 = helpers.each.call(depth0, "book", "in", "filtered", {hash:{},inverse:self.program(4, program4, data),fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n    </div>\n  </div>\n  <div class=\"col-md-8\">\n    ");
+  data.buffer.push("\n\n    <div class=\"list-group-item\">\n      <p class=\"list-group-item-text text-right\">\n        <small>TOTAL</small>\n        <strong class=\"text-success\">");
+  hashTypes = {};
+  hashContexts = {};
+  options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
+  data.buffer.push(escapeExpression(((stack1 = helpers.money || depth0.money),stack1 ? stack1.call(depth0, "priceSum", options) : helperMissing.call(depth0, "money", "priceSum", options))));
+  data.buffer.push("</strong>\n      </p>\n    </div>\n    </div>\n  </div>\n  <div class=\"col-md-8\">\n    ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));

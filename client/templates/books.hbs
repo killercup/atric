@@ -25,6 +25,10 @@
           <span class="input-group-addon">Min. Value in ¢</span>
           {{view Ember.TextField valueBinding="minPrice" class='form-control'}}
         </p>
+        <p class="input-group">
+          <span class="input-group-addon">Titel/Author</span>
+          {{view Ember.TextField valueBinding="searchText" class='form-control'}}
+        </p>
       </div>
     </div>
 
@@ -43,6 +47,13 @@
         Loading&hellip;
       </div>
     {{/each}}
+
+    <div class="list-group-item">
+      <p class="list-group-item-text text-right">
+        <small>TOTAL</small>
+        <strong class="text-success">{{money priceSum}}</strong>
+      </p>
+    </div>
     </div>
   </div>
   <div class="col-md-8">

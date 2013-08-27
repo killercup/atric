@@ -126,12 +126,18 @@ App.BooksController = Ember.ArrayController.extend({
   minPrice: 42,
   newISBN: '',
   filtered: (function() {
-    var minPrice;
-    minPrice = this.get('minPrice');
+    var minPrice, search;
+    minPrice = this.get('minPrice') || 0;
+    search = RegExp(this.get('searchText') || '', 'gi');
     return this.get('model').filter(function(item) {
-      return item.get('currentPrice') >= minPrice;
+      return (item.get('currentPrice') >= minPrice) && (search.test(item.get('title')) || search.test(item.get('author')));
     });
-  }).property('minPrice', 'model.@each'),
+  }).property('minPrice', 'searchText', 'model.@each'),
+  priceSum: (function() {
+    return this.get('filtered').reduce((function(memo, item) {
+      return memo + item.get('currentPrice');
+    }), 0);
+  }).property('filtered'),
   addBook: function(isbn) {
     var newBook,
       _this = this;
