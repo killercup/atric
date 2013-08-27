@@ -1,20 +1,11 @@
 money = require('common/swag').money
 
 PriceChartView = Ember.View.extend
-  chart: {}
-  line: {}
-  area: {}
   content: []
+  valuePadding: 10
 
-  updateChart: (->
-    @render()
-  ).observes('content.@each.value')
-
-  didInsertElement: ->
-    @render()
-
-  render: (->
-    window.chartData = data = []
+  chartData: (->
+    data = []
     @get("content").forEach (item) ->
       date = item.get('date')
       if date
@@ -26,7 +17,32 @@ PriceChartView = Ember.View.extend
       return unless value
 
       data.push value: value, date: date
+    data
+  ).property("content")
 
+  xDomain: (->
+    d3.extent @get("chartData"), (item) -> item.date
+  ).property("chartData")
+
+  yDomain: (->
+    padding = @get("valuePadding")
+    d3.extent(@get("chartData"), (item) -> item.value)
+    .map (value, index) ->
+      if index is 0
+        Math.max (value - padding), 0
+      else
+        value + padding
+  ).property("chartData")
+
+  updateChart: (->
+    @render()
+  ).observes('content.@each.value')
+
+  didInsertElement: ->
+    @render()
+
+  render: (->
+    data = @get("chartData")
     return unless data.length > 0
 
     margin =
@@ -41,17 +57,11 @@ PriceChartView = Ember.View.extend
     elementId = @get("elementId")
     x = d3.time.scale()
       .range([0, width])
-      .domain d3.extent data, (item) -> new Date(item.date)
+      .domain @get("xDomain")
 
     y = d3.scale.linear()
       .rangeRound([height, 0])
-      .domain do ->
-        d3.extent(data, (item) -> item.value)
-        .map (value, index) ->
-          if index is 0
-            Math.max (value - 10), 0
-          else
-            value + 10
+      .domain @get("yDomain")
 
     xAxis = d3.svg.axis()
       .scale(x)
@@ -67,10 +77,9 @@ PriceChartView = Ember.View.extend
     line = d3.svg.line()
       .interpolate("linear")
       .x (item, index) ->
-        x new Date(item.date)
+        x item.date
       .y (item, index) ->
         y item.value
-
 
     container = d3.select("##{elementId}")
 
@@ -140,7 +149,7 @@ PriceChartView = Ember.View.extend
     markers = chart.append("svg:g").attr("class", "markers")
 
     data.forEach (item) ->
-      make_marker markers, x(new Date(item.date)), y(item.value), money(item.value)
+      make_marker markers, x(item.date), y(item.value), money(item.value)
 
     chart
   )

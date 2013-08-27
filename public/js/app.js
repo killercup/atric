@@ -247,20 +247,11 @@ var PriceChartView, money;
 money = require('common/swag').money;
 
 PriceChartView = Ember.View.extend({
-  chart: {},
-  line: {},
-  area: {},
   content: [],
-  updateChart: (function() {
-    return this.render();
-  }).observes('content.@each.value'),
-  didInsertElement: function() {
-    return this.render();
-  },
-  render: (function() {
-    var aspect_ratio, chart, container, data, elementId, height, line, make_marker, margin, markers, svg, width, x, xAxis, y, yAxis,
-      _this = this;
-    window.chartData = data = [];
+  valuePadding: 10,
+  chartData: (function() {
+    var data;
+    data = [];
     this.get("content").forEach(function(item) {
       var date, value;
       date = item.get('date');
@@ -280,6 +271,36 @@ PriceChartView = Ember.View.extend({
         date: date
       });
     });
+    return data;
+  }).property("content"),
+  xDomain: (function() {
+    return d3.extent(this.get("chartData"), function(item) {
+      return item.date;
+    });
+  }).property("chartData"),
+  yDomain: (function() {
+    var padding;
+    padding = this.get("valuePadding");
+    return d3.extent(this.get("chartData"), function(item) {
+      return item.value;
+    }).map(function(value, index) {
+      if (index === 0) {
+        return Math.max(value - padding, 0);
+      } else {
+        return value + padding;
+      }
+    });
+  }).property("chartData"),
+  updateChart: (function() {
+    return this.render();
+  }).observes('content.@each.value'),
+  didInsertElement: function() {
+    return this.render();
+  },
+  render: (function() {
+    var aspect_ratio, chart, container, data, elementId, height, line, make_marker, margin, markers, svg, width, x, xAxis, y, yAxis,
+      _this = this;
+    data = this.get("chartData");
     if (!(data.length > 0)) {
       return;
     }
@@ -292,24 +313,12 @@ PriceChartView = Ember.View.extend({
     width = 420 - margin.right - margin.left;
     height = 250 - margin.top - margin.top;
     elementId = this.get("elementId");
-    x = d3.time.scale().range([0, width]).domain(d3.extent(data, function(item) {
-      return new Date(item.date);
-    }));
-    y = d3.scale.linear().rangeRound([height, 0]).domain((function() {
-      return d3.extent(data, function(item) {
-        return item.value;
-      }).map(function(value, index) {
-        if (index === 0) {
-          return Math.max(value - 10, 0);
-        } else {
-          return value + 10;
-        }
-      });
-    })());
+    x = d3.time.scale().range([0, width]).domain(this.get("xDomain"));
+    y = d3.scale.linear().rangeRound([height, 0]).domain(this.get("yDomain"));
     xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(Math.floor(width / 75));
     yAxis = d3.svg.axis().scale(y).orient("left").ticks(Math.floor(height / 45)).tickFormat(money);
     line = d3.svg.line().interpolate("linear").x(function(item, index) {
-      return x(new Date(item.date));
+      return x(item.date);
     }).y(function(item, index) {
       return y(item.value);
     });
@@ -347,7 +356,7 @@ PriceChartView = Ember.View.extend({
     };
     markers = chart.append("svg:g").attr("class", "markers");
     data.forEach(function(item) {
-      return make_marker(markers, x(new Date(item.date)), y(item.value), money(item.value));
+      return make_marker(markers, x(item.date), y(item.value), money(item.value));
     });
     return chart;
   })
