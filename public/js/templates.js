@@ -157,7 +157,7 @@ function program2(depth0,data) {
 function program4(depth0,data) {
   
   
-  data.buffer.push("\n      <div class=\"list-group-item loading\">\n        Loading&hellip;\n      </div>\n    ");
+  data.buffer.push("\n      <div class=\"list-group-item\">\n        <h4 class=\"list-group-item-heading\">\n          No books.\n        </h4>\n        <p class=\"list-group-item-text text-muted\">\n          Add some or change filter. Or maybe it's just still loading.\n        </p>\n      </div>\n    ");
   }
 
   data.buffer.push("<div class=\"form-inline panel panel-default\">\n  <div class=\"form-group pull-right\">\n    <button class=\"btn btn-primary\" ");
@@ -195,12 +195,12 @@ function program4(depth0,data) {
   hashContexts = {};
   stack1 = helpers.each.call(depth0, "book", "in", "filtered", {hash:{},inverse:self.program(4, program4, data),fn:self.program(1, program1, data),contexts:[depth0,depth0,depth0],types:["ID","ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\n\n    <div class=\"list-group-item\">\n      <p class=\"list-group-item-text text-right\">\n        <small>TOTAL</small>\n        <strong class=\"text-success\">");
+  data.buffer.push("\n\n      <div class=\"list-group-item\">\n        <p class=\"list-group-item-text text-right\">\n          <small class=\"text-muted\">TOTAL</small>\n          <strong class=\"text-success\">");
   hashTypes = {};
   hashContexts = {};
   options = {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data};
   data.buffer.push(escapeExpression(((stack1 = helpers.money || depth0.money),stack1 ? stack1.call(depth0, "priceSum", options) : helperMissing.call(depth0, "money", "priceSum", options))));
-  data.buffer.push("</strong>\n      </p>\n    </div>\n    </div>\n  </div>\n  <div class=\"col-md-8\">\n    ");
+  data.buffer.push("</strong>\n        </p>\n      </div>\n    </div>\n  </div>\n  <div class=\"col-md-8\">\n    ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "outlet", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));

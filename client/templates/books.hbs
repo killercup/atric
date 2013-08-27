@@ -43,17 +43,22 @@
         <p class="list-group-item-text">{{book.author}}</p>
       {{/linkTo}}
     {{else}}
-      <div class="list-group-item loading">
-        Loading&hellip;
+      <div class="list-group-item">
+        <h4 class="list-group-item-heading">
+          No books.
+        </h4>
+        <p class="list-group-item-text text-muted">
+          Add some or change filter. Or maybe it's just still loading.
+        </p>
       </div>
     {{/each}}
 
-    <div class="list-group-item">
-      <p class="list-group-item-text text-right">
-        <small>TOTAL</small>
-        <strong class="text-success">{{money priceSum}}</strong>
-      </p>
-    </div>
+      <div class="list-group-item">
+        <p class="list-group-item-text text-right">
+          <small class="text-muted">TOTAL</small>
+          <strong class="text-success">{{money priceSum}}</strong>
+        </p>
+      </div>
     </div>
   </div>
   <div class="col-md-8">
