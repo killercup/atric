@@ -281,15 +281,11 @@ PriceChartView = Ember.View.extend({
   yDomain: (function() {
     var padding;
     padding = this.get("valuePadding");
-    return d3.extent(this.get("chartData"), function(item) {
-      return item.value;
-    }).map(function(value, index) {
-      if (index === 0) {
-        return Math.max(value - padding, 0);
-      } else {
-        return value + padding;
-      }
-    });
+    return [
+      0, d3.max(this.get("chartData"), function(item) {
+        return item.value;
+      }) + padding
+    ];
   }).property("chartData"),
   updateChart: (function() {
     return this.render();

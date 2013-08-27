@@ -26,12 +26,13 @@ PriceChartView = Ember.View.extend
 
   yDomain: (->
     padding = @get("valuePadding")
-    d3.extent(@get("chartData"), (item) -> item.value)
-    .map (value, index) ->
-      if index is 0
-        Math.max (value - padding), 0
-      else
-        value + padding
+    # d3.extent(@get("chartData"), (item) -> item.value)
+    # .map (value, index) ->
+    #   if index is 0
+    #     Math.max (value - padding), 0
+    #   else
+    #     value + padding
+    [0, d3.max(@get("chartData"), (item) -> item.value) + padding]
   ).property("chartData")
 
   updateChart: (->
