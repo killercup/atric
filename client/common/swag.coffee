@@ -1,4 +1,4 @@
-Ember.Handlebars.registerBoundHelper 'truncate', (str='', params={}) ->
+module.exports.truncate = (str='', params={}) ->
   options = params.hash || {}
   length = options.length || 90
   omission = options.omission || '...'
@@ -7,7 +7,7 @@ Ember.Handlebars.registerBoundHelper 'truncate', (str='', params={}) ->
     str.substring(0, length - omission.length) + omission
   else str
 
-Ember.Handlebars.registerBoundHelper 'money', (value=0, params={}) ->
+module.exports.money = (value=0, params={}) ->
   options = params.hash || {}
   currency = options.currency || "€"
   prefix = options.prefix || false
@@ -21,3 +21,5 @@ Ember.Handlebars.registerBoundHelper 'money', (value=0, params={}) ->
   else
     "#{formatted_value}#{currency}"
 
+Ember.Handlebars.registerBoundHelper 'truncate', module.exports.truncate
+Ember.Handlebars.registerBoundHelper 'money', module.exports.money
