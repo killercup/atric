@@ -6,6 +6,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-concat')
   grunt.loadNpmTasks('grunt-contrib-clean')
   grunt.loadNpmTasks('grunt-contrib-copy')
+  grunt.loadNpmTasks('grunt-contrib-compress')
   grunt.loadNpmTasks('grunt-ember-templates')
   grunt.loadNpmTasks('grunt-recess')
 
@@ -92,6 +93,16 @@ module.exports = (grunt) ->
           noIDs: false
           zeroUnits: false
 
+    compress:
+      compile:
+        options:
+          mode: 'gzip'
+          pretty: true
+        expand: true
+        cwd: 'public'
+        src: ['js/**/*.js', 'css/**/*.css', 'fonts/**/*.svg', 'img/**/*.svg']
+        dest: 'public'
+
     watch:
       options:
         atBegin: true
@@ -129,4 +140,5 @@ module.exports = (grunt) ->
     'concat:precompile'
     'uglify'
     'recess:compile'
+    'compress:compile'
   ]
