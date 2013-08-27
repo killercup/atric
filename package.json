@@ -19,8 +19,7 @@
   },
   "license": "BSD",
   "scripts": {
-    "start": "coffee index.coffee --table",
-    "server": "coffee index.coffee --web"
+    "start": "coffee index.coffee --table"
   },
   "main": "index.coffee",
   "dependencies": {
