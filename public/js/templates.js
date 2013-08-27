@@ -164,19 +164,28 @@ function program4(depth0,data) {
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "refreshBooks", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(">\n      Refresh\n    </button>\n  </div>\n  <div class=\"form-group\">\n    ");
-  hashContexts = {'valueBinding': depth0,'class': depth0,'placeholder': depth0};
-  hashTypes = {'valueBinding': "STRING",'class': "STRING",'placeholder': "ID"};
+  data.buffer.push(">\n      Refresh\n    </button>\n  </div>\n  <form>\n    <div class=\"form-group\">\n      ");
+  hashContexts = {'valueBinding': depth0,'class': depth0,'placeholder': depth0,'type': depth0,'required': depth0,'pattern': depth0};
+  hashTypes = {'valueBinding': "STRING",'class': "STRING",'placeholder': "ID",'type': "STRING",'required': "STRING",'pattern': "STRING"};
   data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.TextField", {hash:{
     'valueBinding': ("newISBN"),
     'class': ("form-control col-md-1"),
-    'placeholder': ("ISBN")
+    'placeholder': ("ISBN"),
+    'type': ("text"),
+    'required': ("required"),
+    'pattern': ("^((\\d{10})|(\\d{13}))$")
   },contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push("\n  </div>\n  <button class=\"btn btn-success\" ");
+  data.buffer.push("\n    </div>\n    <button class=\"btn btn-success\" ");
+  hashContexts = {'disabled': depth0};
+  hashTypes = {'disabled': "STRING"};
+  data.buffer.push(escapeExpression(helpers.bindAttr.call(depth0, {hash:{
+    'disabled': ("newISBNInvalid")
+  },contexts:[],types:[],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
+  data.buffer.push(" ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers.action.call(depth0, "addBook", "newISBN", {hash:{},contexts:[depth0,depth0],types:["ID","ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
-  data.buffer.push(">\n    Add Book\n  </button>\n</div>\n\n<div class=\"row\">\n  <div class=\"col-md-4 books\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-heading\">\n        <h3 class=\"panel-title\">\n          Filter\n        </h3>\n      </div>\n      <div class=\"panel-body\">\n        <p class=\"input-group\">\n          <span class=\"input-group-addon\">Min. Value in ¢</span>\n          ");
+  data.buffer.push(">\n      Add Book\n    </button>\n  </form>\n</div>\n\n<div class=\"row\">\n  <div class=\"col-md-4 books\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-heading\">\n        <h3 class=\"panel-title\">\n          Filter\n        </h3>\n      </div>\n      <div class=\"panel-body\">\n        <p class=\"input-group\">\n          <span class=\"input-group-addon\">Min. Value in ¢</span>\n          ");
   hashContexts = {'valueBinding': depth0,'class': depth0};
   hashTypes = {'valueBinding': "STRING",'class': "STRING"};
   data.buffer.push(escapeExpression(helpers.view.call(depth0, "Ember.TextField", {hash:{

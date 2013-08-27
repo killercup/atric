@@ -138,9 +138,18 @@ App.BooksController = Ember.ArrayController.extend({
       return memo + item.get('currentPrice');
     }), 0);
   }).property('filtered'),
+  newISBNInvalid: (function() {
+    return !/^((\d{10})|(\d{13}))$/.test(this.get('newISBN'));
+  }).property('newISBN'),
   addBook: function(isbn) {
     var newBook,
       _this = this;
+    if (isbn == null) {
+      isbn = '';
+    }
+    if (this.get('newISBNInvalid')) {
+      return;
+    }
     newBook = App.Book.createRecord({
       isbn: isbn
     });

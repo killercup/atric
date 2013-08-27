@@ -26,7 +26,12 @@ App.BooksController = Ember.ArrayController.extend
     ), 0
   ).property('filtered')
 
-  addBook: (isbn) ->
+  newISBNInvalid: (->
+    return not /^((\d{10})|(\d{13}))$/.test(@get('newISBN'))
+  ).property('newISBN')
+
+  addBook: (isbn='') ->
+    return if @get('newISBNInvalid')
     newBook = App.Book.createRecord isbn: isbn
     newBook.one 'didCreate', =>
       @set('newISBN', '')
