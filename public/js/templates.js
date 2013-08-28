@@ -41,7 +41,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = '', hashTypes, hashContexts;
-  data.buffer.push("\n      <small>by ");
+  data.buffer.push("\n      <small class=\"author\">by ");
   hashTypes = {};
   hashContexts = {};
   data.buffer.push(escapeExpression(helpers._triageMustache.call(depth0, "author", {hash:{},contexts:[depth0],types:["ID"],hashContexts:hashContexts,hashTypes:hashTypes,data:data})));
