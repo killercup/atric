@@ -204,7 +204,7 @@ App.Book = DS.Model.extend({
     earlier = ((_ref = this.get('prices')) != null ? typeof _ref.objectAt === "function" ? (_ref1 = _ref.objectAt(((_ref2 = this.get('prices')) != null ? typeof _ref2.get === "function" ? _ref2.get('length') : void 0 : void 0) - 2)) != null ? typeof _ref1.get === "function" ? _ref1.get('value') : void 0 : void 0 : void 0 : void 0) || 0;
     if (now > earlier) {
       return 'up';
-    } else if (now = earlier) {
+    } else if (now === earlier) {
       return 'unchanged';
     } else {
       return 'down';

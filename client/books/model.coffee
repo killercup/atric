@@ -21,7 +21,7 @@ App.Book = DS.Model.extend
     earlier = @get('prices')?.objectAt?(@get('prices')?.get?('length')-2)?.get?('value') or 0
 
     if now > earlier then 'up'
-    else if now = earlier then 'unchanged'
+    else if now == earlier then 'unchanged'
     else 'down'
   ).property('currentPrice')
 
