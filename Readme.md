@@ -4,7 +4,7 @@ This small script queries Amazon (.com, .de, ...) for the trade in value of the 
 
 I wrote it because I wanted to trade stuff in but didn't want to settle for prices as low as EUR 0.10 and rather check if the values change over time.
 
-![Screenshot](https://raw.github.com/killercup/atric/master/public/img/screenshot.png)
+![Screenshot](https://raw.github.com/killercup/atric/master/src/_screenshot.png)
 
 ## Config
 
