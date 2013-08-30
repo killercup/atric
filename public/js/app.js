@@ -214,9 +214,8 @@ App.Book = DS.Model.extend({
     var trend;
     trend = this.get('trend');
     if (trend === 'up') {
-      "glyphicon-circle-arrow-up";
-    }
-    if (trend === 'down') {
+      return "glyphicon-circle-arrow-up";
+    } else if (trend === 'down') {
       return "glyphicon-circle-arrow-down";
     } else {
       return "glyphicon-circle-arrow-right";

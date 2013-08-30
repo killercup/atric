@@ -28,7 +28,7 @@ App.Book = DS.Model.extend
   trend2glyph: (->
     trend = @get('trend')
     if trend is 'up' then "glyphicon-circle-arrow-up"
-    if trend is 'down' then "glyphicon-circle-arrow-down"
+    else if trend is 'down' then "glyphicon-circle-arrow-down"
     else "glyphicon-circle-arrow-right"
   ).property('trend')
 
