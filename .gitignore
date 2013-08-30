@@ -12,3 +12,4 @@ log*
 bower_components/
 client/vendor/
 public/*
+!public/.gitignore

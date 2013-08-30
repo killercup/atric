@@ -46,9 +46,7 @@ PriceChartView = Ember.View.extend
     timeout = @get('renderTimeout')
     window.clearTimeout(timeout)
 
-    renderThisAlready = =>
-      console.log 'rendering chart'
-      @doRender()
+    renderThisAlready = => @doRender()
 
     @set 'renderTimeout', window.setTimeout(renderThisAlready, 50)
 
