@@ -280,7 +280,9 @@ PriceChartView = Ember.View.extend({
         date: date
       });
     });
-    return data;
+    return data.sort(function(a, b) {
+      return a.date - b.date;
+    });
   }).property("content"),
   xDomain: (function() {
     return d3.extent(this.get("chartData"), function(item) {
@@ -298,11 +300,22 @@ PriceChartView = Ember.View.extend({
   }).property("chartData"),
   updateChart: (function() {
     return this.render();
-  }).observes('content.@each.value'),
+  }).observes('content'),
   didInsertElement: function() {
     return this.render();
   },
-  render: (function() {
+  render: function() {
+    var renderThisAlready, timeout,
+      _this = this;
+    timeout = this.get('renderTimeout');
+    window.clearTimeout(timeout);
+    renderThisAlready = function() {
+      console.log('rendering chart');
+      return _this.doRender();
+    };
+    return this.set('renderTimeout', window.setTimeout(renderThisAlready, 50));
+  },
+  doRender: (function() {
     var aspect_ratio, chart, container, data, elementId, height, line, make_marker, margin, markers, svg, width, x, xAxis, y, yAxis,
       _this = this;
     data = this.get("chartData");

@@ -17,7 +17,7 @@ PriceChartView = Ember.View.extend
       return unless value
 
       data.push value: value, date: date
-    data
+    data.sort (a, b) -> a.date - b.date
   ).property("content")
 
   xDomain: (->
@@ -37,12 +37,22 @@ PriceChartView = Ember.View.extend
 
   updateChart: (->
     @render()
-  ).observes('content.@each.value')
+  ).observes('content')
 
   didInsertElement: ->
     @render()
 
-  render: (->
+  render: ->
+    timeout = @get('renderTimeout')
+    window.clearTimeout(timeout)
+
+    renderThisAlready = =>
+      console.log 'rendering chart'
+      @doRender()
+
+    @set 'renderTimeout', window.setTimeout(renderThisAlready, 50)
+
+  doRender: (->
     data = @get("chartData")
     return unless data.length > 0
 
