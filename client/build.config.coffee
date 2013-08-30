@@ -36,7 +36,7 @@ files =
         local: "#{bower}/ember-data/index.js"
       production:
         global: 'DS'
-        local: "#{bower}/ember-data/index.js"
+        local: "#{bower}/ember-data-min/index.js"
     'd3':
       development:
         local: "#{bower}/d3/d3.js"
@@ -55,7 +55,6 @@ getLocalFiles = (env='development', list=files.app) ->
   result = []
   for key, value of list
     result.push value[env].local if value?[env]?.local?
-  console.log 'files', env, result
   return result
 
 module.exports =
