@@ -1,6 +1,6 @@
 Q = require('q')
 
-log = require("#{__dirname}/../../log")
+log = require("#{__dirname}/../../src/log")
 Book = require("#{__dirname}/../model/book")
 
 module.exports = {}

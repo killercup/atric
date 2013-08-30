@@ -10,14 +10,14 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-ember-templates')
   grunt.loadNpmTasks('grunt-recess')
 
-  # userConfig = require './build.config'
-
   grunt.initConfig
     clean:
       all: [
         '.tmp/**/*.*'
-        # 'public/css'
-        # 'public/js'
+        'public/css'
+        'public/js'
+        'public/fonts'
+        'public/*.html'
       ]
 
     coffee:
@@ -25,34 +25,49 @@ module.exports = (grunt) ->
         bare: true
       glob_to_multiple:
         expand: true
-        cwd: ''
-        src: ['client/**/*.coffee']
+        cwd: 'client'
+        src: ['app/**/*.coffee']
         dest: '.tmp/js'
         ext: '.js'
 
     copy:
+      html:
+        files: [{
+          expand: true
+          cwd: 'client'
+          src: ['*.html']
+          dest: 'public'
+          ext: '.html'
+        }]
       js:
         files: [{
           expand: true
-          cwd: ''
-          src: ['client/**/*.js']
+          cwd: 'client'
+          src: ['app/**/*.js']
           dest: '.tmp/js'
           ext: '.js'
+        }]
+      fonts:
+        files: [{
+          expand: true
+          cwd: 'client'
+          src: ['fonts/**/*']
+          dest: 'public'
         }]
 
     commonjs:
       modules:
-        cwd: '.tmp/js/client/'
+        cwd: '.tmp/js/app/'
         src: '**/*.js'
-        dest: '.tmp/js/client/'
+        dest: '.tmp/js/app/'
 
     emberTemplates:
       compile:
         options:
           templateName: (sourceFile) ->
-            sourceFile.replace(/client\/templates\//, '')
+            sourceFile.replace(/client\/app\/templates\//, '')
         files:
-          'public/js/templates.js': ['client/templates/**/*.hbs']
+          'public/js/templates.js': ['client/app/templates/**/*.hbs']
 
     concat:
       precompile:
@@ -63,7 +78,7 @@ module.exports = (grunt) ->
           # 'vendor/ember.min.js'
           # 'vendor/ember-data.min.js'
           # '.tmp/js/client/templates.js'
-          '.tmp/js/client/**/*.js'
+          '.tmp/js/app/**/*.js'
         ]
         dest: 'public/js/app.js'
 
@@ -75,7 +90,7 @@ module.exports = (grunt) ->
 
     recess:
       build:
-        src: 'public/less/main.less'
+        src: 'client/less/main.less'
         dest: 'public/css/style.css'
         options:
           compile: true
@@ -84,7 +99,7 @@ module.exports = (grunt) ->
           noIDs: false
           zeroUnits: false
       compile:
-        src: 'public/less/main.less'
+        src: 'client/less/main.less'
         dest: 'public/css/style.css'
         options:
           compile: true
@@ -107,6 +122,12 @@ module.exports = (grunt) ->
       options:
         atBegin: true
         livereload: true
+      html:
+        files: 'client/*.html'
+        tasks: ['copy:html']
+      fonts:
+        files: 'client//fonts/**/*'
+        tasks: ['copy:fonts']
       js:
         files: 'client/**/*.js'
         tasks: ['copy:js', 'commonjs:modules', 'concat:precompile']

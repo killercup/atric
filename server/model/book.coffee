@@ -1,9 +1,9 @@
 Q = require('q')
 mongoose = require('mongoose')
 
-log = require("#{__dirname}/../../log")
+log = require("#{__dirname}/../../src/log")
 
-retrieve = require("#{__dirname}/../../retrieve")
+retrieve = require("#{__dirname}/../../src/retrieve")
 
 Schema = mongoose.Schema
 ObjectId = Schema.Types.ObjectId
