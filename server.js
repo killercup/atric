@@ -1,4 +1,7 @@
+/*
+ * Start the ATRIC API server with `node server.js`.
+ */
+
 require('coffee-script');
-port = process.env.PORT || 3000;
-server = require(__dirname+"/src/web.coffee")
-server(port);
+server = require(__dirname+"/server/web.coffee")
+server(process.env.PORT);

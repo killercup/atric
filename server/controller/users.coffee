@@ -1,9 +1,9 @@
 passport = require('passport')
 TwitterStrategy = require('passport-twitter').Strategy
 
-log = require("#{__dirname}/../../log")
+log = require("#{__dirname}/../../src/log")
 
-CONFIG = require("#{__dirname}/../../../_config.yml")
+CONFIG = require("#{__dirname}/../../_config.yml")
 
 User = require("#{__dirname}/../model/user")
 Book = require("#{__dirname}/../model/book")

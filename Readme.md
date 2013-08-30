@@ -29,16 +29,6 @@ If you want to further process the data yourself, you can use the `-o` or `--out
 $ coffee index.coffee -o log.json
 ```
 
-### Web Server
-
-You can also start a simple web server which shows the data as one simple html page.
-
-```sh
-$ coffee index.coffee --web
-```
-
-In the future, I might extend this.
-
 ## Thanks
 
 [node.js](http://nodejs.org/), [coffeescript](http://coffeescript.org/), [apac](https://github.com/dmcquay/node-apac), [cli-table](https://github.com/LearnBoost/cli-table), [express](http://expressjs.com/), [reactive-coffee](http://yang.github.io/reactive-coffee/)

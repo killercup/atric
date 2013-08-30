@@ -25,26 +25,27 @@
     </footer>
   </div>
 
-  <% if (req.user) { %>
+  [% if (req.user) { %]
   <script>
     window.User = {
-      "_id": "<%= req.user._id %>",
-      "name": "<%= req.user.name %>"
+      "_id": "[%= req.user._id %]",
+      "name": "[%= req.user.name %]"
     };
   </script>
-  <% } %>
+  [% } %]
 
-  <script src="vendor/jquery<%=minify%>.js"></script>
-  <script src="vendor/handlebars<%=minify%>.js"></script>
-  <script src="vendor/d3.v3<%=minify%>.js"></script>
-  <script src="vendor/ember<%=minify%>.js"></script>
-  <script src="vendor/ember-data<%=minify%>.js"></script>
+<% _.each(vendor_js, function (paths, name) { %><% if (paths.cdn) { %>
+  <script src="<%= paths.cdn %>"></script>
+  <script>window.<%= paths.global || name %> || document.write('<script src="<%= paths.local %>"><\/script>')</script>
+<% } else { %>
+  <script src="<%= paths.local %>"></script>
+<% } }); %>
   <script src="js/templates.js"></script>
   <script src="js/app.js"></script>
   <script>require('index')</script>
 
-  <% if (config.environment === 'development') { %>
+<% if (!production) { %>
   <script src="http://localhost:35729/livereload.js"></script>
-  <% } %>
+<% } %>
 </body>
 </html>

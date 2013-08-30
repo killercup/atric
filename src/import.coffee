@@ -5,12 +5,12 @@ Q = require('q')
 
 mongoose = require('mongoose')
 
-mongoose.connect CONFIG.mongo.uri, ->
+mongoose.connect "mongodb://#{CONFIG.mongo.host}/#{CONFIG.mongo.db}", ->
   console.log 'Connected to Mongo'.grey
 
 log = require('./log')
 
-Book = require("#{__dirname}/web/model/book")
+Book = require("#{__dirname}/../server/model/book")
 
 newBook = (isbn) ->
   deferred = Q.defer()
