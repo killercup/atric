@@ -56,7 +56,7 @@ do ->
   web = argv.s or argv.web
   if web
     port = parseInt(web, 10) or 3000
-    server = require("#{__dirname}/src/web.coffee")
+    server = require("#{__dirname}/server/web.coffee")
     server(port)
 
   doImport = argv.i or argv.import
@@ -73,9 +73,9 @@ do ->
     CONFIG = require("./_config.yml")
 
     mongoose = require('mongoose')
-    RefreshController = require('./src/web/controller/refresh')
+    RefreshController = require('./web/controller/refresh')
 
-    mongoose.connect CONFIG.mongo.uri, ->
+    mongoose.connect "mongodb://#{CONFIG.mongo.host}/#{CONFIG.mongo.db}", ->
       log.verbose 'Connected to Mongo'.grey
 
     RefreshController.doRefresh()

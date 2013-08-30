@@ -9,15 +9,15 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-compress')
   grunt.loadNpmTasks('grunt-ember-templates')
   grunt.loadNpmTasks('grunt-recess')
+  grunt.loadNpmTasks('grunt-template')
 
-  # userConfig = require './build.config'
+  userConfig = require "#{__dirname}/client/build.config"
 
   grunt.initConfig
     clean:
       all: [
         '.tmp/**/*.*'
-        # 'public/css'
-        # 'public/js'
+        'public/*'
       ]
 
     coffee:
@@ -25,8 +25,8 @@ module.exports = (grunt) ->
         bare: true
       glob_to_multiple:
         expand: true
-        cwd: ''
-        src: ['client/**/*.coffee']
+        cwd: 'client'
+        src: ['app/**/*.coffee']
         dest: '.tmp/js'
         ext: '.js'
 
@@ -34,36 +34,80 @@ module.exports = (grunt) ->
       js:
         files: [{
           expand: true
-          cwd: ''
-          src: ['client/**/*.js']
+          cwd: 'client'
+          src: ['app/**/*.js']
           dest: '.tmp/js'
           ext: '.js'
+        }]
+      vendor:
+        files: [{
+          expand: true
+          # flatten: true
+          cwd: 'client'
+          src: userConfig.getLocalFiles('development', userConfig.vendor)
+          dest: 'public'
+        }]
+      vendor_min:
+        files: [{
+          expand: true
+          # flatten: true
+          cwd: 'client'
+          src: userConfig.getLocalFiles('production', userConfig.vendor)
+          dest: 'public'
+        }]
+      fonts:
+        files: [{
+          expand: true
+          cwd: 'client'
+          src: ['fonts/**/*']
+          dest: 'public'
+        }]
+
+    template:
+      build:
+        options:
+          data:
+            vendor_js: userConfig.getSpecificEnv('development', userConfig.vendor)
+            production: false
+        files: [{
+          expand: true
+          cwd: 'client'
+          src: ['*.html']
+          dest: 'public'
+          ext: '.html'
+        }]
+      precompile:
+        options:
+          data:
+            vendor_js: userConfig.getSpecificEnv('production', userConfig.vendor)
+            production: true
+        files: [{
+          expand: true
+          cwd: 'client'
+          src: ['*.html']
+          dest: 'public'
+          ext: '.html'
         }]
 
     commonjs:
       modules:
-        cwd: '.tmp/js/client/'
+        cwd: '.tmp/js/app/'
         src: '**/*.js'
-        dest: '.tmp/js/client/'
+        dest: '.tmp/js/app/'
 
     emberTemplates:
       compile:
         options:
           templateName: (sourceFile) ->
-            sourceFile.replace(/client\/templates\//, '')
+            sourceFile.replace(/client\/app\/templates\//, '')
         files:
-          'public/js/templates.js': ['client/templates/**/*.hbs']
+          'public/js/templates.js': ['client/app/templates/**/*.hbs']
 
     concat:
       precompile:
         src: [
-          # 'vendor/jquery.js'
-          'public/vendor/common.js'
-          # 'vendor/handlebars.runtime.js'
-          # 'vendor/ember.min.js'
-          # 'vendor/ember-data.min.js'
-          # '.tmp/js/client/templates.js'
-          '.tmp/js/client/**/*.js'
+          'client/vendor/commonjs/common.js'
+          '.tmp/js/app/**/*.js'
         ]
         dest: 'public/js/app.js'
 
@@ -75,7 +119,7 @@ module.exports = (grunt) ->
 
     recess:
       build:
-        src: 'public/less/main.less'
+        src: 'client/less/main.less'
         dest: 'public/css/style.css'
         options:
           compile: true
@@ -84,7 +128,7 @@ module.exports = (grunt) ->
           noIDs: false
           zeroUnits: false
       compile:
-        src: 'public/less/main.less'
+        src: 'client/less/main.less'
         dest: 'public/css/style.css'
         options:
           compile: true
@@ -100,13 +144,22 @@ module.exports = (grunt) ->
           pretty: true
         expand: true
         cwd: 'public'
-        src: ['js/**/*.js', 'css/**/*.css', 'fonts/**/*.svg', 'img/**/*.svg']
+        src: ['**/*.js', 'css/**/*.css', 'fonts/**/*.svg', 'img/**/*.svg']
         dest: 'public'
 
     watch:
       options:
         atBegin: true
         livereload: true
+      buildConfig:
+        files: 'client/build.config.coffee'
+        tasks: ['copy:vendor']
+      html:
+        files: 'client/*.html'
+        tasks: ['template:build']
+      fonts:
+        files: 'client//fonts/**/*'
+        tasks: ['copy:fonts']
       js:
         files: 'client/**/*.js'
         tasks: ['copy:js', 'commonjs:modules', 'concat:precompile']
@@ -124,7 +177,10 @@ module.exports = (grunt) ->
   grunt.registerTask 'default', [
     'clean'
     'coffee'
-    'copy'
+    'copy:fonts'
+    'copy:js'
+    'copy:vendor'
+    'template:build'
     'commonjs:modules'
     'emberTemplates'
     'concat:precompile'
@@ -134,7 +190,10 @@ module.exports = (grunt) ->
   grunt.registerTask 'precompile', [
     'clean'
     'coffee'
-    'copy'
+    'copy:fonts'
+    'copy:js'
+    'copy:vendor_min'
+    'template:precompile'
     'commonjs'
     'emberTemplates'
     'concat:precompile'

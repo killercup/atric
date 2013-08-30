@@ -4,8 +4,11 @@
 
 .tmp
 node_modules/
-bower_components/
 _config.yml
 books.yml
 log*
 !log.coffee
+
+bower_components/
+client/vendor/
+public/*

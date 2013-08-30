@@ -1,0 +1,19 @@
+{
+  "name": "atric",
+  "version": "0.3.1",
+  "homepage": "https://github.com/killercup/atric",
+  "authors": [
+    "Pascal Hertleif <killercup@gmail.com>"
+  ],
+  "private": true,
+  "devDependencies": {
+    "bootstrap": "~3.0.0",
+    "commonjs": "~0.2.0",
+    "jquery": "~1.9.1",
+    "handlebars": "1.0.0",
+    "ember": "1.0.0-rc.7",
+    "ember-data": "http://builds.emberjs.com.s3.amazonaws.com/ember-data-latest.js",
+    "ember-data-min": "http://builds.emberjs.com.s3.amazonaws.com/ember-data-latest.min.js",
+    "d3": "~3.3.1"
+  }
+}
