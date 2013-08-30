@@ -158,7 +158,7 @@ module.exports = (grunt) ->
         files: 'client/*.html'
         tasks: ['template:build']
       fonts:
-        files: 'client//fonts/**/*'
+        files: 'client/fonts/**/*'
         tasks: ['copy:fonts']
       js:
         files: 'client/**/*.js'
@@ -170,7 +170,7 @@ module.exports = (grunt) ->
         files: 'client/**/*.hbs'
         tasks: ['emberTemplates']
       less:
-        files: 'public/**/*.less'
+        files: 'client/**/*.less'
         tasks: ['recess:build']
 
 
