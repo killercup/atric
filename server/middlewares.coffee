@@ -2,7 +2,10 @@ express = require('express')
 
 MongoStore = require('connect-mongo')(express)
 passport = require('passport')
-ejs = require('ejs').__express
+
+ejs = require('ejs')
+ejs.open = '[%'
+ejs.close = '%]'
 
 module.exports = (app) ->
   app.configure ->
@@ -17,7 +20,7 @@ module.exports = (app) ->
     app.use passport.initialize()
     app.use passport.session()
 
-    app.engine 'html', ejs
+    app.engine 'html', ejs.__express
 
     app.use app.router
     app.use express.static app.get('app config')._path + app.get('app config').express.public
