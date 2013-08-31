@@ -12,10 +12,10 @@ files =
     'jQuery':
       development:
         local: "#{bower}/jquery/jquery.js"
-        cdn: "//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.js"
+        cdn: "//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"
       production:
         local: "#{bower}/jquery/jquery.min.js"
-        cdn: "//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+        cdn: "//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"
     'Handlebars':
       development:
         local: "#{bower}/handlebars/handlebars.js"
@@ -26,10 +26,10 @@ files =
     'Ember':
       development:
         local: "#{bower}/ember/ember.js"
-        cdn: "//cdnjs.cloudflare.com/ajax/libs/ember.js/1.0.0-rc.7/ember.js"
+        cdn: "//cdnjs.cloudflare.com/ajax/libs/ember.js/1.0.0-rc.8/ember.js"
       production:
         local: "#{bower}/ember/ember.min.js"
-        cdn: "//cdnjs.cloudflare.com/ajax/libs/ember.js/1.0.0-rc.7/ember.min.js"
+        cdn: "//cdnjs.cloudflare.com/ajax/libs/ember.js/1.0.0-rc.8/ember.min.js"
     'ember-data':
       development:
         global: 'DS'
