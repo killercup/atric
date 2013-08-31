@@ -11,13 +11,13 @@ App.Book = DS.Model.extend
 
   currentPrice: (->
     ps = @get('prices')
-    ps[ps.length - 1]?.value or 0
+    ps?[ps.length - 1]?.value or 0
   ).property('prices')
 
   # second to last price
   penultimatePrice: (->
     ps = @get('prices')
-    ps[ps.length - 2]?.value or 0
+    ps?[ps.length - 2]?.value or 0
   ).property('prices')
 
   trend: (->
