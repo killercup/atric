@@ -1,42 +1,11 @@
 {{#if App.User}}
-<nav class="navbar navbar-default" role="navigation">
+  {{partial "navbar"}}
+
   <div class="container">
-    <a class="navbar-brand" href="#/">
-      <abbr title="Amazon Trade In Price Checker">ATRIC</abbr>
-      {{#if App.loading.busy}}
-        <small class="glyphicon glyphicon-refresh"></small>
-      {{/if}}
-    </a>
-
-    <ul class="nav navbar-nav navbar-right">
-      <li class="navbar-text">
-        Hi, {{App.User.name}}.
-      </li>
-      <li>
-        <a href="/api/logout">Logout</a>
-      </li>
-    </ul>
+    {{outlet}}
   </div>
-</nav>
-
-<div class="container">
-  {{outlet}}
-</div>
 {{else}}
-
-<div class="container">
-  <div class="jumbotron">
-    <h1>
-      Amazon Trade In Price Checker
-    </h1>
-    <p>
-      Enter some book ISBNs and get a list of what they're worth on <a href="http://www.amazon.de/b?_encoding=UTF8&camp=1638&creative=6742&linkCode=ur2&node=186606&site-redirect=de&tag=killercblog-21">Amazon.de</a>
-    </p>
-    <p>
-      <a class="btn btn-success btn-large" href="/api/auth/twitter">Sign in with Twitter</a>
-    </p>
-  </div>
-</div>
+  {{partial "welcome"}}
 {{/if}}
 
 {{partial "footer"}}

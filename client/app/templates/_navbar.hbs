@@ -1,0 +1,19 @@
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <a class="navbar-brand" href="#/">
+      <abbr title="Amazon Trade In Price Checker">ATRIC</abbr>
+      {{#if App.loading.busy}}
+        <small class="glyphicon glyphicon-refresh"></small>
+      {{/if}}
+    </a>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li class="navbar-text">
+        Hi, {{App.User.name}}.
+      </li>
+      <li>
+        <a href="/api/logout">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
