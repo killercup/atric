@@ -1,8 +1,11 @@
 {{#if App.User}}
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
-    <a class="navbar-brand h1" href="#">
+    <a class="navbar-brand" href="#/">
       <abbr title="Amazon Trade In Price Checker">ATRIC</abbr>
+      {{#if App.loading.busy}}
+        <small class="glyphicon glyphicon-refresh"></small>
+      {{/if}}
     </a>
 
     <ul class="nav navbar-nav navbar-right">
