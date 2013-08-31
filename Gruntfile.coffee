@@ -99,9 +99,9 @@ module.exports = (grunt) ->
       compile:
         options:
           templateName: (sourceFile) ->
-            sourceFile.replace(/client\/app\/templates\//, '')
+            sourceFile.replace(/client\/app\/(\w+)\//, '')
         files:
-          'public/js/templates.js': ['client/app/templates/**/*.hbs']
+          'public/js/templates.js': ['client/app/**/*.hbs']
 
     concat:
       precompile:
