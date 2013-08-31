@@ -35,6 +35,7 @@
       </div>
     </div>
 
+  {{#if model}}
     <div class="list-group">
     {{#each book in filtered}}
       {{#link-to 'book' book.id class='list-group-item'}}
@@ -63,7 +64,13 @@
         </p>
       </div>
     </div>
-  </div>
+  {{else}}
+    <div class="panel panel-default">
+      <div class="panel-body text-warning">Loading&hellip;</div>
+    </div>
+  {{/if}}
+  </div>{{! end .view-list}}
+
   <div class="col-md-8 view-detail">
     {{outlet}}
   </div>
