@@ -9,7 +9,7 @@
       {{view Ember.TextField valueBinding=newISBN class='form-control col-md-1'
         placeholder='ISBN' type="text" required="required" pattern="^((\d{10})|(\d{13}))$"}}
     </div>
-    <button class="btn btn-success" {{bindAttr disabled="newISBNInvalid" }} {{action addBook newISBN}}>
+    <button class="btn btn-success" {{bind-attr disabled="newISBNInvalid" }} {{action addBook newISBN}}>
       Add Book
     </button>
   </form>
@@ -40,7 +40,7 @@
       {{#link-to 'book' book.id class='list-group-item'}}
         <span class="badge">
           {{money book.currentPrice}}
-          <span {{bindAttr class=":glyphicon book.trend2glyph"}}></span>
+          <span {{bind-attr class=":glyphicon book.trend2glyph"}}></span>
         </span>
         <h4 class="list-group-item-heading">{{truncate book.title length=42}}</h4>
         <p class="list-group-item-text">{{book.author}}</p>
