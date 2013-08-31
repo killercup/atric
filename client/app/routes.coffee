@@ -7,3 +7,5 @@ App.Router.map ->
 App.IndexRoute = Ember.Route.extend
   redirect: ->
     @transitionTo 'books' if App.User
+
+App.LoadingRoute = Ember.Route.extend()

@@ -4,7 +4,7 @@ LoadingIndicator = Ember.Object.extend
     @get('count') > 0
   ).property('count')
 
-window.loading = loading = LoadingIndicator.create()
+loading = LoadingIndicator.create()
 
 $(document).on 'ajaxStart', ->
   loading.incrementProperty 'count', 1
