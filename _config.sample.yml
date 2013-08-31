@@ -1,13 +1,20 @@
 amazon:
+  # https://portal.aws.amazon.com/gp/aws/securityCredentials
   id: 1337-1337-1337
   key: LOREMIPSUMSDOLOR
   secret: TE9SRU1JUFNVTVNET0xPUg==
   associate: yomama-21
   endPoint: "ecs.amazonaws.de"
 twitter:
+  # https://dev.twitter.com/apps
   consumerKey: "LOREMIPSUMS"
   consumerSecret: "LOREMIPSUMSDOLOR"
 mongo:
-  uri: 'mongodb://localhost/atric'
+  host: "localhost"
+  db: "atric"
+express:
+  port: 3000
+  public: "public"
+  sessionSecret: "geheim"
 baseURL: 'http://127.0.0.1:3000'
 environment: 'development'

@@ -2,7 +2,7 @@
 
 This small script queries Amazon (.com, .de, ...) for the trade in value of the books you specify.
 
-I wrote it because I wanted to trade stuff in but didn't want to settle for prices as low as EUR 0.10 and rather check if the values change over time.
+I wrote it because I wanted to trade stuff in but didn't want to settle for prices as low as EUR 0.10 and rather check if the values changed over time.
 
 ![Screenshot](https://raw.github.com/killercup/atric/master/src/_screenshot.png)
 
@@ -11,6 +11,16 @@ I wrote it because I wanted to trade stuff in but didn't want to settle for pric
 To use it, edit the `*.sample.yml` files to your liking and remove the 'sample' from their names.
 
 `books.yml` needs to be a list called `books` containing the ISBN numbers of the books you want to look up.
+
+### Requirements
+
+As you can see in the sample config file, you need to insert some data to make ATRIC work.
+
+If you just want to run the CLI, insert your Amazon API key ([find it here][aws]) and you're good to go.
+
+If you want to host the web interface, there are some more requirements, which you can find in the `server` readme.
+
+[aws]: https://portal.aws.amazon.com/gp/aws/securityCredentials
 
 ## Usage
 

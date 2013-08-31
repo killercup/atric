@@ -1,8 +1,15 @@
 # ATRIC Web Client
 
-This is a web frontend for [the ATRIC API][1], using bootstrap 3 and Ember.js.
+This is a web frontend for [the ATRIC API][server], using bootstrap 3 and Ember.js.
 
-[1]: ../server/
+[server]: ../server/
+
+## Requirements
+
+To compile app/assets:
+
+* `grunt`
+* `bower`
 
 ## Usage
 
