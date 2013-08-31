@@ -1,6 +1,10 @@
 serializer = DS.RESTSerializer.extend
   primaryKey: (type) -> '_id'
 
+DS.RESTAdapter.registerTransform 'raw',
+  deserialize: (serialized) -> serialized
+  serialize: (deserialized) -> deserialized
+
 App.RESTAdapter = DS.RESTAdapter.extend
   namespace: 'api'
   serializer: serializer
