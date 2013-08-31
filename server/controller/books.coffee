@@ -5,13 +5,22 @@ Book = require("#{__dirname}/../model/book")
 module.exports = {}
 module.exports.books = (req, res) ->
   options = {}
+  select = amazon: 0
+
   if req.param 'value_gt'
-    options = "prices.value": "$gt": req.param('value_gt')
+    options["prices.value"] = "$gt": req.param('value_gt')
 
   if req.user and not req.param('all')
-    options = "_id": $in: req.user.books
+    options["_id"] = "$in": req.user.books
 
-  Book.find(options).exec()
+  if req.param 'no_prices'
+    select.prices = 0
+  else if req.param 'all_prices'
+    # don't change field selection
+  else
+    select.prices = "$slice": -1
+
+  Book.find(options, select).exec()
   .then (data) ->
     res.send books: data
   .then null, (err) ->

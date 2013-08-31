@@ -8,6 +8,14 @@ App.BookRoute = Ember.Route.extend
   model: (params) ->
     Book.find(params.book_id)
 
+  setupController: (controller, model) ->
+    controller.set("model", model)
+
+    unless model.get('full') is true
+      model.reload().then ->
+        model.set('full', true)
+    return
+
 App.BookController = Ember.ObjectController.extend
   actions:
     deleteBook: ->
