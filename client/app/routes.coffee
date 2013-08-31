@@ -5,6 +5,5 @@ App.Router.map ->
     @resource 'book', path: ':book_id'
 
 App.IndexRoute = Ember.Route.extend
-  User: window.User
   redirect: ->
-    @transitionTo 'books' if window.User
+    @transitionTo 'books' if App.User
