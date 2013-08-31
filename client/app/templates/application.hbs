@@ -1,4 +1,4 @@
-{{#if User}}
+{{#if App.User}}
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
     <a class="navbar-brand" href="#">
@@ -7,7 +7,7 @@
 
     <ul class="nav navbar-nav navbar-right">
       <li class="navbar-text">
-        Hi, {{User.name}}.
+        Hi, {{App.User.name}}.
       </li>
       <li>
         <a href="/api/logout">Logout</a>
