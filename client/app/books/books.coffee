@@ -30,18 +30,19 @@ App.BooksController = Ember.ArrayController.extend
     return not /^((\d{10})|(\d{13}))$/.test(@get('newISBN'))
   ).property('newISBN')
 
-  addBook: (isbn='') ->
-    return if @get('newISBNInvalid')
-    newBook = App.Book.createRecord isbn: isbn
-    newBook.one 'didCreate', =>
-      @set('newISBN', '')
-      @transitionToRoute 'book', newBook
+  actions:
+    addBook: (isbn='') ->
+      return if @get('newISBNInvalid')
+      newBook = App.Book.createRecord isbn: isbn
+      newBook.one 'didCreate', =>
+        @set('newISBN', '')
+        @transitionToRoute 'book', newBook
 
-    @get('store').commit()
+      @get('store').commit()
 
-  refreshBooks: ->
-    $.post('/api/refresh')
-    .then ->
-      window.location.reload()
+    refreshBooks: ->
+      $.post('/api/refresh')
+      .then ->
+        window.location.reload()
 
 module.exports = App.BooksController

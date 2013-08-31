@@ -9,14 +9,15 @@ App.BookRoute = Ember.Route.extend
     Book.find(params.book_id)
 
 App.BookController = Ember.ObjectController.extend
-  deleteBook: ->
-    title = @get('model').get('title')
+  actions:
+    deleteBook: ->
+      title = @get('model').get('title')
 
-    @get('model').one 'didDelete', =>
-      alert "#{title} deleted."
-      @transitionToRoute 'books'
+      @get('model').one 'didDelete', =>
+        alert "#{title} deleted."
+        @transitionToRoute 'books'
 
-    @get('model').deleteRecord()
-    @get('store').commit()
+      @get('model').deleteRecord()
+      @get('store').commit()
 
 module.exports = App.BookController
