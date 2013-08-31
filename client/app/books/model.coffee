@@ -17,23 +17,18 @@ App.Book = DS.Model.extend
   # second to last price
   penultimatePrice: (->
     ps = @get('prices')
-    ps?[ps.length - 2]?.value or 0
+    ps?[ps.length - 2]?.value
   ).property('prices')
 
   trend: (->
     now = @get('currentPrice')
     earlier = @get('penultimatePrice')
 
+    return '' unless earlier
+
     if now > earlier then 'up'
     else if now == earlier then 'unchanged'
     else 'down'
   ).property('currentPrice')
-
-  trend2glyph: (->
-    trend = @get('trend')
-    if trend is 'up' then "glyphicon-circle-arrow-up"
-    else if trend is 'down' then "glyphicon-circle-arrow-down"
-    else "glyphicon-circle-arrow-right"
-  ).property('trend')
 
 module.exports = App.Book

@@ -13,6 +13,8 @@ App.BookRoute = Ember.Route.extend
 
     unless model.get('full') is true
       model.reload().then ->
+        # We now have all the information.
+        # Setting `full` to `true` to prevent loading it again.
         model.set('full', true)
     return
 
