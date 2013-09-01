@@ -73,7 +73,7 @@ do ->
     CONFIG = require("./_config.yml")
 
     mongoose = require('mongoose')
-    RefreshController = require('./web/controller/refresh')
+    RefreshController = require('./server/controller/refresh')
 
     mongoose.connect "mongodb://#{CONFIG.mongo.host}/#{CONFIG.mongo.db}", ->
       log.verbose 'Connected to Mongo'.grey
