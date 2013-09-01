@@ -40,9 +40,4 @@ App.BooksController = Ember.ArrayController.extend
 
       @get('store').commit()
 
-    refreshBooks: ->
-      $.post('/api/refresh')
-      .then ->
-        window.location.reload()
-
 module.exports = App.BooksController
