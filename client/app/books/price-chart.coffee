@@ -6,7 +6,7 @@ PriceChartView = Ember.View.extend
 
   chartData: (->
     data = []
-    @get("content").forEach (item) ->
+    @get("content")?.forEach (item) ->
       date = item.date
       if date
         date = new Date(date)
