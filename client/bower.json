@@ -10,8 +10,8 @@
     "bootstrap": "~3.0.0",
     "commonjs": "~0.2.0",
     "jquery": "~2.0.3",
-    "handlebars": "1.0.0",
-    "ember": "1.0.0-rc.8",
+    "handlebars": "~1.0.0",
+    "ember": "~1.0.0",
     "ember-data": "http://builds.emberjs.com.s3.amazonaws.com/ember-data-latest.js",
     "ember-data-min": "http://builds.emberjs.com.s3.amazonaws.com/ember-data-latest.min.js",
     "d3": "~3.3.1"
