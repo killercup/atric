@@ -8,6 +8,20 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 body .navbar {
   border-radius: 0;
+
+  @media (min-width: @grid-float-breakpoint) {
+    .navbar-form {
+      float: left;
+    }
+  }
+
+  @media (max-width: @grid-float-breakpoint) {
+    .navbar-text {
+      float: none;
+      margin-left: @navbar-padding-horizontal;
+      margin-right: @navbar-padding-horizontal;
+    }
+  }
 }
 
 .book {

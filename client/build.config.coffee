@@ -44,6 +44,11 @@ files =
       production:
         local: "#{bower}/d3/d3.min.js"
         cdn: "//cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js"
+    'bootstrap':
+      development:
+        local: "#{bower}/bootstrap/dist/js/bootstrap.js"
+      production:
+        local: "#{bower}/bootstrap/dist/js/bootstrap.min.js"
 
 getSpecificEnv = (env='development', list=files.vendor) ->
   result = {}
