@@ -153,7 +153,7 @@ module.exports = (grunt) ->
         livereload: true
       buildConfig:
         files: 'client/build.config.coffee'
-        tasks: ['copy:vendor']
+        tasks: ['copy:vendor', 'template:build']
       html:
         files: 'client/*.html'
         tasks: ['template:build']
@@ -161,16 +161,16 @@ module.exports = (grunt) ->
         files: 'client/fonts/**/*'
         tasks: ['copy:fonts']
       js:
-        files: 'client/**/*.js'
+        files: ['client/app/**/*.js']
         tasks: ['copy:js', 'commonjs:modules', 'concat:precompile']
       coffee:
-        files: 'client/**/*.coffee'
+        files: 'client/app/**/*.coffee'
         tasks: ['coffee', 'commonjs:modules', 'concat:precompile']
       handlebars:
-        files: 'client/**/*.hbs'
+        files: 'client/app/**/*.hbs'
         tasks: ['emberTemplates']
       less:
-        files: 'client/**/*.less'
+        files: 'client/less/**/*.less'
         tasks: ['recess:build']
 
 
