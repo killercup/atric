@@ -1,10 +1,7 @@
-<nav class="navbar navbar-default" role="navigation">
+<nav role="navigation" {{bind-attr class=":navbar :navbar-default App.loading.loading"}}>
   <div class="container">
     <a class="navbar-brand" href="#/">
       <abbr title="Amazon Trade In Price Checker">ATRIC</abbr>
-      {{#if App.loading.busy}}
-        <small class="glyphicon glyphicon-refresh"></small>
-      {{/if}}
     </a>
 
     <ul class="nav navbar-nav navbar-right">
