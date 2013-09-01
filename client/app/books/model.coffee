@@ -7,11 +7,18 @@ App.Book = DS.Model.extend
   title: attr 'string'
   author: attr 'string'
   prices: attr 'raw'
+  lastprice: attr 'number'
   amazon: attr 'raw'
+
+  reload: ->
+    console.log 'reload?'
+    return if @get('full')
+    console.log 'yup.'
+    @_super()
 
   currentPrice: (->
     ps = @get('prices')
-    ps?[ps.length - 1]?.value or 0
+    ps?[ps.length - 1]?.value or @get('lastprice') or 0
   ).property('prices')
 
   # second to last price

@@ -22,9 +22,15 @@ module.exports.books = (req, res) ->
 
   Book.find(options, select).exec()
   .then (data) ->
-    res.send books: data
-  .then null, (err) ->
-    res.send 500, err: err
+    books = data.map (b) ->
+      book = b.toObject()
+      book.lastprice = book.prices?[0]?.value
+      delete book.prices
+      book
+
+    res.send books: books
+  .then null, (err, info) ->
+    res.send 500, err: err, msg: info
 
 module.exports.book = (req, res) ->
   id = req.param 'id'
