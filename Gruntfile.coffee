@@ -105,8 +105,7 @@ module.exports = (grunt) ->
 
     concat:
       precompile:
-        src: [
-          'client/vendor/commonjs/common.js'
+        src: userConfig.getLocalFiles('production', userConfig.app, 'client/').concat [
           '.tmp/js/app/**/*.js'
         ]
         dest: 'public/js/app.js'

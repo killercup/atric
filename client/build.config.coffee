@@ -1,12 +1,39 @@
+###
+# Vendor Files build config
+
+- `files.app` are references to files that will be concatenated into `app.js`.
+- `files.vendor` are references to local files and CDN links to the same files.
+
+For each file reference, different environments can be specified (usually
+'development' and 'production').
+
+CDN files will be included with a fallback to the local file, so you should
+always include one. To check whether a CDN file has been loaded, a global
+variable will be tested. If it doesn't exist, the local file will be included.
+By default, the key of the reference is used as global name, but you can
+overwrite it by setting a `global` key in the environment.
+
+To load the vendor files correctly, include something like the following in
+your HTML:
+
+    <% _.each(vendor_js, function (paths, name) { %><% if (paths.cdn) { %>
+      <script src="<%= paths.cdn %>"></script>
+      <script>window.<%= paths.global || name %> || document.write('<script src="<%= paths.local %>"><\/script>')</script>
+    <% } else { %>
+      <script src="<%= paths.local %>"></script>
+    <% } }); %>
+
+###
+
 bower = "vendor"
 
 files =
   app:
     commonjs:
       development:
-        local: "#{bower}/commonjs/commonjs.js"
+        local: "#{bower}/commonjs/common.js"
       production:
-        local: "#{bower}/commonjs/commonjs.js"
+        local: "#{bower}/commonjs/common.js"
 
   vendor:
     'jQuery':
@@ -56,10 +83,10 @@ getSpecificEnv = (env='development', list=files.vendor) ->
     result[key] = value[env] if value?[env]?
   return result
 
-getLocalFiles = (env='development', list=files.app) ->
+getLocalFiles = (env='development', list=files.app, prefix='') ->
   result = []
   for key, value of list
-    result.push value[env].local if value?[env]?.local?
+    result.push(prefix + value[env].local) if value?[env]?.local?
   return result
 
 module.exports =
