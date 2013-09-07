@@ -1,6 +1,8 @@
 money = require('common/swag').money
 
 PriceChartView = Ember.View.extend
+  classNames: ['price-chart', 'chart']
+
   content: []
   valuePadding: 10
 
@@ -130,7 +132,6 @@ PriceChartView = Ember.View.extend
     chart = svg.append("g")
       .attr("transform", "translate(#{margin.left},#{margin.top})")
 
-
     chart.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0,#{height})")
@@ -153,23 +154,66 @@ PriceChartView = Ember.View.extend
         .attr('cy', y)
         .attr('r', 3)
         .attr('title', title)
-        .on "mouseover", (date, index) ->
-          marker = d3.select(this)
-          marker.attr("r", 6)
+        # .on "mouseover", (date, index) ->
+          # marker = d3.select(this)
+          # marker.attr("r", 6)
 
-          group.append("text")
-            .attr("class", "chart-tooltip")
-            .attr("transform", "translate(#{x},#{y-8})")
-            .text(title);
-        .on "mouseout", (date, index) ->
-          d3.select(this).attr("r", 3)
-          group.select("text").remove()
-
+          # group.append("text")
+          #   .attr("class", "chart-tooltip")
+          #   .attr("transform", "translate(#{x},#{y-8})")
+          #   .text(title)
+        # .on "mouseout", (date, index) ->
+          # d3.select(this).attr("r", 3)
+          # group.select("text").remove()
 
     markers = chart.append("svg:g").attr("class", "markers")
 
+    format_date = d3.time.format('%d %b %y %H:%M:%S')
+
     data.forEach (item) ->
-      make_marker markers, x(item.date), y(item.value), money(item.value)
+      make_marker markers, x(item.date), y(item.value), "#{money(item.value)}\n #{format_date item.date}"
+
+    circles = markers.selectAll('circle')
+    circles.on 'mouseover', ((item, index) ->
+      $this = $(this)
+      $chart = $("##{elementId}")
+
+      # make dot bigger
+      $this.attr r: 6
+
+      [value, date] = $this.attr('title').split('\n')
+
+      $tooltip = $ """<div class="popover bottom">
+        <div class="arrow"></div>
+        <h3 class="popover-title">#{value}</h3>
+        <div class="popover-content">
+          #{date}
+        </div>
+      </div>"""
+
+      chartOffset = $chart.offset()
+      circleOffset = $this.offset()
+
+      # position tooltip just below the marker circle
+      $tooltip.css
+        top: 12 + circleOffset.top - chartOffset.top
+        left: circleOffset.left - chartOffset.left
+
+      $this.data 'tooltip', $tooltip
+
+      $chart.append $tooltip
+      return
+    )
+    circles.on 'mouseout', ((item, index) ->
+      $this = $(this)
+
+      # shrink dot back to original size
+      $this.attr r: 3
+
+      # remove le tooltip
+      $this.data('tooltip').remove()
+      return
+    )
 
     chart
   )

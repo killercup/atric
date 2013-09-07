@@ -32,3 +32,27 @@ path.area {
   fill: @text-color;
   text-anchor: middle;
 }
+
+.chart {
+  position: relative;
+
+  .popover {
+    position: absolute;
+    display: block;
+    opacity: 1;
+  }
+
+  .popover.bottom {
+    margin-left: -12px;
+
+    .arrow {
+      left: 6px;
+      margin-left: 0;
+
+      &:after {
+        // assuming we always have a title set, we want to match its bg
+        border-bottom-color: @popover-title-bg;
+      }
+    }
+  }
+}
