@@ -53,10 +53,10 @@ files =
     'Ember':
       development:
         local: "#{bower}/ember/ember.js"
-        cdn: "//cdnjs.cloudflare.com/ajax/libs/ember.js/1.0.0-rc.8/ember.js"
+        cdn: "//cdnjs.cloudflare.com/ajax/libs/ember.js/1.0.0/ember.js"
       production:
         local: "#{bower}/ember/ember.min.js"
-        cdn: "//cdnjs.cloudflare.com/ajax/libs/ember.js/1.0.0-rc.8/ember.min.js"
+        cdn: "//cdnjs.cloudflare.com/ajax/libs/ember.js/1.0.0/ember.min.js"
     'ember-data':
       development:
         global: 'DS'

@@ -4,7 +4,7 @@ Book = require './model'
 
 App.BooksRoute = Ember.Route.extend
   model: ->
-    App.Book.find()
+    @store.find('book')
 
 App.BooksController = Ember.ArrayController.extend
   minPrice: 42
@@ -39,10 +39,5 @@ App.BooksController = Ember.ArrayController.extend
         @transitionToRoute 'book', newBook
 
       @get('store').commit()
-
-    refreshBooks: ->
-      $.post('/api/refresh')
-      .then ->
-        window.location.reload()
 
 module.exports = App.BooksController

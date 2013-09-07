@@ -22,4 +22,4 @@ module.exports = (port) ->
   require("#{__dirname}/routes")(app)
 
   console.log "Starting web server on port #{port}...".green
-  app.listen(port)
+  app.listen(port, '127.0.0.1')

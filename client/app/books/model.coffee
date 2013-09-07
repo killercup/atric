@@ -2,16 +2,29 @@ App = require '../app'
 
 attr = DS.attr
 
+App.BookSerializer = DS.RESTSerializer.extend
+  normalize: (type, hash, property) ->
+    hash.id = hash._id
+    delete hash._id
+    @_super(type, hash, property)
+
 App.Book = DS.Model.extend
   isbn: attr 'string'
   title: attr 'string'
   author: attr 'string'
   prices: attr 'raw'
+  lastprice: attr 'number'
   amazon: attr 'raw'
+
+  reload: ->
+    console.log 'reload?'
+    return if @get('full')
+    console.log 'yup.'
+    @_super()
 
   currentPrice: (->
     ps = @get('prices')
-    ps?[ps.length - 1]?.value or 0
+    ps?[ps.length - 1]?.value or @get('lastprice') or 0
   ).property('prices')
 
   # second to last price
