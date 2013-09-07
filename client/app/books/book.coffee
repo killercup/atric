@@ -6,7 +6,7 @@ App.PriceChartView = require './price-chart'
 
 App.BookRoute = Ember.Route.extend
   model: (params) ->
-    Book.find(params.book_id)
+    @store.find('book', params.book_id)
 
   setupController: (controller, model) ->
     controller.set("model", model)

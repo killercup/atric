@@ -2,6 +2,12 @@ App = require '../app'
 
 attr = DS.attr
 
+App.BookSerializer = DS.RESTSerializer.extend
+  normalize: (type, hash, property) ->
+    hash.id = hash._id
+    delete hash._id
+    @_super(type, hash, property)
+
 App.Book = DS.Model.extend
   isbn: attr 'string'
   title: attr 'string'
