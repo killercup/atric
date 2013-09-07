@@ -1,0 +1,15 @@
+<div class="notifications" id="notification-bar">
+{{#if notifications}}
+  <div class="container">
+  {{#each notification in notifications}}
+    <div {{bindAttr class=":alert notification.type"}}>
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{#if notification.title}}<h4>{{notification.title}}</h4>{{/if}}
+      {{#if notification.message}}
+        {{{notification.message}}}
+      {{/if}}
+    </div>
+  {{/each}}
+  </div>
+{{/if}}
+</div>

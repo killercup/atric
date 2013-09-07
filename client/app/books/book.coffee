@@ -19,6 +19,8 @@ App.BookRoute = Ember.Route.extend
     return
 
 App.BookController = Ember.ObjectController.extend
+  needs: ['application']
+
   actions:
     deleteBook: ->
       book = @get('model')
@@ -27,8 +29,12 @@ App.BookController = Ember.ObjectController.extend
       book.deleteRecord()
       book.save()
       .then (data) =>
-        # TODO implement cool alerts
-        alert "#{title} deleted."
+        @get("controllers.application").notify
+          title: "#{title} deleted.",
+          message: "Eternal rest, grant unto it, and let perpetual light shine upon it.",
+          type: "alert-success",
+          persists: true
+
         @transitionToRoute 'books'
       .then null, (err) ->
         console.error err
