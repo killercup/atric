@@ -14,11 +14,11 @@ App.BooksController = Ember.ArrayController.extend
     minPrice = @get('minPrice') or 0
     search = RegExp (@get('searchText') or ''), 'gi'
 
-    @get('model').filter (item) ->
+    @get('content').filter (item, index, self) ->
       (item.get('currentPrice') >= minPrice) and \
-      (search.test(item.get('title')) or search.test(item.get('author')))
+      (search is '' or search.test(item.get('title')) or search.test(item.get('author')))
 
-  ).property('minPrice', 'searchText', 'model.@each')
+  ).property('minPrice', 'searchText', 'content.@each.currentPrice')
 
   priceSum: (->
     @get('filtered').reduce ((memo, item) ->
