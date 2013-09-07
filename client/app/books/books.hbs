@@ -33,7 +33,7 @@
 
   {{#if model}}
     <div class="list-group">
-    {{#each book in filtered}}
+    {{#each book in sortedContent}}
       {{#link-to 'book' book.id class='list-group-item'}}
         <span class="badge price">
           {{money book.currentPrice}}

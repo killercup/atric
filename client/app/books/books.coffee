@@ -9,8 +9,9 @@ App.BooksRoute = Ember.Route.extend
 App.BooksController = Ember.ArrayController.extend
   minPrice: 42
   newISBN: ''
+  sortProperties: ['author', 'title']
 
-  filtered: (->
+  filteredContent: (->
     minPrice = @get('minPrice') or 0
     search = RegExp (@get('searchText') or ''), 'gi'
 
@@ -20,11 +21,13 @@ App.BooksController = Ember.ArrayController.extend
 
   ).property('minPrice', 'searchText', 'content.@each.currentPrice')
 
+  sortedContent: Ember.computed.sort('filteredContent', 'sortProperties')
+
   priceSum: (->
-    @get('filtered').reduce ((memo, item) ->
+    @get('filteredContent').reduce ((memo, item) ->
       memo + item.get('currentPrice')
     ), 0
-  ).property('filtered')
+  ).property('filteredContent')
 
   newISBNInvalid: (->
     return not /^((\d{10})|(\d{13}))$/.test(@get('newISBN'))
