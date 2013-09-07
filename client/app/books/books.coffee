@@ -33,11 +33,12 @@ App.BooksController = Ember.ArrayController.extend
   actions:
     addBook: (isbn='') ->
       return if @get('newISBNInvalid')
-      newBook = App.Book.createRecord isbn: isbn
-      newBook.one 'didCreate', =>
+      newBook = @store.createRecord 'book', isbn: isbn
+      newBook.save().then =>
         @set('newISBN', '')
         @transitionToRoute 'book', newBook
-
-      @get('store').commit()
+      .then null, (err) ->
+        console.error err
+        alert 'doh!'
 
 module.exports = App.BooksController

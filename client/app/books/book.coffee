@@ -21,13 +21,17 @@ App.BookRoute = Ember.Route.extend
 App.BookController = Ember.ObjectController.extend
   actions:
     deleteBook: ->
-      title = @get('model').get('title')
+      book = @get('model')
+      title = book.get('title')
 
-      @get('model').one 'didDelete', =>
+      book.deleteRecord()
+      book.save()
+      .then (data) =>
+        # TODO implement cool alerts
         alert "#{title} deleted."
         @transitionToRoute 'books'
-
-      @get('model').deleteRecord()
-      @get('store').commit()
+      .then null, (err) ->
+        console.error err
+        alert 'doh!'
 
 module.exports = App.BookController
