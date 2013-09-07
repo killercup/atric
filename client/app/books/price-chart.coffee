@@ -5,8 +5,11 @@ PriceChartView = Ember.View.extend
   valuePadding: 10
 
   chartData: (->
+    content = @get("content")
+    return unless content?
+
     data = []
-    @get("content")?.forEach (item) ->
+    content.forEach (item, index) ->
       date = item.date
       if date
         date = new Date(date)
@@ -16,7 +19,15 @@ PriceChartView = Ember.View.extend
       value = item.value
       return unless value
 
+      # Skip values that do lay perfectly on the line between the
+      # previous and next element. This way, there are less markers.
+      prev = content[index-1] || {}
+      next = content[index+1] || {}
+      if (prev.date) and (prev.value is value) and (next.value is value) and (next.date)
+        return
+
       data.push value: value, date: date
+
     data.sort (a, b) -> a.date - b.date
   ).property("content")
 
@@ -52,7 +63,7 @@ PriceChartView = Ember.View.extend
 
   doRender: (->
     data = @get("chartData")
-    return unless data.length > 0
+    return unless data?.length > 0
 
     margin =
       top: 20
