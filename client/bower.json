@@ -12,8 +12,8 @@
     "jquery": "~2.0.3",
     "handlebars": "~1.0.0",
     "ember": "~1.0.0",
-    "ember-data": "http://builds.emberjs.com.s3.amazonaws.com/ember-data-latest.js",
-    "ember-data-min": "http://builds.emberjs.com.s3.amazonaws.com/ember-data-latest.min.js",
+    "ember-data": "http://builds.emberjs.com/beta/ember-data.js",
+    "ember-data-min": "http://builds.emberjs.com/beta/ember-data.min.js",
     "d3": "~3.3.1"
   }
 }
