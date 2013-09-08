@@ -9,27 +9,35 @@
   </header>
   <div class="row panel-body">
     <div class="col-md-8 col-lg-8">
+      {{#if amazon}}<p>
+        <a {{bind-attr href=amazon.url}} title="View on Amazon" class="">
+          <span class="glyphicon glyphicon-hand-right"></span>
+          <strong>View on Amazon</strong>
+        </a>
+      </p>{{/if}}
       <p class="text-info">
         <strong>Current value:</strong>
         {{money currentPrice}}
+        &mdash;
+        <strong>ISBN</strong>: {{isbn}}
       </p>
 
       {{view App.PriceChartView contentBinding=prices}}
+
+      <div class="text-help text-muted">
+        <p><small>
+          (Charts omit boring data points where nothing changes, but trade-in data is updated every few hours.)
+        </small></p>
+      </div>
     </div>
-    <div class="col-md-4 col-lg-4">
+    <div class="col-md-4 col-lg-4 col-xs-6">
     {{#if amazon}}
-      <a {{bind-attr href=amazon.url}} title="View on Amazon">
-        <p>
-          <img {{bind-attr src="amazon.image"}} alt="Cover" class="thumbnail" />
-        </p>
-        <p>
-          View on Amazon
-        </p>
-      </a>
+      <p>
+        <a {{bind-attr href=amazon.url}} title="View on Amazon" class="thumbnail">
+          <img {{bind-attr src="amazon.image"}} alt="Cover" />
+        </a>
+      </p>
     {{/if}}
-      <p><small class="text-muted">
-        ISBN: {{isbn}}
-      </small></p>
     </div>
   </div>
 
