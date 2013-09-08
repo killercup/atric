@@ -1,5 +1,6 @@
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   text-rendering: optimizeLegibility;
+  word-break: break-word;
 }
 
 .ember-application .no-ember {
@@ -26,6 +27,9 @@ body .navbar {
 
 
 @media (max-width: @grid-float-breakpoint) {
+  @speed: 0.5s;
+  @inactive: 0.8;
+
   .view-books {
     overflow-x: hidden;
 
@@ -34,17 +38,34 @@ body .navbar {
       margin-left: 0;
       margin-right: 0;
 
-      .transition-transform(0.4s ease-in-out);
+      .transition-transform(@speed ease-in-out);
+      .transition-transform(@speed cubic-bezier(0.1, 0.7, 0.1, 1));
+
+      .view-detail {
+        opacity: @inactive;
+      }
+      .view-list {
+        opacity: 1;
+      }
 
       &.detail {
         .translate(-50%; 0);
+
+        .view-list {
+          opacity: @inactive;
+        }
+        .view-detail {
+          opacity: 1;
+        }
       }
     }
   }
 
   .view-list, .view-detail {
+    .transition(opacity @speed ease-in-out);
     width: 50%;
     float: left;
+    padding: 0;
   }
 }
 

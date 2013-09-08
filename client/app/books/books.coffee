@@ -41,7 +41,7 @@ App.BooksController = Ember.ArrayController.extend
 
   actions:
     pageToggle: (view) ->
-      $('html, body').animate {scrollTop: 0}, 200, =>
+      $('html, body').animate {scrollTop: 0}, 300, =>
         return @set('pageSection', view) if view?
 
         if @get('pageSection') is 'list'
