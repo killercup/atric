@@ -14,10 +14,19 @@ module.exports = (grunt) ->
   userConfig = require "#{__dirname}/client/build.config"
 
   grunt.initConfig
+    pkg: grunt.file.readJSON('package.json')
+
+    banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
+      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
+      '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
+      '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>\n'+
+      '* Many thanks to all those who made this possible by contributing to open source software!'+
+      '*/\n'
+
     clean:
       all: [
-        '.tmp/**/*'
-        'public/*'
+        '.tmp'
+        'public'
       ]
 
     coffee:
@@ -112,12 +121,14 @@ module.exports = (grunt) ->
 
     concat:
       precompile:
-        src: userConfig.getLocalFiles('production', userConfig.app, 'client/').concat [
+        src: userConfig.getLocalFiles('development', userConfig.app, 'client/').concat [
           '.tmp/js/app/**/*.js'
         ]
         dest: 'public/js/app.js'
 
     uglify:
+      options:
+        banner: '<%= banner %>'
       precompile:
         files:
           'public/js/app.js': ['public/js/app.js']
