@@ -16,7 +16,7 @@ module.exports = (grunt) ->
   grunt.initConfig
     clean:
       all: [
-        '.tmp/**/*.*'
+        '.tmp/**/*'
         'public/*'
       ]
 
@@ -31,6 +31,13 @@ module.exports = (grunt) ->
         ext: '.js'
 
     copy:
+      favicons:
+        files: [{
+          expand: true
+          cwd: 'client/favicons'
+          src: ['*.png', '*.ico']
+          dest: 'public'
+        }]
       js:
         files: [{
           expand: true
@@ -159,6 +166,9 @@ module.exports = (grunt) ->
       fonts:
         files: 'client/fonts/**/*'
         tasks: ['copy:fonts']
+      images:
+        files: 'client/favicons/**/*'
+        tasks: ['copy:favicons']
       js:
         files: ['client/app/**/*.js']
         tasks: ['copy:js', 'commonjs:modules', 'concat:precompile']
@@ -177,6 +187,7 @@ module.exports = (grunt) ->
     'clean'
     'coffee'
     'copy:fonts'
+    'copy:favicons'
     'copy:js'
     'copy:vendor'
     'template:build'
@@ -190,6 +201,7 @@ module.exports = (grunt) ->
     'clean'
     'coffee'
     'copy:fonts'
+    'copy:favicons'
     'copy:js'
     'copy:vendor_min'
     'template:precompile'
