@@ -1,73 +1,81 @@
-<div class="row view-books">
-  <div class="col-md-4 view-list">
-    <div class="panel panel-default">
-      <form class="form-inline">
-        <div class="input-group">
-          {{view Ember.TextField valueBinding=newISBN class='form-control col-md-1'
-            placeholder='ISBN' type="text" required="required" pattern="^((\d{10})|(\d{13}))$"}}
-          <span class="input-group-btn">
-            <button class="btn btn-success" {{bind-attr disabled="newISBNInvalid" }} {{action addBook newISBN}}>
-              Add Book
-            </button>
-          </span>
+<div class="view-books">
+  <div {{bind-attr class=":row :inner pageSection" }}>
+    <div class="col-sm-5 col-md-4 col-lg-4 view-list">
+      <div class="panel panel-default">
+        <form class="form-inline">
+          <div class="input-group">
+            {{view Ember.TextField valueBinding=newISBN class='form-control col-md-1'
+              placeholder='ISBN' type="text" required="required" pattern="^((\d{10})|(\d{13}))$"}}
+            <span class="input-group-btn">
+              <button class="btn btn-success" {{bind-attr disabled="newISBNInvalid" }} {{action addBook newISBN}}>
+                Add Book
+              </button>
+            </span>
+          </div>
+        </form>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Filter
+          </h3>
         </div>
-      </form>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          Filter
-        </h3>
+        <div class="panel-body">
+          <p class="input-group">
+            <span class="input-group-addon">Min. Value in ¢</span>
+            {{view Ember.TextField valueBinding=minPrice class='form-control'}}
+          </p>
+          <p class="input-group">
+            <span class="input-group-addon">Titel/Author</span>
+            {{view Ember.TextField valueBinding=searchText class='form-control'}}
+          </p>
+        </div>
       </div>
-      <div class="panel-body">
-        <p class="input-group">
-          <span class="input-group-addon">Min. Value in ¢</span>
-          {{view Ember.TextField valueBinding=minPrice class='form-control'}}
-        </p>
-        <p class="input-group">
-          <span class="input-group-addon">Titel/Author</span>
-          {{view Ember.TextField valueBinding=searchText class='form-control'}}
-        </p>
-      </div>
-    </div>
 
-  {{#if model}}
-    <div class="list-group">
-    {{#each book in sortedContent}}
-      {{#link-to 'book' book.id class='list-group-item'}}
-        <span class="badge price">
-          {{money book.currentPrice}}
-          <span {{bind-attr class=":trend book.trend"}}></span>
-        </span>
-        <h4 class="list-group-item-heading">{{truncate book.title length=42}}</h4>
-        <p class="list-group-item-text">{{book.author}}</p>
-      {{/link-to}}
+    {{#if model}}
+      <div class="list-group">
+      {{#each book in sortedContent}}
+        {{#link-to 'book' book.id class='list-group-item'}}
+          <span class="badge price">
+            {{money book.currentPrice}}
+            <span {{bind-attr class=":trend book.trend"}}></span>
+          </span>
+          <h4 class="list-group-item-heading">{{truncate book.title length=42}}</h4>
+          <p class="list-group-item-text">{{book.author}}</p>
+        {{/link-to}}
+      {{else}}
+        <div class="list-group-item">
+          <h4 class="list-group-item-heading">
+            No books.
+          </h4>
+          <p class="list-group-item-text text-muted">
+            Add some or change filter. Or maybe it's just still loading.
+          </p>
+        </div>
+      {{/each}}
+
+        <div class="list-group-item">
+          <p class="list-group-item-text text-right">
+            <small class="text-muted">TOTAL</small>
+            <strong class="text-success">{{money priceSum}}</strong>
+          </p>
+        </div>
+      </div>
     {{else}}
-      <div class="list-group-item">
-        <h4 class="list-group-item-heading">
-          No books.
-        </h4>
-        <p class="list-group-item-text text-muted">
-          Add some or change filter. Or maybe it's just still loading.
-        </p>
+      <div class="panel panel-default">
+        <div class="panel-body text-warning">Loading&hellip;</div>
       </div>
-    {{/each}}
+    {{/if}}
+    </div>{{! end .view-list}}
 
-      <div class="list-group-item">
-        <p class="list-group-item-text text-right">
-          <small class="text-muted">TOTAL</small>
-          <strong class="text-success">{{money priceSum}}</strong>
-        </p>
-      </div>
+    <div class="col-sm-7 col-md-8 col-lg-8 view-detail">
+      <p class="visible-xs">
+        {{#link-to 'books'}}
+          <span class="glyphicon glyphicon-chevron-left"></span>
+          Back
+        {{/link-to}}
+      </p>
+      {{outlet}}
     </div>
-  {{else}}
-    <div class="panel panel-default">
-      <div class="panel-body text-warning">Loading&hellip;</div>
-    </div>
-  {{/if}}
-  </div>{{! end .view-list}}
-
-  <div class="col-md-8 view-detail">
-    {{outlet}}
   </div>
 </div>

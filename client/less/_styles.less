@@ -24,6 +24,30 @@ body .navbar {
   }
 }
 
+
+@media (max-width: @grid-float-breakpoint) {
+  .view-books {
+    overflow-x: hidden;
+
+    > .inner {
+      width: 200%;
+      margin-left: 0;
+      margin-right: 0;
+
+      .transition-transform(0.4s ease-in-out);
+
+      &.detail {
+        .translate(-50%; 0);
+      }
+    }
+  }
+
+  .view-list, .view-detail {
+    width: 50%;
+    float: left;
+  }
+}
+
 .book {
   h1 .author {
     white-space: nowrap;

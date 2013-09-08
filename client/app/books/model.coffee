@@ -17,9 +17,7 @@ App.Book = DS.Model.extend
   amazon: attr 'raw'
 
   reload: ->
-    console.log 'reload?'
     return if @get('full')
-    console.log 'yup.'
     @_super()
 
   currentPrice: (->

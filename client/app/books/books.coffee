@@ -6,6 +6,10 @@ App.BooksRoute = Ember.Route.extend
   model: ->
     @store.find('book')
 
+  enter: (transition) ->
+    @controllerFor('books').send('pageToggle', 'list')
+    return
+
 App.BooksController = Ember.ArrayController.extend
   minPrice: 42
   newISBN: ''
@@ -33,7 +37,18 @@ App.BooksController = Ember.ArrayController.extend
     return not /^((\d{10})|(\d{13}))$/.test(@get('newISBN'))
   ).property('newISBN')
 
+  pageSection: 'list'
+
   actions:
+    pageToggle: (view) ->
+      $('html, body').animate {scrollTop: 0}, 200, =>
+        return @set('pageSection', view) if view?
+
+        if @get('pageSection') is 'list'
+          @set('pageSection', 'detail')
+        else
+          @set('pageSection', 'list')
+
     addBook: (isbn='') ->
       return if @get('newISBNInvalid')
       newBook = @store.createRecord 'book', isbn: isbn
