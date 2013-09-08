@@ -1,0 +1,55 @@
+<div class="page-header">
+  <h1>
+    Hello, {{User.name}}!
+    <small>How are you doing?</small>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-7 col-sm-7 col-lg-8">
+    <article class="panel panel-default">
+      <header class="panel-heading">
+        <h3 class="panel-title">
+          Your connections
+        </h3>
+      </header>
+      <div class="panel-body">
+        <p class="list-group-item-text">
+          These are the services that you can use to log into ATRIC.
+          You need at least one.
+        </p>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <h4 class="list-group-item-heading">
+            <strong>Twitter</strong> <small><code>{{User.twitter_id}}</code></small>
+          </h4>
+          <p>
+            <button disabled="disabled" class="btn btn-danger btn-xs">Remove</button>
+            <span class="text-muted">You can't remove this, it's the only thing you have right now.</span>
+          </p>
+        </li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="col-md-5 col-sm-5 col-lg-4">
+    <aside class="panel panel-default">
+      <header class="panel-heading">
+        <h3 class="panel-title">Bits and Pieces</h3>
+      </header>
+      <div class="panel-body">
+        <p>
+          You currently have {{User.count}} books in your collection.
+        </p>
+        <p>
+          You are the proud owner of User-ID <code>{{User._id}}</code>.
+          Maybe that means something to you.
+        </p>
+        <p>
+          You joined ATRIC on {{date User.created}}.
+        </p>
+      </div>
+    </aside>
+  </div>
+</div>

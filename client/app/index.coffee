@@ -9,6 +9,7 @@ require('./store')
 
 # Initialize App Modules
 require('./books/index')
+require('./users/index')
 
 # Initialize Routes
 require('./routes')

@@ -1,5 +1,5 @@
 <nav role="navigation" {{bind-attr class=":navbar :navbar-default App.loading.loading"}}>
-  {{!-- <div class="container"> --}}
+  <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".top-nav-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -14,8 +14,8 @@
 
     <div class="collapse navbar-collapse top-nav-collapse navbar-right">
       <ul class="nav navbar-nav">
-        <li class="navbar-text">
-          Hi, {{App.User.name}}.
+        <li>
+          {{#link-to 'settings'}}Hi, {{App.User.name}}!{{/link-to}}
         </li>
         <li>
           <a href="/api/logout">Logout</a>
@@ -23,5 +23,5 @@
         {{reload-data}}
       </ul>
     </div>
-  {{!-- </div> --}}
+  </div>
 </nav>

@@ -29,7 +29,7 @@ passport.serializeUser (user, done) ->
 passport.deserializeUser (id, done) ->
   log.verbose "deserializeUser"
 
-  User.findOne(_id: id).select('-twitter')
+  User.findOne(_id: id).select('-twitter.token -twitter.tokenSecret')
   # .populate('books')
   .exec (err, user) ->
     log.verbose "deserializeUser done", user
