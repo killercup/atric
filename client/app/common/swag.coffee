@@ -21,5 +21,17 @@ module.exports.money = (value=0, params={}) ->
   else
     "#{formatted_value}#{currency}"
 
+module.exports.date = (date, params={}) ->
+  throw Error('date helper requires d3.') unless d3?.time?.format?
+
+  options = params.hash || {}
+  format = options.format || '%d %b %y %H:%M:%S'
+
+  date = new Date(date)
+  format_date = d3.time.format(format)
+
+  return format_date(date)
+
 Ember.Handlebars.registerBoundHelper 'truncate', module.exports.truncate
 Ember.Handlebars.registerBoundHelper 'money', module.exports.money
+Ember.Handlebars.registerBoundHelper 'date', module.exports.date
