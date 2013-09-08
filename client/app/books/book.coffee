@@ -18,13 +18,13 @@ App.BookRoute = Ember.Route.extend
         model.set('full', true)
     return
 
-  enter: (transition) ->
+  activate: (transition) ->
     # if on mobile, slide to outlet view
     # @controllerFor('books').set 'pageSection', 'detail'
     @controllerFor('books').send('pageToggle', 'detail')
     return
 
-  exit: (transition) ->
+  deactivate: (transition) ->
     @controllerFor('books').send('pageToggle', 'list')
     return
 

@@ -6,7 +6,7 @@ App.BooksRoute = Ember.Route.extend
   model: ->
     @store.find('book')
 
-  enter: (transition) ->
+  activate: () ->
     @controllerFor('books').send('pageToggle', 'list')
 
     key 'j', 'books', (e) =>
@@ -20,10 +20,13 @@ App.BooksRoute = Ember.Route.extend
 
     return
 
-  exit: ->
-    key.unbind 'j', 'books'
-    key.unbind 'k', 'books'
-    return
+  # Overriding this method completely screws with the routing for some reason.
+  # If I activate this, the controller will not exit and new routes just start
+  # appearing below in the same outlet.
+  # deactivate: ->
+  #   key.unbind 'j', 'books'
+  #   key.unbind 'k', 'books'
+  #   return
 
 App.BooksController = Ember.ArrayController.extend
   minPrice: 42
