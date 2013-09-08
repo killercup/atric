@@ -4,6 +4,14 @@ This small script queries Amazon (.com, .de, ...) for the trade in value of the 
 
 I wrote it because I wanted to trade stuff in but didn't want to settle for prices as low as EUR 0.10 and rather check if the values changed over time.
 
+---
+
+Then, I wanted to try to build something with Ember.js, Express.js and MongoDB. So, I added a simple JSON API which stores historical data (see `server/`) and a web interface (see `client/`).
+
+You can see it in action [here](http://atric.flabs.org/).
+
+---
+
 ![Screenshot](https://raw.github.com/killercup/atric/master/src/_screenshot.png)
 
 ## Config
@@ -41,6 +49,6 @@ $ coffee index.coffee -o log.json
 
 ## Thanks
 
-[node.js](http://nodejs.org/), [coffeescript](http://coffeescript.org/), [apac](https://github.com/dmcquay/node-apac), [cli-table](https://github.com/LearnBoost/cli-table), [express](http://expressjs.com/), [reactive-coffee](http://yang.github.io/reactive-coffee/)
+[node.js](http://nodejs.org/), [coffeescript](http://coffeescript.org/), [apac](https://github.com/dmcquay/node-apac), [cli-table](https://github.com/LearnBoost/cli-table), [express](http://expressjs.com/), [Ember](http://emberjs.com/), [Twitter Bootstrap](http://getbootstrap.com/), [Bootswatch](https://github.com/thomaspark/bootswatch/)
 
 ## License: MIT
