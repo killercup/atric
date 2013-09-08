@@ -8,6 +8,21 @@ App.BooksRoute = Ember.Route.extend
 
   enter: (transition) ->
     @controllerFor('books').send('pageToggle', 'list')
+
+    key 'j', 'books', (e) =>
+      $('.list-books a.active').first().nextAll('a').first().click()
+      return
+    key 'k', 'books', (e) =>
+      $('.list-books a.active').first().prevAll('a').first().click()
+      return
+
+    key.setScope 'books'
+
+    return
+
+  exit: ->
+    key.unbind 'j', 'books'
+    key.unbind 'k', 'books'
     return
 
 App.BooksController = Ember.ArrayController.extend

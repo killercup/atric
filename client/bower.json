@@ -14,6 +14,7 @@
     "ember": "~1.0.0",
     "ember-data": "http://builds.emberjs.com/beta/ember-data.js",
     "ember-data-min": "http://builds.emberjs.com/beta/ember-data.min.js",
-    "d3": "~3.3.1"
+    "d3": "~3.3.1",
+    "keymaster": "*"
   }
 }

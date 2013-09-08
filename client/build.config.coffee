@@ -29,11 +29,16 @@ bower = "vendor"
 
 files =
   app:
-    commonjs:
+    'commonjs':
       development:
         local: "#{bower}/commonjs/common.js"
       production:
         local: "#{bower}/commonjs/common.js"
+    'keymaster':
+      development:
+        local: "#{bower}/keymaster/keymaster.js"
+      production:
+        local: "#{bower}/keymaster/keymaster.min.js"
 
   vendor:
     'jQuery':
@@ -74,8 +79,11 @@ files =
     'bootstrap':
       development:
         local: "#{bower}/bootstrap/dist/js/bootstrap.js"
+        cdn: "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.js"
       production:
         local: "#{bower}/bootstrap/dist/js/bootstrap.min.js"
+        cdn: "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"
+
 
 getSpecificEnv = (env='development', list=files.vendor) ->
   result = {}
