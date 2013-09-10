@@ -29,6 +29,8 @@ App.BooksRoute = Ember.Route.extend
   #   return
 
 App.BooksController = Ember.ArrayController.extend
+  needs: ['application']
+
   minPrice: 42
   newISBN: ''
   sortProperties: ['author', 'title']
@@ -73,8 +75,10 @@ App.BooksController = Ember.ArrayController.extend
       newBook.save().then =>
         @set('newISBN', '')
         @transitionToRoute 'book', newBook
-      .then null, (err) ->
+      .then null, (err) =>
         console.error err
-        alert 'doh!'
+        @get("controllers.application").notify
+          title: "Couldn't add your new book :("
+          type: "alert-danger"
 
 module.exports = App.BooksController

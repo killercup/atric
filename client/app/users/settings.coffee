@@ -25,8 +25,8 @@ App.SettingsController = Ember.ObjectController.extend
       sure = window.confirm "Are you sure you want to delete your account from ATRIC?"
       if not sure
         @get("controllers.application").notify
-          title: "That was close!",
-          message: "I'm glad you decided to stay.",
+          title: "That was close!"
+          message: "I'm glad you decided to stay."
           type: "alert-success"
       else
         actuallyTriggerDelete()

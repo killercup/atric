@@ -40,9 +40,9 @@ App.BookController = Ember.ObjectController.extend
       book.save()
       .then (data) =>
         @get("controllers.application").notify
-          title: "#{title} deleted.",
-          message: "Eternal rest, grant unto it, and let perpetual light shine upon it.",
-          type: "alert-success",
+          title: "#{title} deleted."
+          message: "Eternal rest, grant unto it, and let perpetual light shine upon it."
+          type: "alert-success"
           persists: true
 
         @transitionToRoute 'books'
