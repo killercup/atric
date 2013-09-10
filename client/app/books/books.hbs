@@ -32,7 +32,7 @@
         </div>
       </div>
 
-    {{#if model}}
+    {{#if content.isLoaded}}
       <div class="list-group list-books">
       {{#each book in sortedContent}}
         {{#link-to 'book' book.id class='list-group-item'}}
@@ -49,7 +49,7 @@
             No books.
           </h4>
           <p class="list-group-item-text text-muted">
-            Add some or change filter. Or maybe it's just still loading.
+            Add some or change the filters.
           </p>
         </div>
       {{/each}}
