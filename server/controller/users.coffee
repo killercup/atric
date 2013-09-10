@@ -60,6 +60,17 @@ module.exports.logout = (req, res) ->
 module.exports.me = (req, res) ->
   res.send user: req.user
 
+module.exports.backup = (req, res) ->
+  return res.send 401, err: "Not signed in" unless req.user
+
+  User.findOne(_id: req.user._id).select('-twitter.token -twitter.tokenSecret')
+  .populate('books', '-prices')
+  .exec()
+  .then (user) ->
+    res.send user: user
+  .then null, (err) ->
+    res.send 500, err: err
+
 module.exports.addBook = (req, res) ->
   return res.send 401, err: "Not signed in" unless req.user
 

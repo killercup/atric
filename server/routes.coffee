@@ -15,6 +15,7 @@ module.exports = (app) ->
   app.get '/api/logout', UserController.ensureAuthenticated, UserController.logout
 
   app.get '/api/users/me', UserController.ensureAuthenticated, UserController.me
+  app.get '/api/users/me/backup', UserController.ensureAuthenticated, UserController.backup
   app.post '/api/users/addBook', UserController.ensureAuthenticated, UserController.addBook
   app.post '/api/users/removeBook', UserController.ensureAuthenticated, UserController.removeBook
 
