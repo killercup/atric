@@ -7,7 +7,7 @@
 
 <div class="row">
   <div class="col-md-7 col-sm-7 col-lg-8">
-    <article class="panel panel-default">
+    <article class="panel panel-primary">
       <header class="panel-heading">
         <h3 class="panel-title">
           Your connections
@@ -38,17 +38,62 @@
       <header class="panel-heading">
         <h3 class="panel-title">Bits and Pieces</h3>
       </header>
-      <div class="panel-body">
-        <p>
+      <ul class="list-group">
+        <li class="list-group-item">
           You currently have {{User.count}} books in your collection.
-        </p>
-        <p>
+        </li>
+        <li class="list-group-item">
           You are the proud owner of User-ID <code>{{User._id}}</code>.
           Maybe that means something to you.
-        </p>
-        <p>
+        </li>
+        <li class="list-group-item">
           You joined ATRIC on {{date User.created}}.
-        </p>
+        </li>
+        <li class="list-group-item">
+          You can download everything we saved in relation to your account
+          <small>(except API tokens)</small>
+          <a href="/api/users/me/backup" download="atric-backup.json">here.</a>
+        </li>
+      </ul>
+    </aside>
+
+    <aside class="panel panel-danger" id="delete-account-panel">
+      <header class="panel-heading">
+        <h3 class="panel-title">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#delete-account-panel" href="#delete-account-body">
+            Delete Account
+          </a>
+        </h3>
+      </header>
+      <div id="delete-account-body" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p>
+            Clicking the button below will destroy your account record in our database.
+            It will literally go into the users collection, grab you and throw you out.
+            With a pretty high possibility it won't even regret it. Or think about it,
+            really. It'll just do it without mercy, blindly following your orders.
+          </p>
+          <p>
+            So, you better think about what you are doing here. Once you press that
+            button, there is no going back.
+          </p>
+          <p class="text-muted">
+            If you actually want to restore your account, make sure you made a backup.
+            Then, just create a new account and reenter the information from the backup.
+            (You thought I was going to do that for you? Well then, better not delete
+            your account.)
+          </p>
+          <p>
+            <button class="btn btn-danger" {{action delete-user}}>
+              <span class="glyphicon glyphicon-remove-sign"></span>
+              Delete everything!
+            </button>
+          </p>
+          <p class="text-muted">
+            This will most likely not delete the API connections you made, e.g. to
+            Twitter. You can delete those separately on the services' sites.
+          </p>
+        </div>
       </div>
     </aside>
   </div>

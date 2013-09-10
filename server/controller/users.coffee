@@ -60,6 +60,11 @@ module.exports.logout = (req, res) ->
 module.exports.me = (req, res) ->
   res.send user: req.user
 
+module.exports.destroy = (req, res) ->
+  req.user.remove (err) ->
+    res.send 500, err: err if err
+    res.send 200, msg: 'User deleted.'
+
 module.exports.backup = (req, res) ->
   return res.send 401, err: "Not signed in" unless req.user
 
