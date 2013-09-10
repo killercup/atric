@@ -84,6 +84,7 @@ module.exports = (grunt) ->
         options:
           data:
             vendor_js: userConfig.getSpecificEnv('development', userConfig.vendor)
+            cachebuster: "?#{+(new Date())}"
             production: false
         files: [{
           expand: true
@@ -96,6 +97,7 @@ module.exports = (grunt) ->
         options:
           data:
             vendor_js: userConfig.getSpecificEnv('production', userConfig.vendor)
+            cachebuster: "?#{+(new Date())}"
             production: true
         files: [{
           expand: true

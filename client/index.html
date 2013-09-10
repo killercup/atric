@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>ATRIC</title>
 
-  <link rel="stylesheet" href="css/style.css" media="all"/>
+  <link rel="stylesheet" href="css/style.css<%=cachebuster%>" media="all"/>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
@@ -44,12 +44,12 @@
 
 <% _.each(vendor_js, function (paths, name) { %><% if (paths.cdn) { %>
   <script src="<%= paths.cdn %>"></script>
-  <script>window.<%= paths.global || name %> || document.write('<script src="<%= paths.local %>"><\/script>')</script>
+  <script>window.<%= paths.global || name %> || document.write('<script src="<%= paths.local + cachebuster %>"><\/script>')</script>
 <% } else { %>
-  <script src="<%= paths.local %>"></script>
+  <script src="<%= paths.local + cachebuster %>"></script>
 <% } }); %>
-  <script src="js/templates.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/templates.js<%=cachebuster%>"></script>
+  <script src="js/app.js<%=cachebuster%>"></script>
   <script>require('index')</script>
 
 <% if (!production) { %>
