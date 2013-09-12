@@ -2,11 +2,24 @@ App = require 'app'
 
 App.SettingsRoute = Ember.Route.extend
   model: ->
-    window.User
 
   activate: ->
     key.setScope 'settings'
     App.set 'title', 'Settings'
+
+  setupController: (controller) ->
+    controller.set 'content', window.User
+
+    $.getJSON('/api/users/value-stats')
+    .then (data) ->
+      stats = data.data.map (item, index) ->
+        {
+          value: item.value
+          date: new Date(item._id.year, item._id.month - 1, item._id.day)
+        }
+
+      controller.set('valueStats', stats)
+    return
 
 App.SettingsController = Ember.ObjectController.extend
   needs: ['application']

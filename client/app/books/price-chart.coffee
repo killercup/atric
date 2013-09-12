@@ -4,7 +4,10 @@ PriceChartView = Ember.View.extend
   classNames: ['price-chart', 'chart']
 
   content: []
+
   valuePadding: 10
+  width: 420
+  height: 250
 
   chartData: (->
     content = @get("content")
@@ -15,8 +18,7 @@ PriceChartView = Ember.View.extend
       date = item.date
       if date
         date = new Date(date)
-      else
-        return unless date
+      return unless date
 
       value = item.value
       return unless value
@@ -73,8 +75,8 @@ PriceChartView = Ember.View.extend
       bottom: 50
       left: 50
 
-    width = 420 - margin.right - margin.left
-    height = 250 - margin.top - margin.top
+    width = @get('width') - margin.right - margin.left
+    height = @get('height') - margin.top - margin.top
 
     elementId = @get("elementId")
     x = d3.time.scale()

@@ -7,6 +7,22 @@
 
 <div class="row">
   <div class="col-md-7 col-sm-7 col-lg-8">
+    {{#if valueStats}}
+    <article class="panel panel-primary">
+      <header class="panel-heading">
+        <h3 class="panel-title">Your Current Collection's Value Over Time</h3>
+      </header>
+      <div class="panel-body">
+        {{view App.PriceChartView contentBinding=valueStats height=140 width=600}}
+      </div>
+      <footer class="panel-footer">
+        <p class="text-muted">
+          The chart works like this: For every book you currently have in your collection, it calculates the average for each day. Then it sums these daily averages up.
+        </p>
+      </footer>
+    </article>
+    {{/if}}
+
     <article class="panel panel-primary">
       <header class="panel-heading">
         <h3 class="panel-title">
