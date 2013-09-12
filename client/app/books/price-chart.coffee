@@ -16,9 +16,10 @@ PriceChartView = Ember.View.extend
     data = []
     content.forEach (item, index) ->
       date = item.date
-      if date
-        date = new Date(date)
       return unless date
+
+      if !(date.getTimezoneOffset and date.setUTCFullYear)
+        date = new Date(date)
 
       value = item.value
       return unless value
