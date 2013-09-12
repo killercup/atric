@@ -7,16 +7,8 @@ App.BooksRoute = Ember.Route.extend
     @store.find('book')
 
   activate: () ->
+    @controllerFor('books').send('shortcuts')
     @controllerFor('books').send('pageToggle', 'list')
-
-    key 'j', 'books', (e) =>
-      $('.list-books a.active').first().nextAll('a').first().click()
-      return
-    key 'k', 'books', (e) =>
-      $('.list-books a.active').first().prevAll('a').first().click()
-      return
-
-    key.setScope 'books'
 
     return
 
@@ -60,6 +52,21 @@ App.BooksController = Ember.ArrayController.extend
   pageSection: 'list'
 
   actions:
+    shortcuts: () ->
+      key.setScope 'books'
+      return if @get('shortcutsSet')
+
+      @set 'shortcutsSet', true
+
+      key 'j', 'books', (e) =>
+        $('.list-books a.active').first().nextAll('a').first().click()
+        return
+      key 'k', 'books', (e) =>
+        $('.list-books a.active').first().prevAll('a').first().click()
+        return
+
+      return
+
     pageToggle: (view) ->
       $('html, body').animate {scrollTop: 0}, 300, =>
         return @set('pageSection', view) if view?

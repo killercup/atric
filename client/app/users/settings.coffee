@@ -4,6 +4,9 @@ App.SettingsRoute = Ember.Route.extend
   model: ->
     window.User
 
+  activate: ->
+    key.setScope 'settings'
+
   # setupController: (controller) ->
     # controller.set 'title', 'Settings'
 
