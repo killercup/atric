@@ -22,6 +22,7 @@ module.exports = (app) ->
   app.get '/api/users/me/backup', needsAuth, User.backup
   app.post '/api/users/addBook', needsAuth, Library.addBook
   app.post '/api/users/removeBook', needsAuth, Library.removeBook
+  app.get '/api/users/value-stats', needsAuth, Library.avgValueOverTime
 
   app.get '/api/books', Book.books
   app.get '/api/books/:id', Book.book

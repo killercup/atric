@@ -49,3 +49,64 @@ module.exports.removeBook = (req, res) ->
   .then null, (err) ->
     res.send 500, err: err
 
+module.exports.avgValueOverTime = (req, res) ->
+  users_books = req.user.books
+  creation_date = new Date(req.user._id.getTimestamp())
+
+  match_users_books =
+    $match:
+      _id:
+        $in: users_books
+
+  unwind_prices =
+    $unwind: "$prices"
+
+  date_range =
+    $match:
+      'prices.date':
+        $gte: creation_date
+
+  group_by_book_and_date_making_value_avg =
+    $group:
+      _id:
+        book: "$_id"
+        year:
+          $year: "$prices.date"
+        month:
+          $month: "$prices.date"
+        day:
+          $dayOfMonth: "$prices.date"
+      value:
+        $avg: "$prices.value"
+
+  group_by_date_making_value_avg =
+    $group:
+      _id:
+        year: "$_id.year"
+        month: "$_id.month"
+        day: "$_id.day"
+      value:
+        $sum: "$value"
+
+  sort_by_date =
+    $sort:
+      '_id.year': -1
+      '_id.month': -1
+      '_id.day': -1
+
+  last_days =
+    $limit: req.param('days') || 14
+
+  Book.aggregate match_users_books,
+    unwind_prices,
+    date_range,
+    group_by_book_and_date_making_value_avg,
+    group_by_date_making_value_avg,
+    sort_by_date,
+    last_days,
+    (err, docs) ->
+      return res.send 500, err: err if err
+      return res.send 404, err: 'no results' unless docs.length
+
+      res.send 200, data: docs
+
