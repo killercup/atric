@@ -64,7 +64,7 @@
       "_id": "[%= req.user._id %]",
       "name": "[%= req.user.name %]",
       "count": [%= req.user.books.length %],
-      "created": "[%= req.user._id.getTimestamp() %]",
+      "created": [%= +req.user._id.getTimestamp() %],
       "twitter_id": "[%= req.user.twitter.id %]"
     };
   </script>
