@@ -9,6 +9,7 @@ App.BooksRoute = Ember.Route.extend
   activate: () ->
     @controllerFor('books').send('shortcuts')
     @controllerFor('books').send('pageToggle', 'list')
+    App.set 'title', 'Books'
 
     return
 

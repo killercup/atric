@@ -7,6 +7,16 @@ App = Ember.Application.create
   loading: loading
   notifications: notifications
 
+App.reopen
+  titleChanged: (->
+    t = @get('title')
+    console.log 'titleChanged'
+    if t isnt ''
+      document.title = "#{t} / ATRIC"
+    else
+      document.title = "ATRIC"
+  ).observes('title')
+
 App.ApplicationController = Ember.Controller.extend
   notifications: notifications
 
