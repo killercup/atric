@@ -5,6 +5,9 @@ require('./common/swag')
 
 # Initilize App
 window.App = require('./app')
+
+require('common/title')
+
 require('./store')
 
 # Initialize App Modules
