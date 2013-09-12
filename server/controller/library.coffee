@@ -76,6 +76,8 @@ module.exports.avgValueOverTime = (req, res) ->
           $month: "$prices.date"
         day:
           $dayOfMonth: "$prices.date"
+      title:
+        $first: "$title"
       value:
         $avg: "$prices.value"
 
@@ -97,16 +99,26 @@ module.exports.avgValueOverTime = (req, res) ->
   last_days =
     $limit: req.param('days') || 14
 
-  Book.aggregate match_users_books,
-    unwind_prices,
-    date_range,
-    group_by_book_and_date_making_value_avg,
-    group_by_date_making_value_avg,
-    sort_by_date,
-    last_days,
-    (err, docs) ->
-      return res.send 500, err: err if err
-      return res.send 404, err: 'no results' unless docs.length
+  process = (err, docs) ->
+    return res.send 500, err: err if err
+    return res.send 404, err: 'no results' unless docs.length
 
-      res.send 200, data: docs
+    res.send 200, data: docs
 
+  if req.param('per_book')
+    Book.aggregate match_users_books,
+      unwind_prices,
+      date_range,
+      group_by_book_and_date_making_value_avg,
+      sort_by_date,
+      last_days,
+      process
+  else
+    Book.aggregate match_users_books,
+      unwind_prices,
+      date_range,
+      group_by_book_and_date_making_value_avg,
+      group_by_date_making_value_avg,
+      sort_by_date,
+      last_days,
+      process
