@@ -12,6 +12,10 @@
 
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+
+  <meta name="description" content="<%= pkg.description %>" />
+  <meta name="author" content="<%= pkg.author.name %>" />
+  <link rel="payment" href="<%= pkg.author.donate %>" type="text/html" />
 </head>
 <body>
 
@@ -31,10 +35,28 @@
 
     <footer class="container">
       <p class="text-center">
-        ATRIC is an <a href="https://github.com/killercup/atric">open source</a> project by <a href="http://pascalhertleif.de/">Pascal Hertleif</a>.
+        ATRIC is an <a href="https://github.com/killercup/atric">open source</a>
+        project by <a href="http://pascalhertleif.de/">Pascal Hertleif</a>.
+      </p>
+      <p>
+        <a href="<%= pkg.author.donate %>" target="_blank">
+          <img src="//api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" />
+        </a>
       </p>
     </footer>
   </div>
+
+  <script type="text/x-handlebars" data-template-name="_footer">
+    <p class="text-center">
+      ATRIC is an <a href="https://github.com/killercup/atric">open source</a>
+      project by <a href="http://pascalhertleif.de/">Pascal Hertleif</a>.
+    </p>
+    <p class="text-center">
+      <a href="<%= pkg.author.donate %>" target="_blank">
+        <img src="//api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" />
+      </a>
+    </p>
+  </script>
 
   [% if (req.user) { %]
   <script>

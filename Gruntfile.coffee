@@ -12,9 +12,10 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-template')
 
   userConfig = require "#{__dirname}/client/build.config"
+  pkg = grunt.file.readJSON('package.json')
 
   grunt.initConfig
-    pkg: grunt.file.readJSON('package.json')
+    pkg: pkg
 
     banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
       '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
@@ -85,6 +86,7 @@ module.exports = (grunt) ->
           data:
             vendor_js: userConfig.getSpecificEnv('development', userConfig.vendor)
             cachebuster: "?#{+(new Date())}"
+            pkg: pkg
             production: false
         files: [{
           expand: true
@@ -98,6 +100,7 @@ module.exports = (grunt) ->
           data:
             vendor_js: userConfig.getSpecificEnv('production', userConfig.vendor)
             cachebuster: "?#{+(new Date())}"
+            pkg: pkg
             production: true
         files: [{
           expand: true
@@ -117,7 +120,7 @@ module.exports = (grunt) ->
       compile:
         options:
           templateName: (sourceFile) ->
-            sourceFile.replace(/client\/app\/(\w+)\//, '')
+            sourceFile.replace(/^client\/app\/(\w+)\//, '')
         files:
           'public/js/templates.js': ['client/app/**/*.hbs']
 
