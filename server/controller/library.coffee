@@ -45,7 +45,7 @@ module.exports.removeBook = (req, res) ->
       books: book_id
   .exec()
   .then (user) ->
-    res.send 201, user: user
+    res.send 204 #no content
   .then null, (err) ->
     res.send 500, err: err
 
