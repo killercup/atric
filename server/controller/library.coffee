@@ -53,6 +53,11 @@ module.exports.avgValueOverTime = (req, res) ->
   users_books = req.user.books
   creation_date = new Date(req.user._id.getTimestamp())
 
+  # params
+  min_value = parseInt req.param('min_value'), 10
+  per_book = req.param 'per_book'
+  limit_days = req.param 'days'
+
   match_users_books =
     $match:
       _id:
@@ -61,10 +66,18 @@ module.exports.avgValueOverTime = (req, res) ->
   unwind_prices =
     $unwind: "$prices"
 
-  date_range =
-    $match:
-      'prices.date':
-        $gte: creation_date
+  if min_value
+    date_range =
+      $match:
+        'prices.date':
+          $gte: creation_date
+        'prices.value':
+          $gte: min_value
+  else
+    date_range =
+      $match:
+        'prices.date':
+          $gte: creation_date
 
   group_by_book_and_date_making_value_avg =
     $group:
@@ -97,7 +110,7 @@ module.exports.avgValueOverTime = (req, res) ->
       '_id.day': -1
 
   last_days =
-    $limit: req.param('days') || 14
+    $limit: limit_days || 14
 
   process = (err, docs) ->
     return res.send 500, err: err if err
@@ -105,7 +118,7 @@ module.exports.avgValueOverTime = (req, res) ->
 
     res.send 200, data: docs
 
-  if req.param('per_book')
+  if per_book
     Book.aggregate match_users_books,
       unwind_prices,
       date_range,
