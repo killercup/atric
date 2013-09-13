@@ -16,7 +16,7 @@
   "author": {
     "name": "Pascal Hertleif",
     "url": "http://pascalhertleif.de/",
-    "donate": "https://flattr.com/submit/auto?user_id=pascalhertleif&url=http%3A%2F%2Fatric.flabs.org%2F&category=software"
+    "donate": "https://flattr.com/submit/auto?user_id=pascalhertleif&url=http%3A%2F%2Fatric.flabs.org%2F&category=software&title=ATRIC&language=en_GB"
   },
   "license": "BSD",
   "scripts": {
