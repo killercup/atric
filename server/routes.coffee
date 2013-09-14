@@ -28,15 +28,21 @@ module.exports = (app) ->
 
     postRefresh: Refresh.postRefresh
 
+  ###
+  # Build Routes
+
+  For each entry in `routes`, add an API endpoint to express.
+  ###
   for k, v of routes
     unless (v?.spec?.path? or v.spec?.method? or v.action?)
       err = ['Incorrect route spec', k, v]
-      console.log "---"
-      console.log  v
-      console.log "---"
       throw err
 
+    # 'GET' -> 'get', to be used as `app['method']`
     method = v.spec.method.toLowerCase()
+
+    # will be something along the lines of
+    # `['/path', middleware1, middleware2, requestHandler]`
     args = []
 
     args.push v.spec.path
@@ -49,7 +55,7 @@ module.exports = (app) ->
 
     app[method].apply app, args
 
-
+  # Server API index/documentation
   app.get '/api', (req, res) ->
     if req.is('json') or req.param('format') is 'json'
       return res.send routes: _.map(routes, 'spec')
