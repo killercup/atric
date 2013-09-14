@@ -38,34 +38,77 @@ passport.deserializeUser (id, done) ->
 
 module.exports = {}
 
-module.exports.authenticateViaTwitter = passport.authenticate('twitter')
-
-module.exports.TwitterAuth = passport.authenticate('twitter', failureRedirect: '/?auth=nope')
-
-module.exports.authenticateViaTwitterSuccess = (req, res) ->
-  log.verbose "Successful authentication, redirect home."
-  return res.send msg: "Authentication successful" if req.is('json')
-  res.redirect '/'
-
 module.exports.ensureAuthenticated = (req, res, next) ->
   return next() if req.isAuthenticated()
   return res.send 401, err: "Not signed in" if req.is('json')
   res.redirect '/'
 
-module.exports.logout = (req, res) ->
+module.exports.authenticateViaTwitter =
+  spec:
+    path: '/api/auth/twitter'
+    method: 'GET'
+    summary: "Sign in using Twitter OAuth"
+    description: "Redirects user to Twitter API"
+  action: passport.authenticate('twitter')
+
+module.exports.TwitterAuth = passport.authenticate('twitter', failureRedirect: '/?auth=nope')
+
+module.exports.authenticateViaTwitterSuccess =
+  spec:
+    path: '/api/auth/twitter/callback'
+    method: 'GET'
+    summary: 'Twitter calls this with new user token'
+  middlewares: [module.exports.TwitterAuth]
+
+module.exports.authenticateViaTwitterSuccess.action = (req, res) ->
+  log.verbose "Successful authentication, redirect home."
+  return res.send msg: "Authentication successful" if req.is('json')
+  res.redirect '/'
+
+module.exports.logout =
+  spec:
+    path: '/api/logout'
+    method: "GET"
+    summary: "Deletes current users session"
+    needsAuth: true
+
+module.exports.logout.action = (req, res) ->
   req.logout()
   return res.send msg: "Logged Out" if req.is('json')
   res.redirect '/'
 
-module.exports.me = (req, res) ->
+module.exports.getMe =
+  spec:
+    path: '/api/users/me'
+    method: "GET"
+    summary: "Returns current user"
+    needsAuth: true
+
+module.exports.getMe.action = (req, res) ->
   res.send user: req.user
 
-module.exports.destroy = (req, res) ->
+
+module.exports.destroyMe =
+  spec:
+    path: '/api/users/me'
+    method: "DELETE"
+    summary: "Deletes current user account."
+    needsAuth: true
+
+module.exports.destroyMe.action = (req, res) ->
   req.user.remove (err) ->
     res.send 500, err: err if err
     res.send 200, msg: 'User deleted.'
 
-module.exports.backup = (req, res) ->
+
+module.exports.backMeUp =
+  spec:
+    path: '/api/users/me/backup'
+    method: "GET"
+    summary: "Returns backup of current users account"
+    needsAuth: true
+
+module.exports.backMeUp.action = (req, res) ->
   return res.send 401, err: "Not signed in" unless req.user
 
   User.findOne(_id: req.user._id).select('-twitter.token -twitter.tokenSecret')

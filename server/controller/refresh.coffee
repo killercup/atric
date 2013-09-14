@@ -10,7 +10,15 @@ module.exports.doRefresh = doRefresh = ->
   .then (books) ->
     Q.allSettled books.map (book) -> Book.fetchFromAmazon.call(Book, book)
 
-module.exports.postRefresh = (req, res) ->
+
+module.exports.postRefresh =
+  spec:
+    path: '/api/refresh'
+    method: "POST"
+    summary: "Fetch new information from Amazon."
+    needsAuth: true
+
+module.exports.postRefresh.action = (req, res) ->
   doRefresh()
   .then (data) ->
     log.verbose "Books updated".green
