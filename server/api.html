@@ -47,6 +47,12 @@
             [%- marked(route.description) %]
           </div>
           [% } %]
+          [% if (route.example) { %]
+          <div class="example">
+            <h4>Example Response</h4>
+            <pre class="pre-scrollable"><code>[%= route.example %]</code></pre>
+          </div>
+          [% } %]
         </div>
         [% if (route.params) { %]
         <table class="table table-striped list-group-item-text">

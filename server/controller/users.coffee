@@ -82,6 +82,18 @@ module.exports.getMe =
     path: '/api/users/me'
     method: "GET"
     summary: "Returns current user"
+    example: """{
+      "user": {
+        "_id": "520a4e1b7dcae0e2b83139dc",
+        "name": "killercup",
+        "books": [
+          "5208dc8611c41bddec000003",
+        ],
+        "twitter": {
+          "id": "1337"
+        }
+      }
+    }"""
     needsAuth: true
 
 module.exports.getMe.action = (req, res) ->

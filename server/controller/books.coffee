@@ -10,6 +10,18 @@ module.exports.getBooks =
     method: 'GET'
     summary: "Returns a list of books"
     description: "Returns a collection of books. By default, the ones the current user has added to her collection with just the most recent value as `lastprice`."
+    example: """{
+      "books": [
+        {
+          "__v": 0,
+          "_id": "5208dc8611c41bddec000003",
+          "author": "Scott McBain",
+          "isbn": "9783426624760",
+          "title": "Der Judasfluch",
+          "lastprice": 10
+        }
+      ]
+    }"""
     params:
       ids:
         type: 'String'
