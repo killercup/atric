@@ -22,13 +22,15 @@
         <strong>ISBN</strong>: {{isbn}}
       </p>
 
+      {{#if prices}}
       {{view App.PriceChartView contentBinding=prices}}
 
-      <div class="text-help text-muted">
-        <p><small>
-          (Charts omit boring data points where nothing changes, but trade-in data is updated every few hours.)
-        </small></p>
-      </div>
+      <p class="text-help text-muted">
+        <small>
+        (Charts omit boring data points where nothing changes, but trade-in data is updated every few hours.)
+        </small>
+      </p>
+      {{/if}}
     </div>
     <div class="col-md-4 col-lg-4 col-xs-6">
     {{#if amazon}}
