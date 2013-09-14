@@ -106,6 +106,7 @@ module.exports.backMeUp =
     path: '/api/users/me/backup'
     method: "GET"
     summary: "Returns backup of current users account"
+    description: "This includes the raw database record, except that `twitter.token` and `twitter.tokenSecret` have been stripped out."
     needsAuth: true
 
 module.exports.backMeUp.action = (req, res) ->

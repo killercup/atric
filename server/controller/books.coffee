@@ -20,7 +20,7 @@ module.exports.getBooks =
         summary: "Return all books instead of the ones the current user has in her collection. Can be overwritten by `ids`."
       prices:
         type: 'String'
-        summary: "`no`: Omnit all prices information.\n`all`: Return all prices.\n`latest`: Return latest value as `lastprice` field."
+        summary: "`no`: Omnit all prices information.\n\n`all`: Return all prices.\n\n`latest`: Return latest value as `lastprice` field."
         default: 'latest'
       value_gt:
         type: 'Number'

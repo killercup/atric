@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ATRIC API Documentation</title>
+  <link rel="stylesheet" href="css/style.css" media="all"/>
+</head>
+<body>
+  <header class="jumbotron">
+    <div class="container">
+      <h1>
+        ATRIC API Documentation
+      </h1>
+      <p>
+        This document has been generated automatically based on the available API routes. For more information, please read the <a href="https://github.com/killercup/atric/blob/master/server/routes.coffee"><code>routes.coffee</code></a> file.
+      </p>
+    </div>
+  </header>
+
+  <section class="container">
+  [% var style = {'GET': 'primary', 'POST': 'success', 'DELETE': 'danger'}; %]
+  [% _.each(routes, function (r, key) { %]
+    [% var route = r.spec %]
+    <article id="[%= key %]" class="panel panel-default">
+      <div class="panel-heading">
+        <h1 class="panel-title accordion-toggle" data-toggle="collapse" data-parent="#[%= key %]" data-target="#[%= key %]--body">
+          <small class="label label-[%= style[route.method] %]">[%= route.method %]</small>
+          <code>[%= route.path %]</code>
+          <span class="pull-right hidden-xs">
+            [%- marked(route.summary) %]
+          </span>
+        </h1>
+      </div>
+      <div class="panel-collapse collapse" id="[%= key %]--body">
+        <div class="panel-body">
+          <div class="summary">
+            [%- marked(route.summary) %]
+          </div>
+          [% if (route.description) { %]
+          <div class="description">
+            [%- marked(route.description) %]
+          </div>
+          [% } %]
+        </div>
+        [% if (route.params) { %]
+        <table class="table table-striped list-group-item-text">
+          <thead>
+            <th>Parameter</th>
+            <th>Summary</th>
+            <th>Default</th>
+            <th>Example</th>
+          </thead>
+          <tbody>
+          [% _.each(route.params, function (param, name) { %]
+            <tr>
+              <td><code>[%= name %]</code></td>
+              <td>[%- marked(param.summary) %]</td>
+              <td>[% if (param.default != null) { %]<code>[%= param.default %]</code>[% } %]</td>
+              <td>[% if (param.example) { %]
+                <pre><code>[%= param.example %]</code></pre>
+              [% } %]</td>
+            </tr>
+          [% }); %]
+          </tbody>
+        </table>
+        [% } %]
+      </div>
+    </article>
+  [% }); %]
+  </section>
+
+  <footer class="container">
+    <p class="text-center">
+      ATRIC is an <a href="https://github.com/killercup/atric">open source</a>
+      project by <a href="http://pascalhertleif.de/">Pascal Hertleif</a>.
+    </p>
+  </footer>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -37,7 +37,8 @@
     "connect-mongo": "0.3.x",
     "express-mongoose": "0.1.x",
     "passport": "0.1.x",
-    "passport-twitter": "1.0.x"
+    "passport-twitter": "1.0.x",
+    "marked": "~0.2.9"
   },
   "devDependencies": {
     "grunt": "~0.4.x",

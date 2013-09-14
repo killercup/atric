@@ -1,5 +1,3 @@
-_ = require('lodash')
-
 Book = require("#{__dirname}/controller/books")
 User = require("#{__dirname}/controller/users")
 Library = require("#{__dirname}/controller/library")
@@ -53,6 +51,12 @@ module.exports = (app) ->
 
 
   app.get '/api', (req, res) ->
-    res.send routes: _.map(routes, 'spec')
+    if req.is('json') or req.param('format') is 'json'
+      return res.send routes: _.map(routes, 'spec')
+
+    res.render "#{__dirname}/api.html",
+      routes: routes
+      marked: require('marked')
+      _: require('lodash')
 
   return app
