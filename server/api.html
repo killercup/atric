@@ -33,9 +33,15 @@
       </div>
       <div class="panel-collapse collapse" id="[%= key %]--body">
         <div class="panel-body">
-          <div class="summary">
-            [%- marked(route.summary) %]
-          </div>
+          <p class="summary lead">
+            [%- route.summary %]
+          </p>
+          [% if (route.needsAuth) { %]
+          <p class="text-warning">
+            <span class="glyphicon glyphicon-lock"></span>
+            You need to be authenticated to access this resource.
+          </p>
+          [% } %]
           [% if (route.description) { %]
           <div class="description">
             [%- marked(route.description) %]
@@ -46,6 +52,7 @@
         <table class="table table-striped list-group-item-text">
           <thead>
             <th>Parameter</th>
+            <th>Type</th>
             <th>Summary</th>
             <th>Default</th>
             <th>Example</th>
@@ -53,7 +60,10 @@
           <tbody>
           [% _.each(route.params, function (param, name) { %]
             <tr>
-              <td><code>[%= name %]</code></td>
+              <td>
+                <code>[%= name %]</code>
+              </td>
+              <td>[%= param.type %]</td>
               <td>[%- marked(param.summary) %]</td>
               <td>[% if (param.default != null) { %]<code>[%= param.default %]</code>[% } %]</td>
               <td>[% if (param.example) { %]
