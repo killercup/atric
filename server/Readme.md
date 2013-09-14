@@ -9,8 +9,11 @@ Most features are implemented to make [the ATRIC web frontend][client] work.
 It currently uses [`passport-twitter`][passport] for authentication (you need a Twitter
 account to sign up/in) and the only access is via session cookie.
 
+You can see the JSON API documentation by visiting `/api/` in your browser. Or just visit [the live version][api-docs].
+
 [client]: ../client/
 [passport]: https://npmjs.org/package/passport-twitter
+[api-docs]: http://atric.flabs.org/api/
 
 ## Requirements
 
