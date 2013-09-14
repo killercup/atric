@@ -55,14 +55,15 @@ module.exports = (app) ->
 
     app[method].apply app, args
 
-  # Server API index/documentation
+  # Serve API index/documentation
   app.get '/api', (req, res) ->
+    _ = require('lodash')
     if req.is('json') or req.param('format') is 'json'
       return res.send routes: _.map(routes, 'spec')
 
     res.render "#{__dirname}/api.html",
       routes: routes
       marked: require('marked')
-      _: require('lodash')
+      _: _
 
   return app
