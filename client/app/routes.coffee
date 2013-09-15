@@ -1,5 +1,8 @@
 App = require './app'
 
+App.Router.reopen
+  location: 'history'
+
 App.Router.map ->
   @route 'index', path: '/'
   @route 'catchAll', path: '*:'

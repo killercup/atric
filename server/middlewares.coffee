@@ -8,6 +8,8 @@ ejs.open = '[%'
 ejs.close = '%]'
 
 module.exports = (app) ->
+  Static = require("#{__dirname}/controller/static")(app)
+
   app.configure ->
     app.use express.cookieParser()
     app.use express.bodyParser()
@@ -23,7 +25,27 @@ module.exports = (app) ->
     app.engine 'html', ejs.__express
 
     app.use app.router
+
     app.use express.static app.get('app config')._path + app.get('app config').express.public
+
+    app.use (req, res, next) ->
+      # we landed here because no other resources matched that route, so we'll
+      # serve the client side app which either has a handler for that or will
+      # show a real 404.
+      Static.getIndexHTML.action(req, res)
+
+    app.use (err, req, res, next) ->
+      if req.is 'json'
+        res.send '500',
+          status: err.status || 500
+          error: err
+          meme: "http://i.imgur.com/6NfmQ.jpg"
+      else
+        res.render "#{__dirname}/500.html",
+          status: err.status || 500
+          error: err
+          meme: "http://i.imgur.com/6NfmQ.jpg"
+
     return
 
   return app

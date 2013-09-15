@@ -66,4 +66,9 @@ module.exports = (app) ->
       marked: require('marked')
       _: _
 
+  app.get '/api/*', (req, res) ->
+    res.send 404,
+      err: "No such API endpoint."
+      meme: "http://i.imgur.com/xpZiATV.jpg"
+
   return app
