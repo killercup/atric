@@ -6,6 +6,9 @@
   <title>ATRIC API Documentation</title>
 
   <link rel="stylesheet" href="/css/style.css" media="all"/>
+  <style>
+    article .accordion-toggle {cursor: pointer;}
+  </style>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 </head>
 <body>
@@ -25,8 +28,8 @@
   [% _.each(routes, function (r, key) { %]
     [% var route = r.spec %]
     <article id="[%= key %]" class="panel panel-default">
-      <div class="panel-heading">
-        <h1 class="panel-title accordion-toggle" data-toggle="collapse" data-parent="#[%= key %]" data-target="#[%= key %]--body">
+      <div class="panel-heading accordion-toggle" data-toggle="collapse" data-parent="#[%= key %]" data-target="#[%= key %]--body">
+        <h1 class="panel-title">
           <small class="label label-[%= style[route.method] %]">[%= route.method %]</small>
           <code>[%= route.path %]</code>
           <span class="pull-right hidden-xs">
