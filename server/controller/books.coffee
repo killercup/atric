@@ -97,7 +97,7 @@ module.exports.getBook.action = (req, res) ->
   Book.findOne(_id: id).exec()
   .then (data) ->
     if not data?
-      return res.send 404, err: 'No book with such ID.
+      return res.send 404, err: "No book with such ID."
 
     res.send book: data
   .then null, (err) ->
