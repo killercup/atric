@@ -9,6 +9,7 @@
   <style>
     article .accordion-toggle {cursor: pointer;}
   </style>
+  <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/rainbow/1.1.8/themes/github.min.css"/> -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 </head>
 <body>
@@ -56,7 +57,7 @@
           [% if (route.example) { %]
           <div class="example">
             <h4>Example Response</h4>
-            <pre class="pre-scrollable"><code>[%= route.example %]</code></pre>
+            <pre class="pre-scrollable"><code data-language="json">[%= route.example %]</code></pre>
           </div>
           [% } %]
         </div>
@@ -100,5 +101,8 @@
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/rainbow/1.1.8/js/rainbow.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/rainbow/1.1.8/js/language/generic.min.js"></script>
 </body>
 </html>
