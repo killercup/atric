@@ -80,6 +80,28 @@ module.exports.avgValueOverTime =
     summary: "Avarage value of book collection over time."
     description: "This will aggregate the value data of a collection of books on a per day basis. By default, this will use the current user's collection of books and summarize the value of the whole collection for the last 14 days."
     needsAuth: true
+    example: """
+    {
+      "data": [
+        {
+          "_id": {
+            "year": 2013,
+            "month": 9,
+            "day": 16
+          },
+          "value": 1995
+        },
+        {
+          "_id": {
+            "year": 2013,
+            "month": 9,
+            "day": 15
+          },
+          "value": 1995
+        }
+      ]
+    }
+    """
     params:
       per_book:
         type: 'Bool'
@@ -89,7 +111,7 @@ module.exports.avgValueOverTime =
         type: 'Number'
         summary: "Skip values below that limit."
         default: 10
-      limit_days:
+      days:
         type: 'Number'
         summary: "Return data from now until this many days ago."
         default: 14
@@ -101,7 +123,7 @@ module.exports.avgValueOverTime.action = (req, res) ->
   # params
   min_value = parseInt req.param('min_value'), 10
   per_book = req.param('per_book')
-  limit_days = req.param('days') || 14
+  limit_days = parseInt(req.param('days'), 10) || 14
 
   match_users_books =
     $match:
