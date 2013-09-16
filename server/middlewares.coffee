@@ -35,6 +35,7 @@ module.exports = (app) ->
       Static.getIndexHTML.action(req, res)
 
     app.use (err, req, res, next) ->
+      console.log err
       if req.is 'json'
         res.send '500',
           status: err.status || 500

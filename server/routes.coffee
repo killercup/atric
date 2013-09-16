@@ -1,5 +1,6 @@
-Book = require("#{__dirname}/controller/books")
 User = require("#{__dirname}/controller/users")
+Twitter = require("#{__dirname}/controller/auth_twitter")
+Book = require("#{__dirname}/controller/books")
 Library = require("#{__dirname}/controller/library")
 Refresh = require("#{__dirname}/controller/refresh")
 
@@ -12,8 +13,8 @@ module.exports = (app) ->
   routes =
     getIndexHTML: Static.getIndexHTML
 
-    authenticateViaTwitter: User.authenticateViaTwitter
-    authenticateViaTwitterSuccess: User.authenticateViaTwitterSuccess
+    authenticateViaTwitter: Twitter.authenticateViaTwitter
+    authenticateViaTwitterSuccess: Twitter.authenticateViaTwitterSuccess
     logout: User.logout
     getMe: User.getMe
     backMeUp: User.backMeUp
