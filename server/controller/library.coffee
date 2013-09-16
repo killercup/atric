@@ -53,7 +53,7 @@ module.exports.removeBook =
     path: '/api/books/:book_id'
     method: "DELETE"
     summary: "Remove book from current user's collection."
-    description: "Removes a book by it's ID number. This will only remove the reference to the book in the user's entry, not any actual data about the book."
+    description: "Removes a book by it's ID number. This will only remove the reference to the book in the user's entry, not any actual data about the book.\n\nReturns `204 No Content` when successful."
     needsAuth: true
     params:
       book_id:

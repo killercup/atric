@@ -85,6 +85,28 @@ module.exports.getBook =
     method: 'GET'
     summary: "Returns a single book"
     description: "Returns a collection of books. By default, the ones the current user has added to her collection with just the most recent value as `lastprice`."
+    example: """
+    {
+      "book": {
+        "__v": 0,
+        "_id": "5208dc8611c41bddec000021",
+        "author": "Douglas Adams",
+        "isbn": "9783453146983",
+        "title": "Das Restaurant am Ende des Universums: Roman",
+        "amazon": {
+          "url": "http://www.amazon.de/Das-Restaurant-Ende-Universums-Roman/dp/3453146980%3FSubscriptionId%3DAKIAJ36HHHRA3GG6BDZQ%26tag%3Dkillercup-21%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D3453146980",
+          "image": "http://ecx.images-amazon.com/images/I/61Mv2CbzmoL.jpg"
+        },
+        "prices": [
+          {
+            "value": 30,
+            "date": "2013-09-16T15:11:27.102Z",
+            "_id": "52371f9f991bc514f400001b"
+          }
+        ]
+      }
+    }
+    """
     params:
       id:
         type: 'String'
