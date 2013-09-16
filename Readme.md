@@ -20,7 +20,7 @@ If you just want to run the CLI, insert your Amazon API key ([find it here][aws]
 
 If you want to host the web interface, there are some more requirements, which you can find in the `server` readme.
 
-[aws]: https://portal.aws.amazon.com/gp/aws/securityCredentials
+[aws]: https://console.aws.amazon.com/iam/home?#security_credential
 
 ## Thanks
 
