@@ -1,3 +1,5 @@
+_ = require('lodash')
+
 module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-coffee')
   grunt.loadNpmTasks('grunt-commonjs')
@@ -88,7 +90,8 @@ module.exports = (grunt) ->
             cachebuster: "?#{+(new Date())}"
             pkg: pkg
             production: false
-            footer: grunt.file.read('client/_footer.tpl')
+            partial: (name) ->
+              _.template grunt.file.read("client/_#{name}.tpl"), pkg: pkg
         files: [{
           expand: true
           cwd: 'client'
@@ -103,7 +106,8 @@ module.exports = (grunt) ->
             cachebuster: "?#{+(new Date())}"
             pkg: pkg
             production: true
-            footer: grunt.file.read('client/_footer.tpl')
+            partial: (name) ->
+              _.template grunt.file.read("client/_#{name}.tpl"), pkg: pkg
         files: [{
           expand: true
           cwd: 'client'

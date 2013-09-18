@@ -34,12 +34,12 @@
     </div>
 
     <footer class="container">
-      <%= _.template(footer, {pkg: pkg}) %>
+      <%= partial('footer') %>
     </footer>
   </div>
 
   <script type="text/x-handlebars" data-template-name="_footer">
-    <%= _.template(footer, {pkg: pkg}) %>
+    <%= partial('footer') %>
   </script>
 
   [% if (req.user) { %]
