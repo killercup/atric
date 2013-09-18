@@ -5,7 +5,7 @@
         <form class="form-inline">
           <div class="input-group">
             {{view Ember.TextField valueBinding=newISBN class='form-control col-md-1'
-              placeholder='ISBN' type="text" required="required" pattern="^((\d{10})|(\d{13}))$"}}
+              placeholder='ISBN (just numbers)' type="text" required="required" pattern="^((\d{10})|(\d{13}))$"}}
             <span class="input-group-btn">
               <button class="btn btn-success" {{bind-attr disabled="newISBNInvalid" }} {{action addBook newISBN}}>
                 Add Book
