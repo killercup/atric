@@ -80,9 +80,11 @@ files =
       development:
         local: "#{bower}/bootstrap/dist/js/bootstrap.js"
         cdn: "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.js"
+        global: "$.fn.collapse"
       production:
         local: "#{bower}/bootstrap/dist/js/bootstrap.min.js"
         cdn: "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"
+        global: "$.fn.collapse"
 
 
 getSpecificEnv = (env='development', list=files.vendor) ->

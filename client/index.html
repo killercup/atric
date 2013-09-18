@@ -72,7 +72,7 @@
 
 <% _.each(vendor_js, function (paths, name) { %><% if (paths.cdn) { %>
   <script src="<%= paths.cdn %>"></script>
-  <script>window.<%= paths.global || name %> || document.write('<script src="/<%= paths.local + cachebuster %>"><\/script>')</script>
+  <script>try { window.<%= paths.global || name %> || document.write('<script src="/<%= paths.local + cachebuster %>"><\/script>'); } catch (e) {}</script>
 <% } else { %>
   <script src="/<%= paths.local + cachebuster %>"></script>
 <% } }); %>
