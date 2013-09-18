@@ -1,5 +1,6 @@
 express = require('express')
 
+mongoose = require('mongoose')
 MongoStore = require('connect-mongo')(express)
 passport = require('passport')
 
@@ -10,7 +11,16 @@ ejs.close = '%]'
 module.exports = (app) ->
   Static = require("#{__dirname}/controller/static")(app)
 
+  app.configure 'development', ->
+    app.use express.errorHandler
+      dumpExceptions: true
+      showStack: true
+
   app.configure ->
+    app.use express.static app.get('app config')._path + app.get('app config').express.public
+
+    app.use express.logger('dev')
+
     app.use express.cookieParser()
     app.use express.bodyParser()
 
@@ -25,8 +35,6 @@ module.exports = (app) ->
     app.engine 'html', ejs.__express
 
     app.use app.router
-
-    app.use express.static app.get('app config')._path + app.get('app config').express.public
 
     app.use (req, res, next) ->
       # we landed here because no other resources matched that route, so we'll
