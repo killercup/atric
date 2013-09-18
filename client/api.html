@@ -93,10 +93,7 @@
   </section>
 
   <footer class="container">
-    <p class="text-center">
-      ATRIC is an <a href="https://github.com/killercup/atric">open source</a>
-      project by <a href="http://pascalhertleif.de/">Pascal Hertleif</a>.
-    </p>
+    <%= _.template(footer, {pkg: pkg}) %>
   </footer>
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>

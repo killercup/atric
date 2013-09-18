@@ -9,6 +9,7 @@ ejs.open = '[%'
 ejs.close = '%]'
 
 module.exports = (app) ->
+  # Include static for error page handling
   Static = require("#{__dirname}/controller/static")(app)
 
   app.configure 'development', ->
@@ -51,7 +52,7 @@ module.exports = (app) ->
           error: err
           meme: "http://i.imgur.com/6NfmQ.jpg"
       else
-        res.render "#{__dirname}/500.html",
+        res.render "#{app.get('app config')._path}#{app.get('app config').express.public}/500.html",
           status: err.status || 500
           error: err
           meme: "http://i.imgur.com/6NfmQ.jpg"

@@ -88,6 +88,7 @@ module.exports = (grunt) ->
             cachebuster: "?#{+(new Date())}"
             pkg: pkg
             production: false
+            footer: grunt.file.read('client/_footer.tpl')
         files: [{
           expand: true
           cwd: 'client'
@@ -177,7 +178,7 @@ module.exports = (grunt) ->
         files: 'client/build.config.coffee'
         tasks: ['copy:vendor', 'template:build']
       html:
-        files: 'client/*.html'
+        files: ['client/*.html', 'client/*.tpl']
         tasks: ['template:build']
       fonts:
         files: 'client/fonts/**/*'

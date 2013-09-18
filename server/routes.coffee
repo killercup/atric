@@ -62,10 +62,13 @@ module.exports = (app) ->
     if req.is('json') or req.param('format') is 'json'
       return res.send routes: _.map(routes, 'spec')
 
-    res.render "#{__dirname}/api.html",
+    res.render "#{app.get('app config')._path}#{app.get('app config').express.public}/api.html",
       routes: routes
       marked: require('marked')
       _: _
+
+  app.get '/api.html', (req, res) ->
+    res.redirect '/api'
 
   app.get '/api/*', (req, res) ->
     res.send 404,
