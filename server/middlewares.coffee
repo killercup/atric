@@ -28,6 +28,7 @@ module.exports = (app) ->
       secret: app.get('app config').express.sessionSecret
       store: new MongoStore
         db: app.get('app config').mongo.db
+        mongoose_connection: mongoose.connection
 
     app.use passport.initialize()
     app.use passport.session()
