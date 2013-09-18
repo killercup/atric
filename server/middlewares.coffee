@@ -17,8 +17,6 @@ module.exports = (app) ->
       showStack: true
 
   app.configure ->
-    app.use express.static app.get('app config')._path + app.get('app config').express.public
-
     app.use express.logger('dev')
 
     app.use express.cookieParser()
@@ -36,6 +34,8 @@ module.exports = (app) ->
     app.engine 'html', ejs.__express
 
     app.use app.router
+
+    app.use express.static app.get('app config')._path + app.get('app config').express.public
 
     app.use (req, res, next) ->
       # we landed here because no other resources matched that route, so we'll
