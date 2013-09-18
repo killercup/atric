@@ -103,6 +103,7 @@ module.exports = (grunt) ->
             cachebuster: "?#{+(new Date())}"
             pkg: pkg
             production: true
+            footer: grunt.file.read('client/_footer.tpl')
         files: [{
           expand: true
           cwd: 'client'
